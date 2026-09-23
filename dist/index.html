@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07101d" />
+    <meta
+      name="description"
+      content="32³ truss lattice geometry gallery with mechanical and thermal homogenized properties."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307101d'/%3E%3Cg fill='none' stroke='%234cc7ff' stroke-width='5'%3E%3Cpath d='M12 13h40v38H12zM12 13l40 38M52 13L12 51'/%3E%3C/g%3E%3C/svg%3E"
+    />
+    <title>Truss Atlas · 32³</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Truss Atlas 首页">
+        <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
+          <path d="M6 7h32v30H6zM6 7l32 30M38 7 6 37" />
+          <circle cx="6" cy="7" r="2.4" />
+          <circle cx="38" cy="7" r="2.4" />
+          <circle cx="6" cy="37" r="2.4" />
+          <circle cx="38" cy="37" r="2.4" />
+        </svg>
+        <span>
+          <strong>TRUSS ATLAS</strong>
+          <small>32³ MATERIAL LIBRARY</small>
+        </span>
+      </a>
+      <div class="topbar-meta">
+        <span class="status-dot"></span>
+        <span>VALIDATED DATASET</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow">GEOMETRY × MECHANICS × THERMAL</p>
+          <h1 id="page-title">微结构性能图谱</h1>
+          <p class="intro-lede">
+            浏览 Panetta 与 ETH 两套来源生成的 32³ 周期点阵，比较体积分数、均匀化刚度张量与等效导热张量。
+          </p>
+        </div>
+        <div class="dataset-summary" aria-label="数据集摘要">
+          <div class="summary-cell">
+            <span>样本</span>
+            <strong id="stat-samples">—</strong>
+          </div>
+          <div class="summary-cell">
+            <span>唯一几何</span>
+            <strong id="stat-unique">—</strong>
+          </div>
+          <div class="summary-cell">
+            <span>分辨率</span>
+            <strong>32³</strong>
+          </div>
+          <div class="summary-cell">
+            <span>属性</span>
+            <strong>C₆×₆ · K₃×₃</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-labelledby="gallery-title">
+        <div class="controls-panel">
+          <div class="control-row control-row-primary">
+            <label class="search-box">
+              <span class="sr-only">搜索样本编号</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10.8" cy="10.8" r="6.4"></circle>
+                <path d="m16 16 4 4"></path>
+              </svg>
+              <input id="search" type="search" placeholder="搜索样本，例如 eth_000120" autocomplete="off" />
+              <kbd>/</kbd>
+            </label>
+
+            <div class="source-tabs" role="group" aria-label="数据来源筛选">
+              <button class="source-tab is-active" type="button" data-source="all">
+                全部 <span id="count-all">—</span>
+              </button>
+              <button class="source-tab panetta" type="button" data-source="panetta">
+                Panetta <span id="count-panetta">—</span>
+              </button>
+              <button class="source-tab eth" type="button" data-source="eth">
+                ETH <span id="count-eth">—</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="control-row control-row-secondary">
+            <div class="result-heading">
+              <div>
+                <p class="section-kicker">RESULT MATRIX</p>
+                <h2 id="gallery-title">几何与属性</h2>
+              </div>
+              <p id="result-count" aria-live="polite">正在载入…</p>
+            </div>
+
+            <div class="sort-controls">
+              <label>
+                <span>排序</span>
+                <select id="sort-by">
+                  <option value="density">相对密度 ρ</option>
+                  <option value="C11">轴向刚度 C₁₁</option>
+                  <option value="C44">剪切刚度 C₄₄</option>
+                  <option value="Kxx">X 向导热 Kₓₓ</option>
+                  <option value="anisotropyC">力学各向异性</option>
+                  <option value="anisotropyK">导热各向异性</option>
+                  <option value="id">样本编号</option>
+                </select>
+              </label>
+              <button id="sort-direction" class="direction-button" type="button" aria-label="当前降序，点击切换">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14m0 0-4-4m4 4 4-4M16 19V5m0 0-4 4m4-4 4 4" /></svg>
+                <span>降序</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="loading" class="loading-state" role="status">
+          <span class="loader"></span>
+          <span>正在装载 32³ 几何与张量数据…</span>
+        </div>
+        <div id="gallery" class="gallery" aria-live="polite"></div>
+        <div id="empty" class="empty-state" hidden>
+          <strong>没有匹配的结构</strong>
+          <span>尝试更换来源筛选或清空搜索词。</span>
+        </div>
+        <div class="load-more-wrap">
+          <button id="load-more" class="load-more" type="button" hidden>加载更多结构</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>TRUSS-32 · PERIODIC VOXEL HOMOGENIZATION</p>
+      <p>E = 1 · ν = 0.3 · k<sub>solid</sub> = 1 · k<sub>void</sub> = 0</p>
+    </footer>
+
+    <dialog id="detail-dialog" class="detail-dialog">
+      <div class="dialog-shell">
+        <button id="dialog-close" class="dialog-close" type="button" aria-label="关闭详情">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+        <div class="detail-visual">
+          <div class="detail-image-frame">
+            <img id="detail-image" alt="" />
+            <div class="axis-glyph" aria-hidden="true">
+              <i class="axis-x"></i><i class="axis-y"></i><i class="axis-z"></i>
+              <span class="label-x">x</span><span class="label-y">y</span><span class="label-z">z</span>
+            </div>
+          </div>
+          <div class="detail-identity">
+            <span id="detail-source" class="source-badge"></span>
+            <h2 id="detail-title"></h2>
+            <p id="detail-hash"></p>
+          </div>
+          <dl class="detail-facts">
+            <div><dt>相对密度</dt><dd id="detail-density"></dd></div>
+            <div><dt>实体体素</dt><dd id="detail-voxels"></dd></div>
+            <div><dt>最小特征值 · C</dt><dd id="detail-min-c"></dd></div>
+            <div><dt>最小特征值 · K</dt><dd id="detail-min-k"></dd></div>
+          </dl>
+        </div>
+
+        <div class="detail-data">
+          <div class="detail-data-head">
+            <div>
+              <p class="section-kicker">HOMOGENIZED PROPERTIES</p>
+              <h3>等效属性</h3>
+            </div>
+            <p id="detail-source-note"></p>
+          </div>
+
+          <section class="property-section" aria-labelledby="mechanics-heading">
+            <div class="property-title">
+              <div>
+                <span class="property-index">01</span>
+                <h4 id="mechanics-heading">力学刚度 <em>C<sub>H</sub></em></h4>
+              </div>
+              <span>Voigt: xx, yy, zz, xy, yz, zx</span>
+            </div>
+            <div id="mechanical-bars" class="property-bars"></div>
+            <div class="matrix-wrap">
+              <table id="mechanical-matrix" class="tensor-table"></table>
+            </div>
+          </section>
+
+          <section class="property-section" aria-labelledby="thermal-heading">
+            <div class="property-title">
+              <div>
+                <span class="property-index">02</span>
+                <h4 id="thermal-heading">等效导热 <em>K<sub>H</sub></em></h4>
+              </div>
+              <span>Axes: x, y, z</span>
+            </div>
+            <div id="thermal-bars" class="property-bars"></div>
+            <div class="matrix-wrap">
+              <table id="thermal-matrix" class="tensor-table"></table>
+            </div>
+          </section>
+
+          <section class="solver-section" aria-label="求解质量">
+            <div>
+              <span>力学最大相对残差</span>
+              <strong id="detail-mech-residual"></strong>
+            </div>
+            <div>
+              <span>导热最大相对残差</span>
+              <strong id="detail-thermal-residual"></strong>
+            </div>
+            <div>
+              <span>力学 CG 迭代</span>
+              <strong id="detail-mech-iterations"></strong>
+            </div>
+            <div>
+              <span>导热 CG 迭代</span>
+              <strong id="detail-thermal-iterations"></strong>
+            </div>
+          </section>
+        </div>
+      </div>
+    </dialog>
+
+    <template id="card-template">
+      <article class="sample-card">
+        <button class="card-open" type="button">
+          <div class="card-image-wrap">
+            <img class="card-image" loading="lazy" alt="" />
+            <span class="card-source"></span>
+            <span class="card-index"></span>
+            <span class="inspect-label">查看张量 <b>↗</b></span>
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3></h3>
+              <span class="density-pill"></span>
+            </div>
+            <div class="mini-properties">
+              <div><span>C₁₁</span><strong data-value="c11"></strong></div>
+              <div><span>C₄₄</span><strong data-value="c44"></strong></div>
+              <div><span>Kₓₓ</span><strong data-value="kxx"></strong></div>
+            </div>
+          </div>
+        </button>
+      </article>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
