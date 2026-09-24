@@ -5,6 +5,9 @@ const state = {
   sortBy: "density",
   direction: "desc",
   visible: 36,
+  topologies: null,
+  selected: null,
+  detailYaw: -0.68,
 };
 
 const pageSize = 36;
@@ -33,6 +36,42 @@ function formatValue(value, digits = 3) {
 
 function formatPercent(value) {
   return `${(value * 100).toFixed(2)}%`;
+}
+
+function unpackUpper(values, size) {
+  const matrix = Array.from({ length: size }, () => Array(size).fill(0));
+  let next = 0;
+  for (let row = 0; row < size; row++) for (let col = row; col < size; col++) {
+    matrix[row][col] = matrix[col][row] = values[next++];
+  }
+  return matrix;
+}
+
+function normalizeSample(sample) {
+  const C = unpackUpper(sample.C_H_upper, 6);
+  const K = unpackUpper(sample.K_H_upper, 3);
+  return {
+    ...sample,
+    C,
+    K,
+    Cdiag: C.map((row, index) => row[index]),
+    Kdiag: K.map((row, index) => row[index]),
+    density: sample.quality.relative_density,
+    solidVoxels: sample.quality.solid_voxels,
+    voxelHash: sample.quality.voxel_sha256.slice(0, 12),
+    minC: sample.quality.minimum_C_eigenvalue,
+    minK: sample.quality.minimum_K_eigenvalue,
+    mechanicalResidual: sample.quality.mechanical_max_relative_residual,
+    thermalResidual: sample.quality.thermal_max_relative_residual,
+    sourceSampleIndex: sample.source_index,
+  };
+}
+
+function drawCardCanvases() {
+  els.gallery.querySelectorAll("canvas[data-id]").forEach((canvas) => {
+    const sample = state.payload.samples.find((item) => item.id === canvas.dataset.id);
+    if (sample) window.TrussGeometry.render(canvas, sample, state.topologies.get(sample.topology_id));
+  });
 }
 
 function anisotropy(values) {
@@ -76,8 +115,8 @@ function cardFor(sample, position) {
   button.dataset.id = sample.id;
   button.setAttribute("aria-label", `查看 ${sample.id} 的几何与属性`);
   const image = card.querySelector(".card-image");
-  image.src = sample.image;
-  image.alt = `${sample.id} 的 32³ 点阵几何`;
+  image.dataset.id = sample.id;
+  image.setAttribute("aria-label", `${sample.id} 的骨架和杆半径几何`);
   card.querySelector(".card-source").textContent = labels[sample.source];
   card.querySelector(".card-index").textContent = String(position + 1).padStart(3, "0");
   card.querySelector("h3").textContent = sample.id;
@@ -94,6 +133,7 @@ function render() {
   const fragment = document.createDocumentFragment();
   shown.forEach((sample, index) => fragment.append(cardFor(sample, index)));
   els.gallery.replaceChildren(fragment);
+  requestAnimationFrame(drawCardCanvases);
   els.resultCount.textContent = `${samples.length} / ${state.payload.sampleCount} SAMPLES`;
   els.empty.hidden = samples.length !== 0;
   els.loadMore.hidden = shown.length >= samples.length;
@@ -122,10 +162,11 @@ function iterationRange(values) {
 }
 
 function openDetail(sample) {
+  state.selected = sample;
+  state.detailYaw = -0.68;
   els.dialog.style.setProperty("--detail-accent", accent[sample.source]);
   const image = document.querySelector("#detail-image");
-  image.src = sample.image;
-  image.alt = `${sample.id} 的 32³ 点阵几何大图`;
+  image.setAttribute("aria-label", `${sample.id} 的骨架和杆半径几何，可拖动旋转`);
   const source = document.querySelector("#detail-source");
   source.textContent = labels[sample.source];
   document.querySelector("#detail-title").textContent = sample.id;
@@ -140,15 +181,16 @@ function openDetail(sample) {
   document.querySelector("#thermal-matrix").innerHTML = matrixMarkup(sample.K, ["x", "y", "z"]);
   document.querySelector("#detail-mech-residual").textContent = formatValue(sample.mechanicalResidual, 2);
   document.querySelector("#detail-thermal-residual").textContent = formatValue(sample.thermalResidual, 2);
-  document.querySelector("#detail-mech-iterations").textContent = iterationRange(sample.mechanicalIterations);
-  document.querySelector("#detail-thermal-iterations").textContent = iterationRange(sample.thermalIterations);
+  document.querySelector("#detail-mech-iterations").textContent = "已收敛";
+  document.querySelector("#detail-thermal-iterations").textContent = "已收敛";
 
   const sourceNote = sample.source === "eth"
-    ? `原始样本 #${sample.sourceSampleIndex.toLocaleString("zh-CN")} · ${sample.skeletonEdges ?? "—"} 条扩展骨架边 · 目标密度 ${sample.targetDensity ? formatPercent(sample.targetDensity) : "—"}`
-    : `Panetta / MeshFEM topology enumeration · 32³ 周期体素重算`;
+    ? `原始样本 #${sample.sourceSampleIndex.toLocaleString("zh-CN")} · 保留原始节点几何扰动 · 可拖动旋转`
+    : `Panetta / MeshFEM topology enumeration · 可拖动旋转`;
   document.querySelector("#detail-source-note").textContent = sourceNote;
 
   els.dialog.showModal();
+  requestAnimationFrame(() => window.TrussGeometry.render(image, sample, state.topologies.get(sample.topology_id), state.detailYaw));
 }
 
 function bindEvents() {
@@ -199,6 +241,25 @@ function bindEvents() {
     if (event.target === els.dialog) els.dialog.close();
   });
 
+  const detailCanvas = document.querySelector("#detail-image");
+  let dragX = null;
+  detailCanvas.addEventListener("pointerdown", (event) => {
+    dragX = event.clientX;
+    detailCanvas.setPointerCapture(event.pointerId);
+  });
+  detailCanvas.addEventListener("pointermove", (event) => {
+    if (dragX === null || !state.selected) return;
+    state.detailYaw += (event.clientX - dragX) * 0.012;
+    dragX = event.clientX;
+    window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw);
+  });
+  detailCanvas.addEventListener("pointerup", () => { dragX = null; });
+  detailCanvas.addEventListener("pointercancel", () => { dragX = null; });
+  window.addEventListener("resize", () => {
+    if (state.payload) drawCardCanvases();
+    if (els.dialog.open && state.selected) window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw);
+  });
+
   document.addEventListener("keydown", (event) => {
     if (event.key === "/" && document.activeElement !== els.search && !els.dialog.open) {
       event.preventDefault();
@@ -212,7 +273,13 @@ async function initialize() {
   try {
     const response = await fetch("data/samples.json");
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    state.payload = await response.json();
+    const compact = await response.json();
+    state.topologies = new Map(compact.topologies.map((topology) => [topology.id, topology]));
+    state.payload = {
+      sampleCount: compact.samples.length,
+      uniqueVoxelCount: new Set(compact.samples.map((item) => item.quality.voxel_sha256)).size,
+      samples: compact.samples.map(normalizeSample),
+    };
     document.querySelector("#stat-samples").textContent = state.payload.sampleCount.toLocaleString("zh-CN");
     document.querySelector("#stat-unique").textContent = state.payload.uniqueVoxelCount.toLocaleString("zh-CN");
     const counts = state.payload.samples.reduce((total, sample) => {

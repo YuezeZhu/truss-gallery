@@ -45,7 +45,7 @@
           <p class="eyebrow">GEOMETRY × MECHANICS × THERMAL</p>
           <h1 id="page-title">微结构性能图谱</h1>
           <p class="intro-lede">
-            浏览 Panetta 与 ETH 两套来源生成的 32³ 周期点阵，比较体积分数、均匀化刚度张量与等效导热张量。
+            浏览 Panetta 与 ETH 的 32³ 周期点阵。几何由骨架、节点位移和杆半径绘制，力学与导热属性对应同一结构。
           </p>
         </div>
         <div class="dataset-summary" aria-label="数据集摘要">
@@ -151,7 +151,7 @@
         </button>
         <div class="detail-visual">
           <div class="detail-image-frame">
-            <img id="detail-image" alt="" />
+            <canvas id="detail-image" role="img" aria-label="样本骨架几何"></canvas>
             <div class="axis-glyph" aria-hidden="true">
               <i class="axis-x"></i><i class="axis-y"></i><i class="axis-z"></i>
               <span class="label-x">x</span><span class="label-y">y</span><span class="label-z">z</span>
@@ -217,11 +217,11 @@
               <strong id="detail-thermal-residual"></strong>
             </div>
             <div>
-              <span>力学 CG 迭代</span>
+              <span>力学求解状态</span>
               <strong id="detail-mech-iterations"></strong>
             </div>
             <div>
-              <span>导热 CG 迭代</span>
+              <span>导热求解状态</span>
               <strong id="detail-thermal-iterations"></strong>
             </div>
           </section>
@@ -233,7 +233,7 @@
       <article class="sample-card">
         <button class="card-open" type="button">
           <div class="card-image-wrap">
-            <img class="card-image" loading="lazy" alt="" />
+            <canvas class="card-image" role="img" aria-label="样本骨架几何"></canvas>
             <span class="card-source"></span>
             <span class="card-index"></span>
             <span class="inspect-label">查看张量 <b>↗</b></span>
@@ -253,6 +253,7 @@
       </article>
     </template>
 
+    <script src="geometry.js" defer></script>
     <script src="app.js" defer></script>
   </body>
 </html>
