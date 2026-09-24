@@ -40,6 +40,33 @@
     </header>
 
     <main id="top">
+      <section class="generation" id="generation" aria-labelledby="generation-title">
+        <div class="generation-head">
+          <div>
+            <p class="section-kicker">LIVE DATASET RUN</p>
+            <h2 id="generation-title">10 万条生成进度</h2>
+            <p>32³ 周期点阵 · 实际体积分数 5%–35% · 骨架与参数、力学和导热性质</p>
+          </div>
+          <div class="generation-state" id="live-state" role="status">连接生成进度…</div>
+        </div>
+        <div class="generation-overview">
+          <div class="generation-numbers">
+            <div><span>已完成</span><strong id="live-count">—</strong><small>/ 100,000</small></div>
+            <div><span>完成比例</span><strong id="live-percent">—</strong></div>
+            <div><span>预计剩余</span><strong id="live-eta">估算中</strong></div>
+          </div>
+          <progress id="live-progress" max="100000" value="0" aria-label="10 万条样本生成进度"></progress>
+          <p class="generation-foot" id="live-foot">每条结果通过体积分数、周期面、去重和属性求解校验后才计入进度。</p>
+        </div>
+        <div class="generation-bins" id="live-bins" aria-label="各体积分数区间进度"></div>
+        <div class="generation-results-head">
+          <div><p class="section-kicker">LATEST ACCEPTED</p><h2>刚生成的结构</h2></div>
+          <span id="live-refreshed">每 8 秒自动更新</span>
+        </div>
+        <div class="generation-results" id="live-results" aria-live="polite">
+          <p class="generation-empty">正在等待首批通过校验的样本…</p>
+        </div>
+      </section>
       <section class="intro" aria-labelledby="page-title">
         <div class="intro-copy">
           <p class="eyebrow">GEOMETRY × MECHANICS × THERMAL</p>
@@ -286,5 +313,6 @@
 
     <script src="geometry.js" defer></script>
     <script src="app.js" defer></script>
+    <script src="live.js" defer></script>
   </body>
 </html>
