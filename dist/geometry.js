@@ -42,7 +42,7 @@
     return { nodes: mirroredNodes, edges: mirroredEdges };
   }
 
-  function render(canvas, sample, topology, yaw = -0.68) {
+  function render(canvas, sample, topology, yaw = -0.68, options = {}) {
     const bounds = canvas.getBoundingClientRect();
     const width = Math.max(1, bounds.width);
     const height = Math.max(1, bounds.height);
@@ -117,6 +117,41 @@
       ctx.globalAlpha = 0.6;
       ctx.stroke();
       ctx.globalAlpha = 1;
+    }
+
+    if (options.highlightEntries) {
+      ctx.font = "bold 10px ui-monospace, Consolas, monospace";
+      for (const [index, dx, dy, dz] of options.highlightEntries) {
+        const base = project(topology.nodes[index]);
+        const moved = project([
+          topology.nodes[index][0] + dx,
+          topology.nodes[index][1] + dy,
+          topology.nodes[index][2] + dz,
+        ]);
+        if (!options.baselineOnly) {
+          ctx.beginPath();
+          ctx.setLineDash([4, 3]);
+          ctx.moveTo(base[0], base[1]);
+          ctx.lineTo(moved[0], moved[1]);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "#ffb36d";
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+        ctx.beginPath();
+        ctx.arc(base[0], base[1], 4, 0, Math.PI * 2);
+        ctx.fillStyle = "#70d5ff";
+        ctx.fill();
+        const labelPoint = options.baselineOnly ? base : moved;
+        if (!options.baselineOnly) {
+          ctx.beginPath();
+          ctx.arc(moved[0], moved[1], 5, 0, Math.PI * 2);
+          ctx.fillStyle = "#ff913b";
+          ctx.fill();
+        }
+        ctx.fillStyle = "#f1f6ff";
+        ctx.fillText(`N${index}`, labelPoint[0] + 8, labelPoint[1] - 8);
+      }
     }
 
     return geometry.edges.length;

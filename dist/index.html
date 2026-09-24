@@ -47,6 +47,7 @@
           <p class="intro-lede">
             浏览 Panetta 与 ETH 的 32³ 周期点阵。几何由骨架、节点位移和杆半径绘制，力学与导热属性对应同一结构。
           </p>
+          <a class="intro-link" href="#eth-variants">查看 ETH 模板与变体 <span aria-hidden="true">↗</span></a>
         </div>
         <div class="dataset-summary" aria-label="数据集摘要">
           <div class="summary-cell">
@@ -66,6 +67,36 @@
             <strong>C₆×₆ · K₃×₃</strong>
           </div>
         </div>
+      </section>
+
+      <section class="variant-explainer" id="eth-variants" aria-labelledby="variant-title">
+        <div class="variant-head">
+          <div>
+            <p class="section-kicker">SAME TOPOLOGY · DIFFERENT NODE POSITIONS</p>
+            <h2 id="variant-title">一个骨架，多个变体</h2>
+            <p>ETH 的“模板”指连接关系不变的 27 节点正八分体骨架；变体在允许的方向移动部分节点。拖动任一几何，可同步旋转对比。</p>
+          </div>
+          <div class="variant-switch" role="group" aria-label="选择 ETH 模板对照组">
+            <button class="variant-switch-button is-active" type="button" data-variant-pair="0">基准 → 扰动</button>
+            <button class="variant-switch-button" type="button" data-variant-pair="1">两种扰动</button>
+          </div>
+        </div>
+        <div class="variant-meta" id="variant-meta" aria-live="polite"></div>
+        <div class="variant-grid">
+          <article class="variant-panel">
+            <div class="variant-panel-heading"><span id="variant-left-role"></span><strong id="variant-left-id"></strong></div>
+            <canvas id="variant-left-canvas" role="img" aria-label="ETH 模板骨架"></canvas>
+            <div class="variant-panel-facts" id="variant-left-facts"></div>
+            <button class="variant-detail-link" type="button" data-variant-side="left">查看 C<sub>H</sub> 与 K<sub>H</sub> ↗</button>
+          </article>
+          <article class="variant-panel">
+            <div class="variant-panel-heading"><span id="variant-right-role"></span><strong id="variant-right-id"></strong></div>
+            <canvas id="variant-right-canvas" role="img" aria-label="ETH 扰动变体骨架"></canvas>
+            <div class="variant-panel-facts" id="variant-right-facts"></div>
+            <button class="variant-detail-link" type="button" data-variant-side="right">查看 C<sub>H</sub> 与 K<sub>H</sub> ↗</button>
+          </article>
+        </div>
+        <p class="variant-footnote" id="variant-footnote"></p>
       </section>
 
       <section class="workspace" aria-labelledby="gallery-title">

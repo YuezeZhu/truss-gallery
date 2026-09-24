@@ -8,11 +8,17 @@ const state = {
   topologies: null,
   selected: null,
   detailYaw: -0.68,
+  comparisonPair: 0,
+  comparisonYaw: -0.68,
 };
 
 const pageSize = 36;
 const accent = { panetta: "#4cc7ff", eth: "#ff913b" };
 const labels = { panetta: "PANETTA / MESHFEM", eth: "ETH ZÜRICH" };
+const comparisonPairs = [
+  { left: "eth_000001", right: "eth_000000", leftRole: "未扰动基准", rightRole: "原始扰动变体" },
+  { left: "eth_173823", right: "eth_508593", leftRole: "原始扰动 A", rightRole: "原始扰动 B" },
+];
 
 const els = {
   gallery: document.querySelector("#gallery"),
@@ -36,6 +42,78 @@ function formatValue(value, digits = 3) {
 
 function formatPercent(value) {
   return `${(value * 100).toFixed(2)}%`;
+}
+
+function comparisonSamples() {
+  if (!state.payload) return null;
+  const pair = comparisonPairs[state.comparisonPair];
+  const left = state.payload.samples.find((sample) => sample.id === pair.left);
+  const right = state.payload.samples.find((sample) => sample.id === pair.right);
+  if (!left || !right || left.topology_id !== right.topology_id) return null;
+  return { pair, left, right, topology: state.topologies.get(left.topology_id) };
+}
+
+function drawComparisonCanvases() {
+  const comparison = comparisonSamples();
+  if (!comparison) return;
+  const { left, right, topology } = comparison;
+  window.TrussGeometry.render(
+    document.querySelector("#variant-left-canvas"), left, topology, state.comparisonYaw,
+    { highlightEntries: state.comparisonPair === 0 ? right.node_displacements : left.node_displacements, baselineOnly: state.comparisonPair === 0 },
+  );
+  window.TrussGeometry.render(
+    document.querySelector("#variant-right-canvas"), right, topology, state.comparisonYaw,
+    { highlightEntries: right.node_displacements },
+  );
+}
+
+function displacementSummary(sample) {
+  return sample.node_displacements.map(([index, dx, dy, dz]) => {
+    const components = [dx, dy, dz].map((value, axis) => Math.abs(value) > 1e-12 ? `Δ${"xyz"[axis]}=${value.toFixed(4)}` : null).filter(Boolean);
+    return `N${index} ${components.join(" ")}`;
+  }).join("；");
+}
+
+function renderComparison() {
+  const comparison = comparisonSamples();
+  if (!comparison) return;
+  const { pair, left, right, topology } = comparison;
+  document.querySelectorAll(".variant-switch-button").forEach((button) => {
+    const active = Number(button.dataset.variantPair) === state.comparisonPair;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  const meta = document.querySelector("#variant-meta");
+  meta.replaceChildren();
+  const sameVoxel = left.quality.voxel_sha256 === right.quality.voxel_sha256;
+  for (const value of [`共同连接关系 ${topology.id}`, `${topology.nodes.length} 个正八分体节点`, `${topology.edges.length} 条正八分体连杆`, sameVoxel ? "32³ 占据相同" : "32³ 占据不同", "数据来源：ETH 原附件"]) {
+    const item = document.createElement("span");
+    item.textContent = value;
+    meta.append(item);
+  }
+  for (const [side, sample, role] of [["left", left, pair.leftRole], ["right", right, pair.rightRole]]) {
+    document.querySelector(`#variant-${side}-role`).textContent = role;
+    document.querySelector(`#variant-${side}-id`).textContent = sample.id;
+    const facts = document.querySelector(`#variant-${side}-facts`);
+    facts.replaceChildren();
+    for (const [name, value] of [
+      ["移动节点", String(sample.node_displacements.length)],
+      ["杆半径", sample.radius.toFixed(5)],
+      ["相对密度", formatPercent(sample.density)],
+      ["C₁₁", formatValue(sample.Cdiag[0], 4)],
+      ["Kₓₓ", formatValue(sample.Kdiag[0], 4)],
+    ]) {
+      const item = document.createElement("span");
+      const label = document.createElement("strong");
+      label.textContent = `${name} `;
+      item.append(label, value);
+      facts.append(item);
+    }
+  }
+  document.querySelector("#variant-footnote").textContent = state.comparisonPair === 0
+    ? `两侧拓扑、杆半径均相同；橙色节点是原附件中已有的位移：${displacementSummary(right)}。这次连续几何变化未改变 32³ 占据，因此 Cₕ、Kₕ 相同。`
+    : `两侧拓扑相同，但节点位移和为 32³ 目标密度选出的半径略有差异；左侧移动 ${left.node_displacements.length} 个节点，右侧移动 ${right.node_displacements.length} 个节点。32³ 占据不同，可点开比较完整属性张量。`;
+  requestAnimationFrame(drawComparisonCanvases);
 }
 
 function unpackUpper(values, size) {
@@ -194,6 +272,33 @@ function openDetail(sample) {
 }
 
 function bindEvents() {
+  document.querySelectorAll(".variant-switch-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.comparisonPair = Number(button.dataset.variantPair);
+      renderComparison();
+    });
+  });
+  document.querySelectorAll(".variant-detail-link").forEach((button) => {
+    button.addEventListener("click", () => {
+      const comparison = comparisonSamples();
+      if (comparison) openDetail(comparison[button.dataset.variantSide]);
+    });
+  });
+  let comparisonDragX = null;
+  document.querySelectorAll(".variant-panel canvas").forEach((canvas) => {
+    canvas.addEventListener("pointerdown", (event) => {
+      comparisonDragX = event.clientX;
+      canvas.setPointerCapture(event.pointerId);
+    });
+    canvas.addEventListener("pointermove", (event) => {
+      if (comparisonDragX === null) return;
+      state.comparisonYaw += (event.clientX - comparisonDragX) * 0.012;
+      comparisonDragX = event.clientX;
+      drawComparisonCanvases();
+    });
+    canvas.addEventListener("pointerup", () => { comparisonDragX = null; });
+    canvas.addEventListener("pointercancel", () => { comparisonDragX = null; });
+  });
   document.querySelectorAll(".source-tab").forEach((button) => {
     button.addEventListener("click", () => {
       document.querySelectorAll(".source-tab").forEach((item) => item.classList.remove("is-active"));
@@ -257,6 +362,7 @@ function bindEvents() {
   detailCanvas.addEventListener("pointercancel", () => { dragX = null; });
   window.addEventListener("resize", () => {
     if (state.payload) drawCardCanvases();
+    if (state.payload) drawComparisonCanvases();
     if (els.dialog.open && state.selected) window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw);
   });
 
@@ -290,6 +396,7 @@ async function initialize() {
     document.querySelector("#count-panetta").textContent = counts.panetta;
     document.querySelector("#count-eth").textContent = counts.eth;
     els.loading.remove();
+    renderComparison();
     render();
   } catch (error) {
     els.loading.innerHTML = `<strong>数据载入失败</strong><span>${error.message}</span>`;
