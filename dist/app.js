@@ -10,6 +10,7 @@ const state = {
   detailYaw: -0.68,
   comparisonPair: 0,
   comparisonYaw: -0.68,
+  renderMode: "surface",
 };
 
 const pageSize = 36;
@@ -53,17 +54,21 @@ function comparisonSamples() {
   return { pair, left, right, topology: state.topologies.get(left.topology_id) };
 }
 
+function geometryOptions(resolution, extra = {}) {
+  return { ...extra, mode: state.renderMode, surfaceResolution: resolution };
+}
+
 function drawComparisonCanvases() {
   const comparison = comparisonSamples();
   if (!comparison) return;
   const { left, right, topology } = comparison;
   window.TrussGeometry.render(
     document.querySelector("#variant-left-canvas"), left, topology, state.comparisonYaw,
-    { highlightEntries: state.comparisonPair === 0 ? right.node_displacements : left.node_displacements, baselineOnly: state.comparisonPair === 0 },
+    geometryOptions(52, { highlightEntries: state.comparisonPair === 0 ? right.node_displacements : left.node_displacements, baselineOnly: state.comparisonPair === 0 }),
   );
   window.TrussGeometry.render(
     document.querySelector("#variant-right-canvas"), right, topology, state.comparisonYaw,
-    { highlightEntries: right.node_displacements },
+    geometryOptions(52, { highlightEntries: right.node_displacements }),
   );
 }
 
@@ -148,7 +153,7 @@ function normalizeSample(sample) {
 function drawCardCanvases() {
   els.gallery.querySelectorAll("canvas[data-id]").forEach((canvas) => {
     const sample = state.payload.samples.find((item) => item.id === canvas.dataset.id);
-    if (sample) window.TrussGeometry.render(canvas, sample, state.topologies.get(sample.topology_id));
+    if (sample) window.TrussGeometry.render(canvas, sample, state.topologies.get(sample.topology_id), -0.68, geometryOptions(30));
   });
 }
 
@@ -268,7 +273,7 @@ function openDetail(sample) {
   document.querySelector("#detail-source-note").textContent = sourceNote;
 
   els.dialog.showModal();
-  requestAnimationFrame(() => window.TrussGeometry.render(image, sample, state.topologies.get(sample.topology_id), state.detailYaw));
+  requestAnimationFrame(() => window.TrussGeometry.render(image, sample, state.topologies.get(sample.topology_id), state.detailYaw, geometryOptions(64)));
 }
 
 function bindEvents() {
@@ -306,6 +311,22 @@ function bindEvents() {
       state.source = button.dataset.source;
       state.visible = pageSize;
       render();
+    });
+  });
+
+  document.querySelectorAll(".render-mode-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.renderMode = button.dataset.renderMode;
+      document.querySelectorAll(".render-mode-button").forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+      render();
+      drawComparisonCanvases();
+      if (els.dialog.open && state.selected) {
+        window.TrussGeometry.render(document.querySelector("#detail-image"), state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw, geometryOptions(64));
+      }
     });
   });
 
@@ -356,14 +377,14 @@ function bindEvents() {
     if (dragX === null || !state.selected) return;
     state.detailYaw += (event.clientX - dragX) * 0.012;
     dragX = event.clientX;
-    window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw);
+    window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw, geometryOptions(64));
   });
   detailCanvas.addEventListener("pointerup", () => { dragX = null; });
   detailCanvas.addEventListener("pointercancel", () => { dragX = null; });
   window.addEventListener("resize", () => {
     if (state.payload) drawCardCanvases();
     if (state.payload) drawComparisonCanvases();
-    if (els.dialog.open && state.selected) window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw);
+    if (els.dialog.open && state.selected) window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw, geometryOptions(64));
   });
 
   document.addEventListener("keydown", (event) => {

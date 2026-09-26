@@ -42,6 +42,130 @@
     return { nodes: mirroredNodes, edges: mirroredEdges };
   }
 
+  const surfaceCache = new Map();
+  const cubeCorners = [
+    [0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0],
+    [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1],
+  ];
+  const tetrahedra = [
+    [0, 5, 1, 6], [0, 1, 2, 6], [0, 2, 3, 6],
+    [0, 3, 7, 6], [0, 7, 4, 6], [0, 4, 5, 6],
+  ];
+  const tetraEdges = [[0, 1], [1, 2], [2, 0], [0, 3], [1, 3], [2, 3]];
+
+  function sampleField(geometry, radius, resolution) {
+    const count = resolution + 1;
+    const values = new Float32Array(count * count * count);
+    const step = 2 / resolution;
+    const index = (x, y, z) => (z * count + y) * count + x;
+    const segmentDistanceSquared = (p, a, b) => {
+      const abx = b[0] - a[0], aby = b[1] - a[1], abz = b[2] - a[2];
+      const apx = p[0] - a[0], apy = p[1] - a[1], apz = p[2] - a[2];
+      const denom = abx * abx + aby * aby + abz * abz;
+      const t = denom > 1e-12 ? Math.max(0, Math.min(1, (apx * abx + apy * aby + apz * abz) / denom)) : 0;
+      const dx = p[0] - (a[0] + t * abx);
+      const dy = p[1] - (a[1] + t * aby);
+      const dz = p[2] - (a[2] + t * abz);
+      return dx * dx + dy * dy + dz * dz;
+    };
+    for (let z = 0; z < count; z++) for (let y = 0; y < count; y++) for (let x = 0; x < count; x++) {
+      const point = [-1 + x * step, -1 + y * step, -1 + z * step];
+      let nearest = Infinity;
+      for (const [a, b] of geometry.edges) {
+        nearest = Math.min(nearest, segmentDistanceSquared(point, geometry.nodes[a], geometry.nodes[b]));
+      }
+      values[index(x, y, z)] = radius - Math.sqrt(nearest);
+    }
+    return { values, count, step, index };
+  }
+
+  function extractSurface(geometry, radius, resolution) {
+    const cacheKey = `${geometry.nodes.length}:${geometry.edges.length}:${radius.toFixed(7)}:${resolution}:${geometry.nodes.flat().map((v) => v.toFixed(5)).join(",")}`;
+    if (surfaceCache.has(cacheKey)) return surfaceCache.get(cacheKey);
+    const field = sampleField(geometry, radius, resolution);
+    const { values, count, step, index } = field;
+    const triangles = [];
+    const interpolate = (left, right) => {
+      const lv = left.value, rv = right.value;
+      const denominator = rv - lv;
+      const t = Math.abs(denominator) < 1e-12 ? 0.5 : Math.max(0, Math.min(1, -lv / denominator));
+      return [
+        left.point[0] + (right.point[0] - left.point[0]) * t,
+        left.point[1] + (right.point[1] - left.point[1]) * t,
+        left.point[2] + (right.point[2] - left.point[2]) * t,
+      ];
+    };
+    const addTetra = (corners) => {
+      const intersections = [];
+      for (const [a, b] of tetraEdges) {
+        const left = corners[a], right = corners[b];
+        if ((left.value >= 0) !== (right.value >= 0)) intersections.push(interpolate(left, right));
+      }
+      if (intersections.length < 3) return;
+      const addTriangle = (a, b, c) => {
+        const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+        const ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+        const normal = [
+          ab[1] * ac[2] - ab[2] * ac[1],
+          ab[2] * ac[0] - ab[0] * ac[2],
+          ab[0] * ac[1] - ab[1] * ac[0],
+        ];
+        const length = Math.hypot(...normal) || 1;
+        triangles.push({ points: [a, b, c], normal: normal.map((value) => value / length) });
+      };
+      if (intersections.length === 3) addTriangle(intersections[0], intersections[1], intersections[2]);
+      else {
+        addTriangle(intersections[0], intersections[1], intersections[2]);
+        addTriangle(intersections[0], intersections[2], intersections[3]);
+      }
+    };
+    for (let z = 0; z < resolution; z++) for (let y = 0; y < resolution; y++) for (let x = 0; x < resolution; x++) {
+      const corners = cubeCorners.map(([dx, dy, dz]) => {
+        const gx = x + dx, gy = y + dy, gz = z + dz;
+        return { point: [-1 + gx * step, -1 + gy * step, -1 + gz * step], value: values[index(gx, gy, gz)] };
+      });
+      for (const tetra of tetrahedra) addTetra(tetra.map((corner) => corners[corner]));
+    }
+    const mesh = { triangles, resolution };
+    surfaceCache.set(cacheKey, mesh);
+    while (surfaceCache.size > 14) surfaceCache.delete(surfaceCache.keys().next().value);
+    return mesh;
+  }
+
+  function hexToRgb(hex) {
+    return [0, 2, 4].map((offset) => parseInt(hex.slice(1 + offset, 3 + offset), 16));
+  }
+
+  function shadeColor(hex, amount) {
+    const rgb = hexToRgb(hex).map((value) => Math.max(0, Math.min(255, Math.round(value * (0.62 + amount * 0.48)))));
+    return `rgb(${rgb.join(",")})`;
+  }
+
+  function renderSurface(ctx, mesh, project, rotate, color, width, height, scale) {
+    const projected = mesh.triangles.map((triangle) => {
+      const points = triangle.points.map(project);
+      const rotatedNormal = rotate(triangle.normal);
+      const brightness = Math.max(0.08, Math.min(1, 0.38 + Math.abs(rotatedNormal[2]) * 0.55 + rotatedNormal[1] * 0.12));
+      const depth = points.reduce((total, point) => total + point[2], 0) / 3;
+      return { points, depth, fill: shadeColor(color.body, brightness) };
+    });
+    projected.sort((left, right) => left.depth - right.depth);
+    for (const triangle of projected) {
+      ctx.beginPath();
+      ctx.moveTo(triangle.points[0][0], triangle.points[0][1]);
+      ctx.lineTo(triangle.points[1][0], triangle.points[1][1]);
+      ctx.lineTo(triangle.points[2][0], triangle.points[2][1]);
+      ctx.closePath();
+      ctx.fillStyle = triangle.fill;
+      ctx.fill();
+      ctx.strokeStyle = color.shade;
+      ctx.globalAlpha = 0.055;
+      ctx.lineWidth = Math.max(0.25, scale * 0.003);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  }
+
   function render(canvas, sample, topology, yaw = -0.68, options = {}) {
     const bounds = canvas.getBoundingClientRect();
     const width = Math.max(1, bounds.width);
@@ -93,10 +217,31 @@
     }
 
     const geometry = makeGeometry(sample, topology);
+    const color = palette[sample.source];
+    const mode = options.mode || "surface";
+    if (mode === "surface") {
+      const resolution = options.surfaceResolution || 48;
+      const mesh = extractSurface(geometry, sample.radius, resolution);
+      renderSurface(ctx, mesh, project, rotate, color, width, height, scale);
+      if (options.highlightEntries) {
+        ctx.font = "bold 10px ui-monospace, Consolas, monospace";
+        for (const [index, dx, dy, dz] of options.highlightEntries) {
+          const base = project(topology.nodes[index]);
+          const moved = project([topology.nodes[index][0] + dx, topology.nodes[index][1] + dy, topology.nodes[index][2] + dz]);
+          if (!options.baselineOnly) {
+            ctx.beginPath(); ctx.setLineDash([4, 3]); ctx.moveTo(base[0], base[1]); ctx.lineTo(moved[0], moved[1]);
+            ctx.lineWidth = 2; ctx.strokeStyle = "#ffb36d"; ctx.stroke(); ctx.setLineDash([]);
+          }
+          ctx.beginPath(); ctx.arc(base[0], base[1], 4, 0, Math.PI * 2); ctx.fillStyle = "#70d5ff"; ctx.fill();
+          if (!options.baselineOnly) { ctx.beginPath(); ctx.arc(moved[0], moved[1], 5, 0, Math.PI * 2); ctx.fillStyle = "#ff913b"; ctx.fill(); }
+          ctx.fillStyle = "#f1f6ff"; ctx.fillText(`N${index}`, (options.baselineOnly ? base : moved)[0] + 8, (options.baselineOnly ? base : moved)[1] - 8);
+        }
+      }
+      return mesh.triangles.length;
+    }
     const projected = geometry.nodes.map(project);
     const edges = geometry.edges.map(([a, b]) => ({ a: projected[a], b: projected[b] }));
     edges.sort((left, right) => (left.a[2] + left.b[2]) - (right.a[2] + right.b[2]));
-    const color = palette[sample.source];
     const thickness = Math.max(2.5, 2 * sample.radius * scale);
 
     ctx.lineCap = "round";
