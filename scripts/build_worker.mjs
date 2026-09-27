@@ -4,18 +4,25 @@ import { resolve } from "node:path";
 
 const project = resolve(import.meta.dirname, "..");
 const files = ["index.html", "styles.css", "geometry.js", "app.js", "live.js", "data/samples.json"];
+const binaryFiles = ["assets/truss100k_youngs_modulus.png", "assets/truss100k_thermal_diagonal_mean.png"];
 const assets = Object.fromEntries(files.map((name) => [
   `/${name}`,
   readFileSync(resolve(project, "dist", name), "utf8"),
+]));
+const binaryAssets = Object.fromEntries(binaryFiles.map((name) => [
+  `/${name}`,
+  readFileSync(resolve(project, "dist", name)).toString("base64"),
 ]));
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".js": "application/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".png": "image/png",
 };
 
 const worker = `const ASSETS = ${JSON.stringify(assets)};
+const BINARY_ASSETS = ${JSON.stringify(binaryAssets)};
 const CONTENT_TYPES = ${JSON.stringify(contentTypes)};
 const JSON_HEADERS = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" };
 const empty = { schema: "truss100k-live-v1", goal: 100000, accepted: 0, attempts: 0, rejected: 0, status: "preparing", density_bins: [], latest: [] };
@@ -58,8 +65,15 @@ export default {
     if (request.method !== "GET" && request.method !== "HEAD") return reply({ error: "method_not_allowed" }, 405);
     const path = url.pathname === "/" ? "/index.html" : url.pathname;
     const content = ASSETS[path];
-    if (content === undefined) return new Response("Not found", { status: 404 });
+    const binaryContent = BINARY_ASSETS[path];
+    if (content === undefined && binaryContent === undefined) return new Response("Not found", { status: 404 });
     const extension = path.slice(path.lastIndexOf("."));
+    if (binaryContent !== undefined) {
+      const bytes = Uint8Array.from(atob(binaryContent), (character) => character.charCodeAt(0));
+      return new Response(request.method === "HEAD" ? null : bytes, {
+        headers: { "Content-Type": CONTENT_TYPES[extension] || "application/octet-stream", "Cache-Control": "public, max-age=3600" },
+      });
+    }
     return new Response(request.method === "HEAD" ? null : content, {
       headers: { "Content-Type": CONTENT_TYPES[extension] || "text/plain", "Cache-Control": path === "/index.html" ? "no-cache" : "public, max-age=3600" },
     });
