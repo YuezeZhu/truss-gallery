@@ -236,6 +236,9 @@ h1 {
 .summary-cell strong { font: 21px/1 var(--font-mono); letter-spacing: -0.04em; }
 
 .property-charts { padding: 34px 0 46px; border-top: 1px solid var(--line-strong); }
+.property-plot-image { display: block; width: 100%; height: auto; border: 1px solid var(--line-strong); background: #fff; }
+.plot-download { display: inline-block; margin-top: 10px; color: var(--cyan); font-size: 0.86rem; text-decoration: none; }
+.plot-download:hover { text-decoration: underline; }
 .property-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; }
 .property-head h2 { margin: 0; font-size: clamp(26px, 3vw, 39px); font-weight: 520; letter-spacing: -0.04em; }
 .property-head p:last-child { max-width: 760px; margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
