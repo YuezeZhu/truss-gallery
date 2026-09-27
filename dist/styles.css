@@ -235,6 +235,29 @@ h1 {
 .summary-cell span { color: var(--muted); font-size: 11px; }
 .summary-cell strong { font: 21px/1 var(--font-mono); letter-spacing: -0.04em; }
 
+.property-charts { padding: 34px 0 46px; border-top: 1px solid var(--line-strong); }
+.property-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; }
+.property-head h2 { margin: 0; font-size: clamp(26px, 3vw, 39px); font-weight: 520; letter-spacing: -0.04em; }
+.property-head p:last-child { max-width: 760px; margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.chart-legend { display: flex; flex-shrink: 0; gap: 16px; color: var(--muted); font: 11px/1.2 var(--font-mono); }
+.chart-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend-dot { width: 8px; height: 8px; display: inline-block; border-radius: 50%; }
+.legend-dot.panetta { background: var(--cyan); }
+.legend-dot.eth { background: var(--orange); }
+.chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 22px; }
+.property-chart { min-width: 0; margin: 0; }
+.property-chart figcaption { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: baseline; margin-bottom: 10px; }
+.property-chart figcaption span { color: var(--orange); font: 10px/1 var(--font-mono); }
+.property-chart figcaption strong { font-size: 16px; font-weight: 520; }
+.property-chart figcaption small { grid-column: 2; color: var(--muted); font-size: 11px; }
+.property-chart svg { display: block; width: 100%; height: 280px; overflow: visible; }
+.property-chart .chart-grid-line { stroke: rgba(164,190,219,.12); stroke-width: 1; }
+.property-chart .chart-axis { stroke: rgba(164,190,219,.34); stroke-width: 1; }
+.property-chart .chart-tick { fill: var(--faint); font: 10px var(--font-mono); }
+.property-chart .chart-axis-title { fill: var(--muted); font: 11px var(--font-mono); }
+.property-chart .chart-line { fill: none; stroke-width: 1.2; opacity: .32; }
+.property-chart .chart-point { stroke: var(--background); stroke-width: 1; }
+
 .variant-explainer { padding: 34px 0 46px; border-top: 1px solid var(--line-strong); }
 .variant-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; }
 .variant-head h2 { margin: 0; font-size: clamp(26px, 3vw, 39px); font-weight: 520; letter-spacing: -0.04em; }
@@ -668,6 +691,9 @@ footer p { margin: 0; }
   .variant-switch { width: 100%; }
   .variant-switch-button { flex: 1; }
   .source-tab { flex: 1; }
+  .property-head { align-items: start; flex-direction: column; }
+  .chart-legend { align-self: stretch; }
+  .chart-grid { grid-template-columns: 1fr; }
   .sort-controls { justify-content: space-between; }
   .sort-controls label { flex: 1; }
   .sort-controls select { width: 100%; }

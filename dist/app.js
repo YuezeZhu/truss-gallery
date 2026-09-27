@@ -130,15 +130,50 @@ function unpackUpper(values, size) {
   return matrix;
 }
 
+function invertMatrix(matrix) {
+  const size = matrix.length;
+  const augmented = matrix.map((row, rowIndex) => [
+    ...row,
+    ...Array.from({ length: size }, (_, colIndex) => rowIndex === colIndex ? 1 : 0),
+  ]);
+  for (let col = 0; col < size; col++) {
+    let pivot = col;
+    for (let row = col + 1; row < size; row++) {
+      if (Math.abs(augmented[row][col]) > Math.abs(augmented[pivot][col])) pivot = row;
+    }
+    if (Math.abs(augmented[pivot][col]) < 1e-18) return null;
+    [augmented[col], augmented[pivot]] = [augmented[pivot], augmented[col]];
+    const divisor = augmented[col][col];
+    for (let j = 0; j < size * 2; j++) augmented[col][j] /= divisor;
+    for (let row = 0; row < size; row++) {
+      if (row === col) continue;
+      const factor = augmented[row][col];
+      if (Math.abs(factor) < 1e-20) continue;
+      for (let j = 0; j < size * 2; j++) augmented[row][j] -= factor * augmented[col][j];
+    }
+  }
+  return augmented.map((row) => row.slice(size));
+}
+
+function average(values) {
+  return values.length ? values.reduce((total, value) => total + value, 0) / values.length : null;
+}
+
 function normalizeSample(sample) {
   const C = unpackUpper(sample.C_H_upper, 6);
   const K = unpackUpper(sample.K_H_upper, 3);
+  const compliance = invertMatrix(C);
+  const directionalYoungs = compliance
+    ? [0, 1, 2].map((index) => 1 / Math.max(compliance[index][index], 1e-30))
+    : [];
   return {
     ...sample,
     C,
     K,
     Cdiag: C.map((row, index) => row[index]),
     Kdiag: K.map((row, index) => row[index]),
+    youngsModulus: average(directionalYoungs),
+    thermalDiagonalMean: average(K.map((row, index) => row[index])),
     density: sample.quality.relative_density,
     solidVoxels: sample.quality.solid_voxels,
     voxelHash: sample.quality.voxel_sha256.slice(0, 12),
@@ -148,6 +183,79 @@ function normalizeSample(sample) {
     thermalResidual: sample.quality.thermal_max_relative_residual,
     sourceSampleIndex: sample.source_index,
   };
+}
+
+function svgElement(name, attributes = {}) {
+  const element = document.createElementNS("http://www.w3.org/2000/svg", name);
+  for (const [key, value] of Object.entries(attributes)) element.setAttribute(key, String(value));
+  return element;
+}
+
+function drawPropertyChart(targetId, samples, valueKey, yLabel, formatter) {
+  const svg = document.querySelector(`#${targetId}`);
+  if (!svg) return;
+  svg.replaceChildren();
+  const width = 640;
+  const height = 280;
+  const margin = { top: 16, right: 16, bottom: 46, left: 62 };
+  const plotWidth = width - margin.left - margin.right;
+  const plotHeight = height - margin.top - margin.bottom;
+  const observations = samples.filter((sample) => Number.isFinite(sample.density) && Number.isFinite(sample[valueKey]));
+  if (!observations.length) return;
+  const xValues = observations.map((sample) => sample.density);
+  const yValues = observations.map((sample) => sample[valueKey]);
+  const xExtent = [Math.min(...xValues), Math.max(...xValues)];
+  const yExtent = [Math.min(...yValues), Math.max(...yValues)];
+  const xPad = Math.max((xExtent[1] - xExtent[0]) * 0.05, 0.005);
+  const yPad = Math.max((yExtent[1] - yExtent[0]) * 0.08, Math.abs(yExtent[1]) * 0.04, 1e-4);
+  const xDomain = [xExtent[0] - xPad, xExtent[1] + xPad];
+  const yDomain = [Math.max(0, yExtent[0] - yPad), yExtent[1] + yPad];
+  const xScale = (value) => margin.left + (value - xDomain[0]) / (xDomain[1] - xDomain[0]) * plotWidth;
+  const yScale = (value) => margin.top + plotHeight - (value - yDomain[0]) / (yDomain[1] - yDomain[0]) * plotHeight;
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  const title = svgElement("title");
+  title.textContent = `${yLabel} 与相对体积分数`;
+  svg.append(title);
+  const tickCount = 5;
+  for (let tick = 0; tick <= tickCount; tick++) {
+    const fraction = tick / tickCount;
+    const x = margin.left + fraction * plotWidth;
+    const y = margin.top + plotHeight - fraction * plotHeight;
+    svg.append(svgElement("line", { x1: x, x2: x, y1: margin.top, y2: margin.top + plotHeight, class: "chart-grid-line" }));
+    svg.append(svgElement("line", { x1: margin.left, x2: margin.left + plotWidth, y1: y, y2: y, class: "chart-grid-line" }));
+    const xTick = svgElement("text", { x, y: margin.top + plotHeight + 19, class: "chart-tick", "text-anchor": "middle" });
+    xTick.textContent = `${((xDomain[0] + fraction * (xDomain[1] - xDomain[0])) * 100).toFixed(0)}%`;
+    const yTick = svgElement("text", { x: margin.left - 9, y: y + 4, class: "chart-tick", "text-anchor": "end" });
+    yTick.textContent = formatter(yDomain[0] + fraction * (yDomain[1] - yDomain[0]));
+    svg.append(xTick, yTick);
+  }
+  svg.append(svgElement("line", { x1: margin.left, x2: margin.left + plotWidth, y1: margin.top + plotHeight, y2: margin.top + plotHeight, class: "chart-axis" }));
+  svg.append(svgElement("line", { x1: margin.left, x2: margin.left, y1: margin.top, y2: margin.top + plotHeight, class: "chart-axis" }));
+  const xLabel = svgElement("text", { x: margin.left + plotWidth / 2, y: height - 8, class: "chart-axis-title", "text-anchor": "middle" });
+  xLabel.textContent = "相对体积分数 vf";
+  const yLabelElement = svgElement("text", { x: 15, y: margin.top + plotHeight / 2, class: "chart-axis-title", "text-anchor": "middle", transform: `rotate(-90 15 ${margin.top + plotHeight / 2})` });
+  yLabelElement.textContent = yLabel;
+  svg.append(xLabel, yLabelElement);
+
+  for (const [source, color] of [["panetta", "var(--cyan)"], ["eth", "var(--orange)"]]) {
+    const sourceSamples = observations.filter((sample) => sample.source === source).sort((a, b) => a.density - b.density);
+    if (!sourceSamples.length) continue;
+    const path = svgElement("path", { class: "chart-line", stroke: color, d: sourceSamples.map((sample, index) => `${index ? "L" : "M"}${xScale(sample.density).toFixed(2)},${yScale(sample[valueKey]).toFixed(2)}`).join(" ") });
+    svg.append(path);
+    for (const sample of sourceSamples) {
+      const point = svgElement("circle", { class: "chart-point", cx: xScale(sample.density), cy: yScale(sample[valueKey]), r: 3.1, fill: color });
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "title");
+      label.textContent = `${sample.id} · vf ${(sample.density * 100).toFixed(2)}% · ${yLabel} ${formatter(sample[valueKey])}`;
+      point.append(label);
+      svg.append(point);
+    }
+  }
+}
+
+function drawPropertyCharts() {
+  if (!state.payload) return;
+  drawPropertyChart("youngs-chart", state.payload.samples, "youngsModulus", "Ē", (value) => formatValue(value, 3));
+  drawPropertyChart("thermal-chart", state.payload.samples, "thermalDiagonalMean", "mean diag(K)", (value) => formatValue(value, 3));
 }
 
 function drawCardCanvases() {
@@ -384,6 +492,7 @@ function bindEvents() {
   window.addEventListener("resize", () => {
     if (state.payload) drawCardCanvases();
     if (state.payload) drawComparisonCanvases();
+    if (state.payload) drawPropertyCharts();
     if (els.dialog.open && state.selected) window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw, geometryOptions(64));
   });
 
@@ -419,6 +528,7 @@ async function initialize() {
     els.loading.remove();
     renderComparison();
     render();
+    drawPropertyCharts();
   } catch (error) {
     els.loading.innerHTML = `<strong>数据载入失败</strong><span>${error.message}</span>`;
   }
