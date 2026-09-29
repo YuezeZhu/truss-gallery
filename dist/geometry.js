@@ -264,6 +264,23 @@
       ctx.globalAlpha = 1;
     }
 
+    if (options.showNodes) {
+      const nodeRadius = options.nodeRadius || Math.max(2.6, thickness * 0.74);
+      for (const node of projected) {
+        ctx.beginPath();
+        ctx.arc(node[0], node[1], nodeRadius + 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(3, 12, 23, .82)";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(node[0], node[1], nodeRadius, 0, Math.PI * 2);
+        ctx.fillStyle = color.light;
+        ctx.fill();
+        ctx.strokeStyle = color.shade;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+    }
+
     if (options.highlightEntries) {
       ctx.font = "bold 10px ui-monospace, Consolas, monospace";
       for (const [index, dx, dy, dz] of options.highlightEntries) {

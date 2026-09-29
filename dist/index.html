@@ -96,6 +96,33 @@
         </div>
       </section>
 
+      <section class="topology-browser" id="topology-browser" aria-labelledby="topology-browser-title">
+        <div class="topology-browser-head">
+          <div>
+            <p class="section-kicker">TOPOLOGY FIRST · NODE PERTURBATIONS</p>
+            <h2 id="topology-browser-title">先看骨架，再看变体</h2>
+            <p>每张卡片先展示连接骨架和节点。点开后，可切换同一拓扑下不同节点位置与杆半径的真实样本。</p>
+          </div>
+          <div class="topology-browser-stats" id="topology-browser-stats">正在载入拓扑…</div>
+        </div>
+        <div class="topology-controls">
+          <label class="search-box topology-search">
+            <span class="sr-only">搜索拓扑</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.4"></circle><path d="m16 16 4 4"></path></svg>
+            <input id="topology-search" type="search" placeholder="搜索拓扑，例如 panetta_0173" autocomplete="off" />
+          </label>
+          <div class="topology-source-tabs" role="group" aria-label="拓扑来源筛选">
+            <button class="topology-source-tab is-active" type="button" data-topology-source="all">全部</button>
+            <button class="topology-source-tab panetta" type="button" data-topology-source="panetta">Panetta</button>
+            <button class="topology-source-tab eth" type="button" data-topology-source="eth">ETH</button>
+          </div>
+        </div>
+        <div id="topology-loading" class="loading-state" role="status"><span class="loader"></span><span>正在载入骨架拓扑…</span></div>
+        <div id="topology-grid" class="topology-grid" aria-live="polite"></div>
+        <div id="topology-empty" class="empty-state" hidden><strong>没有匹配的拓扑</strong><span>尝试更换来源或搜索词。</span></div>
+        <div class="load-more-wrap"><button id="topology-load-more" class="load-more" type="button" hidden>加载更多拓扑</button></div>
+      </section>
+
       <section class="property-charts" id="property-charts" aria-labelledby="property-title">
         <div class="property-head">
           <div>
@@ -322,6 +349,33 @@
       </div>
     </dialog>
 
+    <dialog id="topology-dialog" class="topology-dialog">
+      <div class="topology-dialog-shell">
+        <button id="topology-dialog-close" class="dialog-close" type="button" aria-label="关闭拓扑详情">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+        <div class="topology-dialog-head">
+          <div>
+            <span id="topology-dialog-source" class="source-badge"></span>
+            <h2 id="topology-dialog-title"></h2>
+            <p id="topology-dialog-meta"></p>
+          </div>
+          <span id="topology-dialog-variant-count" class="topology-variant-count"></span>
+        </div>
+        <div class="topology-detail-layout">
+          <div class="topology-detail-visual">
+            <canvas id="topology-detail-canvas" role="img" aria-label="拓扑骨架和节点"></canvas>
+            <div class="topology-detail-legend"><span><i class="legend-node base"></i>节点</span><span><i class="legend-node moved"></i>扰动节点</span><span><i class="legend-line"></i>连接</span></div>
+          </div>
+          <div class="topology-variant-panel">
+            <div class="topology-variant-panel-head"><span>该拓扑的样本变体</span><strong id="topology-selected-variant"></strong></div>
+            <div id="topology-variant-list" class="topology-variant-list"></div>
+            <div id="topology-variant-info" class="topology-variant-info"></div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
     <template id="card-template">
       <article class="sample-card">
         <button class="card-open" type="button">
@@ -341,6 +395,23 @@
               <div><span>C₄₄</span><strong data-value="c44"></strong></div>
               <div><span>Kₓₓ</span><strong data-value="kxx"></strong></div>
             </div>
+          </div>
+        </button>
+      </article>
+    </template>
+
+    <template id="topology-card-template">
+      <article class="topology-card">
+        <button class="topology-card-open" type="button">
+          <div class="topology-card-visual-wrap">
+            <canvas class="topology-card-image" role="img" aria-label="拓扑骨架和节点"></canvas>
+            <span class="topology-card-source"></span>
+            <span class="topology-card-index"></span>
+            <span class="topology-card-open-label">查看变体 <b>↗</b></span>
+          </div>
+          <div class="topology-card-body">
+            <div class="topology-card-title-row"><h3></h3><span class="topology-card-variant-pill"></span></div>
+            <div class="topology-card-facts"><span data-topology-fact="nodes"></span><span data-topology-fact="edges"></span><span data-topology-fact="radius"></span></div>
           </div>
         </button>
       </article>

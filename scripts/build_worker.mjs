@@ -3,7 +3,7 @@ import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const project = resolve(import.meta.dirname, "..");
-const files = ["index.html", "styles.css", "geometry.js", "app.js", "live.js", "data/samples.json"];
+const files = ["index.html", "styles.css", "geometry.js", "app.js", "live.js", "data/samples.json", "data/topology_browser.json"];
 const binaryFiles = ["assets/truss100k_youngs_modulus.png", "assets/truss100k_thermal_diagonal_mean.png"];
 const assets = Object.fromEntries(files.map((name) => [
   `/${name}`,
