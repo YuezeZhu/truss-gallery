@@ -689,6 +689,11 @@ function bindEvents() {
 
 async function initialize() {
   bindEvents();
+  // The topology browser is the primary requested surface: place it first so
+  // the page opens directly on skeletons and nodes instead of the long run log.
+  const main = document.querySelector("main");
+  const topologySection = document.querySelector("#topology-browser");
+  if (main && topologySection) main.prepend(topologySection);
   try {
     const [response, topologyResponse] = await Promise.all([fetch("data/samples.json"), fetch("data/topology_browser.json")]);
     if (!response.ok || !topologyResponse.ok) throw new Error(`HTTP ${!response.ok ? response.status : topologyResponse.status}`);
