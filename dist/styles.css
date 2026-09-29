@@ -124,7 +124,7 @@ button, select { cursor: pointer; }
   box-shadow: 0 0 14px var(--green);
 }
 
-main { max-width: 1600px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 64px) 80px; }
+main { max-width: 1600px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 64px) 80px; display: flex; flex-direction: column; }
 
 .generation { padding: 42px 0 54px; }
 .generation-head { display: flex; justify-content: space-between; align-items: start; gap: 24px; }
@@ -747,6 +747,7 @@ footer p { margin: 0; }
 
 /* Topology-first browser */
 .topology-browser {
+  order: -1;
   padding: 82px 0 96px;
   border-top: 1px solid var(--line);
 }
