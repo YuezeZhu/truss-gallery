@@ -69,7 +69,12 @@ function comparisonSamples() {
 }
 
 function geometryOptions(resolution, extra = {}) {
-  return { ...extra, mode: state.renderMode, surfaceResolution: resolution };
+  return {
+    ...extra,
+    mode: state.renderMode,
+    surfaceResolution: resolution,
+    implicitResolution: Math.max(resolution, 72),
+  };
 }
 
 function drawComparisonCanvases() {

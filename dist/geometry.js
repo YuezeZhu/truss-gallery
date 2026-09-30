@@ -170,6 +170,35 @@
     }
   }
 
+  function renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale) {
+    const projected = mesh.triangles.map((triangle) => {
+      const points = triangle.points.map(project);
+      const rotatedNormal = rotate(triangle.normal);
+      const facing = Math.max(0, rotatedNormal[2]);
+      const sideLight = Math.max(0, rotatedNormal[1]) * 0.18;
+      const brightness = Math.max(0.12, Math.min(1, 0.28 + facing * 0.68 + sideLight));
+      const depth = points.reduce((total, point) => total + point[2], 0) / 3;
+      return { points, depth, fill: shadeColor(color.body, brightness) };
+    });
+    projected.sort((left, right) => left.depth - right.depth);
+    for (const triangle of projected) {
+      ctx.beginPath();
+      ctx.moveTo(triangle.points[0][0], triangle.points[0][1]);
+      ctx.lineTo(triangle.points[1][0], triangle.points[1][1]);
+      ctx.lineTo(triangle.points[2][0], triangle.points[2][1]);
+      ctx.closePath();
+      ctx.fillStyle = triangle.fill;
+      ctx.fill();
+      // A very light contour keeps the implicit surface readable without
+      // turning it back into a wireframe.
+      ctx.strokeStyle = color.light;
+      ctx.globalAlpha = 0.09;
+      ctx.lineWidth = Math.max(0.35, scale * 0.0045);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  }
+
   function clamp(value, low, high) {
     return Math.max(low, Math.min(high, value));
   }
@@ -237,10 +266,13 @@
     // from the parent topology rather than duplicating it per variant.
     const color = palette[sample.source] || palette[topology.source] || palette.panetta;
     const mode = options.mode || "surface";
-    if (mode === "surface") {
-      const resolution = options.surfaceResolution || 48;
+    if (mode === "surface" || mode === "implicit") {
+      const resolution = mode === "implicit"
+        ? (options.implicitResolution || 72)
+        : (options.surfaceResolution || 48);
       const mesh = extractSurface(geometry, sample.radius, resolution);
-      renderSurface(ctx, mesh, project, rotate, color, width, height, scale);
+      if (mode === "implicit") renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale);
+      else renderSurface(ctx, mesh, project, rotate, color, width, height, scale);
       if (options.showNodes) {
         const nodeRadius = options.nodeRadius || 4.8;
         for (const node of geometry.nodes.map(project)) {

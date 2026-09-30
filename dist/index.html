@@ -204,9 +204,12 @@
               </button>
             </div>
 
-            <div class="render-tabs" role="group" aria-label="几何渲染方式" title="实体网格按当前样本在浏览器内临时提取，不写入硬盘">
+            <div class="render-tabs" role="group" aria-label="几何渲染方式" title="实体网格和隐式表面均按当前样本在浏览器内实时提取，不写入硬盘">
               <button class="render-mode-button is-active" type="button" data-render-mode="surface" aria-pressed="true">
                 实体网格 <span>64³</span>
+              </button>
+              <button class="render-mode-button" type="button" data-render-mode="implicit" aria-pressed="false" title="基于杆件距离场实时提取隐式表面，不保存体素">
+                隐式表面 <span>72³</span>
               </button>
               <button class="render-mode-button" type="button" data-render-mode="skeleton" aria-pressed="false">
                 骨架线
@@ -417,8 +420,8 @@
       </article>
     </template>
 
-    <script src="geometry.js?v=18" defer></script>
-    <script src="app.js?v=18" defer></script>
-    <script src="live.js?v=18" defer></script>
+    <script src="geometry.js?v=19" defer></script>
+    <script src="app.js?v=19" defer></script>
+    <script src="live.js?v=19" defer></script>
   </body>
 </html>
