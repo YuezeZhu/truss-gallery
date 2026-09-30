@@ -358,9 +358,8 @@ function renderTopologyDialog() {
   const radii = variants.map((item) => item.radius).filter(Number.isFinite);
   const actualMin = radii.length ? Math.min(...radii) : 0;
   const actualMax = radii.length ? Math.max(...radii) : 1;
-  const padding = Math.max((actualMax - actualMin) * 0.06, 0.005);
-  const radiusMin = Math.max(0, actualMin - padding);
-  const radiusMax = actualMax + padding;
+  const radiusMin = actualMin;
+  const radiusMax = actualMax;
   const radiusSpan = Math.max(radiusMax - radiusMin, 1e-9);
   const dialog = els.topologyDialog;
   dialog.style.setProperty("--detail-accent", accent[topology.source]);

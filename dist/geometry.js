@@ -316,12 +316,12 @@
     const projected = geometry.nodes.map(project);
     const edges = geometry.edges.map(([a, b]) => ({ a: projected[a], b: projected[b] }));
     edges.sort((left, right) => (left.a[2] + left.b[2]) - (right.a[2] + right.b[2]));
-    const radiusLevel = radiusT(sample, options);
-    // Skeleton views intentionally decouple line width from the physical radius:
-    // topology cards stay fine and legible, while detail views can opt into a
-    // visible radius encoding through radiusDisplay.
+    // Topology cards stay fine and legible by default. The detail dialog opts
+    // into the physical radius: diameter = 2r in the same normalized cell
+    // coordinates used by the surface renderer, so the line width is not
+    // remapped to an arbitrary global radius range.
     const skeletonWidth = options.radiusDisplay
-      ? 2.4 + radiusLevel * 12
+      ? Math.max(0.8, 2 * sample.radius * scale)
       : (options.skeletonLineWidth || 1.8);
     const thickness = mode === "skeleton"
       ? skeletonWidth
