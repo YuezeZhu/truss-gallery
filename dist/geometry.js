@@ -321,7 +321,7 @@
     // topology cards stay fine and legible, while detail views can opt into a
     // visible radius encoding through radiusDisplay.
     const skeletonWidth = options.radiusDisplay
-      ? 2.4 + radiusLevel * 8.6
+      ? 2.4 + radiusLevel * 12
       : (options.skeletonLineWidth || 1.8);
     const thickness = mode === "skeleton"
       ? skeletonWidth

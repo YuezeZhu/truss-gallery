@@ -257,7 +257,7 @@ function drawPropertyChart(targetId, samples, valueKey, yLabel, formatter) {
   yLabelElement.textContent = yLabel;
   svg.append(xLabel, yLabelElement);
 
-  for (const [source, color] of [["panetta", "var(--cyan)"], ["eth", "var(--cyan)"]]) {
+  for (const [source, color] of [["panetta", "var(--cyan)"], ["eth", "var(--orange)"]]) {
     const sourceSamples = observations.filter((sample) => sample.source === source).sort((a, b) => a.density - b.density);
     if (!sourceSamples.length) continue;
     const path = svgElement("path", { class: "chart-line", stroke: color, d: sourceSamples.map((sample, index) => `${index ? "L" : "M"}${xScale(sample.density).toFixed(2)},${yScale(sample[valueKey]).toFixed(2)}`).join(" ") });
@@ -356,8 +356,11 @@ function renderTopologyDialog() {
   const variant = variants[state.selectedTopologyVariant] || variants[0];
   if (!variant) return;
   const radii = variants.map((item) => item.radius).filter(Number.isFinite);
-  const radiusMin = Math.min(...radii, 0.05);
-  const radiusMax = Math.max(...radii, 0.35);
+  const actualMin = radii.length ? Math.min(...radii) : 0;
+  const actualMax = radii.length ? Math.max(...radii) : 1;
+  const padding = Math.max((actualMax - actualMin) * 0.06, 0.005);
+  const radiusMin = Math.max(0, actualMin - padding);
+  const radiusMax = actualMax + padding;
   const radiusSpan = Math.max(radiusMax - radiusMin, 1e-9);
   const dialog = els.topologyDialog;
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
