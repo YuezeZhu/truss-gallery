@@ -405,7 +405,7 @@ function renderTopologyDialog() {
   const canvas = document.querySelector("#topology-detail-canvas");
   canvas.setAttribute("aria-label", `${topology.id} 的骨架、节点和 ${variant.id} 的扰动位置`);
   requestAnimationFrame(() => window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
-    mode: "surface", surfaceResolution: 64, showNodes: true, nodeColor: "#70d5ff", showDisplacementGuides: false, nodeRadius: 4.8,
+    mode: "surface", surfaceResolution: 48, meshWireframe: true, showNodes: true, nodeColor: "#70d5ff", showDisplacementGuides: false, nodeRadius: 4.8,
     highlightEntries: variant.node_displacements,
   }));
 }

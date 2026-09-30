@@ -148,7 +148,7 @@
     return `rgb(${rgb.join(",")})`;
   }
 
-  function renderSurface(ctx, mesh, project, rotate, color, width, height, scale) {
+  function renderSurface(ctx, mesh, project, rotate, color, width, height, scale, options = {}) {
     const projected = mesh.triangles.map((triangle) => {
       const points = triangle.points.map(project);
       const rotatedNormal = rotate(triangle.normal);
@@ -165,9 +165,11 @@
       ctx.closePath();
       ctx.fillStyle = triangle.fill;
       ctx.fill();
-      ctx.strokeStyle = color.shade;
-      ctx.globalAlpha = 0.055;
-      ctx.lineWidth = Math.max(0.25, scale * 0.003);
+      ctx.strokeStyle = options.meshWireframe ? color.light : color.shade;
+      ctx.globalAlpha = options.meshWireframe ? 0.34 : 0.055;
+      ctx.lineWidth = options.meshWireframe
+        ? Math.max(0.45, scale * 0.0055)
+        : Math.max(0.25, scale * 0.003);
       ctx.stroke();
       ctx.globalAlpha = 1;
     }
@@ -275,7 +277,7 @@
         : (options.surfaceResolution || 48);
       const mesh = extractSurface(geometry, sample.radius, resolution);
       if (mode === "implicit") renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale);
-      else renderSurface(ctx, mesh, project, rotate, color, width, height, scale);
+      else renderSurface(ctx, mesh, project, rotate, color, width, height, scale, options);
       if (options.showNodes) {
         const nodeRadius = options.nodeRadius || 4.8;
         for (const node of geometry.nodes.map(project)) {
