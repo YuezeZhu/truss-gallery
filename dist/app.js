@@ -257,7 +257,7 @@ function drawPropertyChart(targetId, samples, valueKey, yLabel, formatter) {
   yLabelElement.textContent = yLabel;
   svg.append(xLabel, yLabelElement);
 
-  for (const [source, color] of [["panetta", "var(--cyan)"], ["eth", "var(--orange)"]]) {
+  for (const [source, color] of [["panetta", "var(--cyan)"], ["eth", "var(--cyan)"]]) {
     const sourceSamples = observations.filter((sample) => sample.source === source).sort((a, b) => a.density - b.density);
     if (!sourceSamples.length) continue;
     const path = svgElement("path", { class: "chart-line", stroke: color, d: sourceSamples.map((sample, index) => `${index ? "L" : "M"}${xScale(sample.density).toFixed(2)},${yScale(sample[valueKey]).toFixed(2)}`).join(" ") });
