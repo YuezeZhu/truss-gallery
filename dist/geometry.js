@@ -2,7 +2,10 @@
 (() => {
   const palette = {
     panetta: { body: "#6bc7ea", light: "#b7eaff", shade: "#296a86" },
-    eth: { body: "#dca06f", light: "#ffcf9f", shade: "#83533c" },
+    // Keep both source geometries in the same blue material family. Source
+    // labels still identify ETH vs Panetta; color no longer implies a
+    // different physical material or render path.
+    eth: { body: "#6bc7ea", light: "#b7eaff", shade: "#296a86" },
   };
 
   function makeGeometry(sample, topology) {

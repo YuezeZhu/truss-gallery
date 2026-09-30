@@ -246,7 +246,7 @@ h1 {
 .chart-legend span { display: inline-flex; align-items: center; gap: 7px; }
 .legend-dot { width: 8px; height: 8px; display: inline-block; border-radius: 50%; }
 .legend-dot.panetta { background: var(--cyan); }
-.legend-dot.eth { background: var(--orange); }
+.legend-dot.eth { background: var(--cyan); }
 .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 22px; }
 .property-chart { min-width: 0; margin: 0; }
 .property-chart figcaption { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: baseline; margin-bottom: 10px; }
@@ -274,7 +274,7 @@ h1 {
 .variant-panel { min-width: 0; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 12px; background: rgba(12, 25, 41, 0.8); }
 .variant-panel-heading { display: flex; justify-content: space-between; gap: 12px; padding: 14px 17px; border-bottom: 1px solid var(--line); }
 .variant-panel-heading span { color: var(--cyan); font: 10px/1.4 var(--font-mono); letter-spacing: 0.08em; }
-.variant-panel:nth-child(2) .variant-panel-heading span { color: var(--orange); }
+.variant-panel:nth-child(2) .variant-panel-heading span { color: var(--cyan); }
 .variant-panel-heading strong { font: 11px/1.4 var(--font-mono); }
 .variant-panel canvas { display: block; width: 100%; height: clamp(240px, 30vw, 390px); touch-action: none; cursor: grab; }
 .variant-panel canvas:active { cursor: grabbing; }
@@ -362,7 +362,7 @@ h1 {
 .source-tab:hover, .source-tab:focus-visible { color: var(--ink); }
 .source-tab.is-active { color: var(--ink); background: var(--surface-raised); }
 .source-tab.panetta.is-active { box-shadow: inset 0 -2px var(--cyan); }
-.source-tab.eth.is-active { box-shadow: inset 0 -2px var(--orange); }
+.source-tab.eth.is-active { box-shadow: inset 0 -2px var(--cyan); }
 
 .render-tabs {
   padding: 4px;
@@ -762,7 +762,7 @@ footer p { margin: 0; }
 .topology-source-tab:hover, .topology-source-tab:focus-visible { color: var(--ink); }
 .topology-source-tab.is-active { color: var(--ink); background: var(--surface-raised); box-shadow: inset 0 -2px var(--cyan); }
 .topology-source-tab.panetta.is-active { box-shadow: inset 0 -2px var(--cyan); }
-.topology-source-tab.eth.is-active { box-shadow: inset 0 -2px var(--orange); }
+.topology-source-tab.eth.is-active { box-shadow: inset 0 -2px var(--cyan); }
 .topology-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 16px; }
 .topology-card { position: relative; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(145deg, rgba(18, 36, 58, .8), rgba(8, 19, 32, .94)); transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease; }
 .topology-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 2px; background: var(--card-accent, var(--cyan)); opacity: .85; z-index: 2; }

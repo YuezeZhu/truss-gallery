@@ -22,7 +22,7 @@ const state = {
 };
 
 const pageSize = 36;
-const accent = { panetta: "#4cc7ff", eth: "#ff913b" };
+const accent = { panetta: "#4cc7ff", eth: "#4cc7ff" };
 const labels = { panetta: "PANETTA / MESHFEM", eth: "ETH ZÜRICH" };
 const comparisonPairs = [
   { left: "eth_000001", right: "eth_000000", leftRole: "未扰动基准", rightRole: "原始扰动变体" },
