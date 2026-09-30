@@ -400,7 +400,7 @@ function renderTopologyDialog() {
   info.append(intro);
   const radiusNote = document.createElement("p");
   radiusNote.className = "radius-note";
-  radiusNote.textContent = `线宽按杆半径增强显示：当前 r=${variant.radius.toFixed(5)}；右侧列表中的横条表示相对半径大小。`;
+  radiusNote.textContent = `线宽按实际直径 2r 绘制：当前 r=${variant.radius.toFixed(5)}；右侧黄色横条表示当前拓扑内的相对半径。`;
   info.append(radiusNote);
   const canvas = document.querySelector("#topology-detail-canvas");
   canvas.setAttribute("aria-label", `${topology.id} 的骨架、节点和 ${variant.id} 的扰动位置`);
