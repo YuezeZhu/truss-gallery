@@ -217,7 +217,9 @@
     }
 
     const geometry = makeGeometry(sample, topology);
-    const color = palette[sample.source];
+    // Topology-browser variants are compact records and inherit their source
+    // from the parent topology rather than duplicating it per variant.
+    const color = palette[sample.source] || palette[topology.source] || palette.panetta;
     const mode = options.mode || "surface";
     if (mode === "surface") {
       const resolution = options.surfaceResolution || 48;
