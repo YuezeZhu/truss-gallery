@@ -175,6 +175,37 @@
     }
   }
 
+  function renderSkeletonOverlay(ctx, geometry, project, color, options = {}) {
+    const projected = geometry.nodes.map(project);
+    const edges = geometry.edges.map(([a, b]) => ({ a: projected[a], b: projected[b] }));
+    edges.sort((left, right) => (left.a[2] + left.b[2]) - (right.a[2] + right.b[2]));
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.lineWidth = options.overlaySkeletonWidth || 1.35;
+    ctx.strokeStyle = color;
+    ctx.globalAlpha = options.overlaySkeletonAlpha || 0.95;
+    for (const { a, b } of edges) {
+      ctx.beginPath();
+      ctx.moveTo(a[0], a[1]);
+      ctx.lineTo(b[0], b[1]);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    if (options.overlayNodes === false) return;
+    const radius = options.overlayNodeRadius || 3;
+    const nodeColor = options.overlayNodeColor || color;
+    for (const node of projected) {
+      ctx.beginPath();
+      ctx.arc(node[0], node[1], radius + 0.7, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(3, 12, 23, .92)";
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(node[0], node[1], radius, 0, Math.PI * 2);
+      ctx.fillStyle = nodeColor;
+      ctx.fill();
+    }
+  }
+
   function renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale) {
     const projected = mesh.triangles.map((triangle) => {
       const points = triangle.points.map(project);
@@ -277,7 +308,10 @@
         : (options.surfaceResolution || 48);
       const mesh = extractSurface(geometry, sample.radius, resolution);
       if (mode === "implicit") renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale);
-      else renderSurface(ctx, mesh, project, rotate, color, width, height, scale, options);
+      else renderSurface(ctx, mesh, project, rotate, options.surfaceColor || color, width, height, scale, options);
+      if (options.overlaySkeleton) {
+        renderSkeletonOverlay(ctx, geometry, project, options.overlaySkeletonColor || "#4cc7ff", options);
+      }
       if (options.showNodes) {
         const nodeRadius = options.nodeRadius || 4.8;
         for (const node of geometry.nodes.map(project)) {
@@ -303,10 +337,11 @@
             ctx.beginPath(); ctx.setLineDash([4, 3]); ctx.moveTo(base[0], base[1]); ctx.lineTo(moved[0], moved[1]);
             ctx.lineWidth = 2; ctx.strokeStyle = "#ffb36d"; ctx.stroke(); ctx.setLineDash([]);
           }
-          ctx.beginPath(); ctx.arc(base[0], base[1], 4, 0, Math.PI * 2); ctx.fillStyle = "#70d5ff"; ctx.fill();
+          const highlightRadius = options.highlightNodeRadius || 4;
+          ctx.beginPath(); ctx.arc(base[0], base[1], highlightRadius, 0, Math.PI * 2); ctx.fillStyle = "#70d5ff"; ctx.fill();
           if (!options.baselineOnly) {
             ctx.beginPath();
-            ctx.arc(moved[0], moved[1], 5, 0, Math.PI * 2);
+            ctx.arc(moved[0], moved[1], highlightRadius, 0, Math.PI * 2);
             ctx.fillStyle = options.nodeColor || "#70d5ff";
             ctx.fill();
           }
