@@ -14,6 +14,8 @@ const state = {
   selectedTopology: null,
   selectedTopologyVariant: 0,
   topologyYaw: -0.68,
+  samplesById: new Map(),
+  samplesByTopology: new Map(),
   selected: null,
   detailYaw: -0.68,
   comparisonPair: 0,
@@ -352,7 +354,11 @@ function renderTopologies() {
 function renderTopologyDialog() {
   const topology = state.selectedTopology;
   if (!topology) return;
-  const variants = topology.variants || [];
+  const propertySample = state.samplesByTopology.get(topology.id);
+  const browserVariants = topology.variants || [];
+  const variants = propertySample
+    ? [propertySample, ...browserVariants.filter((item) => item.id !== propertySample.id)]
+    : browserVariants;
   const variant = variants[state.selectedTopologyVariant] || variants[0];
   if (!variant) return;
   const radii = variants.map((item) => item.radius).filter(Number.isFinite);
@@ -369,7 +375,7 @@ function renderTopologyDialog() {
   document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
     ? `${topology.nodes.length} 个节点 · ${topology.edges.length} 条连接 · 连接关系固定，节点位置和半径随样本变化`
     : `${topology.nodes.length} 个节点 · ${topology.edges.length} 条连接 · 节点位置固定，变体只改变杆半径`;
-  document.querySelector("#topology-dialog-variant-count").textContent = `${variants.length} 个真实变体`;
+  document.querySelector("#topology-dialog-variant-count").textContent = `${browserVariants.length} 个几何变体 · ${propertySample ? "含 1 条属性记录" : "暂无属性记录"}`;
   document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant);
   const list = document.querySelector("#topology-variant-list");
   list.replaceChildren();
@@ -388,7 +394,8 @@ function renderTopologyDialog() {
     meter.className = "variant-radius-meter";
     meter.style.setProperty("--radius-level", `${((item.radius - radiusMin) / radiusSpan) * 100}%`);
     const detailText = document.createElement("em");
-    detailText.textContent = `vf ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} 个点位移`;
+    const propertyNote = state.samplesById.has(item.id) ? " · 有 Cₕ/Kₕ" : "";
+    detailText.textContent = `vf ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} 个点位移${propertyNote}`;
     facts.append(radiusText, meter, detailText);
     button.append(title, facts);
     list.append(button);
@@ -402,6 +409,7 @@ function renderTopologyDialog() {
   radiusNote.className = "radius-note";
   radiusNote.textContent = `蓝色是连接骨架，黄色实体网格按实际直径 2r 绘制：当前 r=${variant.radius.toFixed(5)}。`;
   info.append(radiusNote);
+  renderTopologyProperties(state.samplesById.get(variant.id), variant);
   const canvas = document.querySelector("#topology-detail-canvas");
   canvas.setAttribute("aria-label", `${topology.id} 的骨架、节点和 ${variant.id} 的扰动位置`);
   requestAnimationFrame(() => window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
@@ -410,6 +418,48 @@ function renderTopologyDialog() {
     showNodes: false, nodeColor: "#4cc7ff", showDisplacementGuides: false, nodeRadius: 3.2, highlightNodeRadius: 2.8,
     highlightEntries: variant.node_displacements,
   }));
+}
+
+function renderTopologyProperties(sample, variant) {
+  const facts = document.querySelector("#topology-property-facts");
+  const mechanicalBars = document.querySelector("#topology-mechanical-bars");
+  const thermalBars = document.querySelector("#topology-thermal-bars");
+  const mechanicalMatrix = document.querySelector("#topology-mechanical-matrix");
+  const thermalMatrix = document.querySelector("#topology-thermal-matrix");
+  const quality = document.querySelector("#topology-property-quality");
+  const source = document.querySelector("#topology-property-source");
+  facts.replaceChildren();
+  if (!sample) {
+    source.textContent = "该变体暂无属性记录";
+    facts.innerHTML = "<span>该变体暂无对应的等效属性记录</span>";
+    mechanicalBars.replaceChildren();
+    thermalBars.replaceChildren();
+    mechanicalMatrix.replaceChildren();
+    thermalMatrix.replaceChildren();
+    quality.textContent = "属性将在样本记录与拓扑变体编号匹配后显示。";
+    return;
+  }
+  source.textContent = sample.id === variant.id ? `属性记录 ${sample.id}` : `参考记录 ${sample.id}`;
+  const factItems = [
+    ["VF", formatPercent(sample.density)],
+    ["杆半径 r", formatValue(sample.radius, 5)],
+    ["平均杨氏模量 Ē", formatValue(sample.youngsModulus, 4)],
+    ["mean diag(K)", formatValue(sample.thermalDiagonalMean, 4)],
+  ];
+  factItems.forEach(([label, value]) => {
+    const item = document.createElement("div");
+    const title = document.createElement("span");
+    title.textContent = label;
+    const content = document.createElement("strong");
+    content.textContent = value;
+    item.append(title, content);
+    facts.append(item);
+  });
+  mechanicalBars.innerHTML = barsMarkup(sample.Cdiag, ["C₁₁", "C₂₂", "C₃₃", "C₄₄", "C₅₅", "C₆₆"]);
+  thermalBars.innerHTML = barsMarkup(sample.Kdiag, ["Kₓₓ", "Kᵧᵧ", "Kzz"]);
+  mechanicalMatrix.innerHTML = matrixMarkup(sample.C, ["xx", "yy", "zz", "xy", "yz", "zx"]);
+  thermalMatrix.innerHTML = matrixMarkup(sample.K, ["x", "y", "z"]);
+  quality.textContent = `质量：最小特征值 C=${formatValue(sample.minC, 5)} · K=${formatValue(sample.minK, 5)}；残差 C=${formatValue(sample.mechanicalResidual, 2)} · K=${formatValue(sample.thermalResidual, 2)}。`;
 }
 
 function itemDisplacementText(variant) {
@@ -743,6 +793,11 @@ async function initialize() {
       uniqueVoxelCount: new Set(compact.samples.map((item) => item.quality.voxel_sha256)).size,
       samples: compact.samples.map(normalizeSample),
     };
+    state.samplesById = new Map(state.payload.samples.map((sample) => [sample.id, sample]));
+    state.samplesByTopology = new Map();
+    for (const sample of state.payload.samples) {
+      if (!state.samplesByTopology.has(sample.topology_id)) state.samplesByTopology.set(sample.topology_id, sample);
+    }
     document.querySelector("#stat-samples").textContent = state.payload.sampleCount.toLocaleString("zh-CN");
     document.querySelector("#stat-unique").textContent = state.payload.uniqueVoxelCount.toLocaleString("zh-CN");
     const counts = state.payload.samples.reduce((total, sample) => {
