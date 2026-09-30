@@ -400,13 +400,12 @@ function renderTopologyDialog() {
   info.append(intro);
   const radiusNote = document.createElement("p");
   radiusNote.className = "radius-note";
-  radiusNote.textContent = `线宽按实际直径 2r 绘制：当前 r=${variant.radius.toFixed(5)}；右侧黄色横条表示当前拓扑内的相对半径。`;
+  radiusNote.textContent = `3D 实体杆件按实际直径 2r 绘制：当前 r=${variant.radius.toFixed(5)}；右侧黄色横条仅作辅助比较。`;
   info.append(radiusNote);
   const canvas = document.querySelector("#topology-detail-canvas");
   canvas.setAttribute("aria-label", `${topology.id} 的骨架、节点和 ${variant.id} 的扰动位置`);
   requestAnimationFrame(() => window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
-    mode: "skeleton", showNodes: true, nodeColor: "#70d5ff", showDisplacementGuides: false, nodeRadius: 4.8, radiusDisplay: true,
-    radiusRange: [radiusMin, radiusMax], skeletonLineWidth: 1.8,
+    mode: "surface", surfaceResolution: 64, showNodes: true, nodeColor: "#70d5ff", showDisplacementGuides: false, nodeRadius: 4.8,
     highlightEntries: variant.node_displacements,
   }));
 }
