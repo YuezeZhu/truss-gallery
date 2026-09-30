@@ -1,10 +1,11 @@
+const initialView = new URLSearchParams(window.location.search).get("view");
 const state = {
   payload: null,
   source: "all",
   query: "",
-  sortBy: "density",
+  sortBy: initialView === "coarse" ? "radius" : "density",
   direction: "desc",
-  visible: 36,
+  visible: initialView === "coarse" ? 12 : 36,
   topologies: null,
   topologyPayload: null,
   topologySource: "all",
@@ -436,6 +437,7 @@ function sortValue(sample, key) {
     C11: sample.Cdiag[0],
     C44: sample.Cdiag[3],
     Kxx: sample.Kdiag[0],
+    radius: sample.radius,
     anisotropyC: anisotropy(sample.Cdiag.slice(0, 3)),
     anisotropyK: anisotropy(sample.Kdiag),
     id: sample.id,
@@ -475,6 +477,7 @@ function cardFor(sample, position) {
   card.querySelector('[data-value="c11"]').textContent = formatValue(sample.Cdiag[0]);
   card.querySelector('[data-value="c44"]').textContent = formatValue(sample.Cdiag[3]);
   card.querySelector('[data-value="kxx"]').textContent = formatValue(sample.Kdiag[0]);
+  card.querySelector('[data-value="radius"]').textContent = formatValue(sample.radius, 5);
   return card;
 }
 
@@ -720,6 +723,7 @@ function bindEvents() {
 
 async function initialize() {
   bindEvents();
+  if (initialView === "coarse") els.sortBy.value = "radius";
   // The topology browser is the primary requested surface: place it first so
   // the page opens directly on skeletons and nodes instead of the long run log.
   const main = document.querySelector("main");
