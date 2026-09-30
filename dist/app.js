@@ -319,7 +319,10 @@ function topologyCardFor(topology, position) {
   card.querySelector(".topology-card-source").textContent = labels[topology.source];
   card.querySelector(".topology-card-index").textContent = String(position + 1).padStart(3, "0");
   card.querySelector("h3").textContent = topology.id;
-  card.querySelector(".topology-card-variant-pill").textContent = `${topology.variants.length} 个变体`;
+  const hasNodePerturbations = topology.variants.some((item) => item.node_displacements?.length);
+  card.querySelector(".topology-card-variant-pill").textContent = hasNodePerturbations
+    ? `${topology.variants.length} 个变体`
+    : `${topology.variants.length} 个半径变体`;
   card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.nodes.length} 节点`;
   card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.edges.length} 连杆`;
   card.querySelector('[data-topology-fact="radius"]').textContent = variant ? `r ${variant.radius.toFixed(4)}` : "无样本";
@@ -354,7 +357,10 @@ function renderTopologyDialog() {
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
   document.querySelector("#topology-dialog-source").textContent = labels[topology.source];
   document.querySelector("#topology-dialog-title").textContent = topology.id;
-  document.querySelector("#topology-dialog-meta").textContent = `${topology.nodes.length} 个节点 · ${topology.edges.length} 条连接 · 连接关系固定，节点位置和半径随样本变化`;
+  const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
+  document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
+    ? `${topology.nodes.length} 个节点 · ${topology.edges.length} 条连接 · 连接关系固定，节点位置和半径随样本变化`
+    : `${topology.nodes.length} 个节点 · ${topology.edges.length} 条连接 · 节点位置固定，变体只改变杆半径`;
   document.querySelector("#topology-dialog-variant-count").textContent = `${variants.length} 个真实变体`;
   document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant);
   const list = document.querySelector("#topology-variant-list");
