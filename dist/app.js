@@ -78,11 +78,11 @@ function drawComparisonCanvases() {
   const { left, right, topology } = comparison;
   window.TrussGeometry.render(
     document.querySelector("#variant-left-canvas"), left, topology, state.comparisonYaw,
-    geometryOptions(52, { highlightEntries: state.comparisonPair === 0 ? right.node_displacements : left.node_displacements, baselineOnly: state.comparisonPair === 0 }),
+    geometryOptions(52, { showNodes: true, nodeColor: "#70d5ff", showDisplacementGuides: false, highlightEntries: state.comparisonPair === 0 ? right.node_displacements : left.node_displacements, baselineOnly: state.comparisonPair === 0 }),
   );
   window.TrussGeometry.render(
     document.querySelector("#variant-right-canvas"), right, topology, state.comparisonYaw,
-    geometryOptions(52, { highlightEntries: right.node_displacements }),
+    geometryOptions(52, { showNodes: true, nodeColor: "#70d5ff", showDisplacementGuides: false, highlightEntries: right.node_displacements }),
   );
 }
 
@@ -130,8 +130,8 @@ function renderComparison() {
     }
   }
   document.querySelector("#variant-footnote").textContent = state.comparisonPair === 0
-    ? `两侧拓扑、杆半径均相同；橙色节点是原附件中已有的位移：${displacementSummary(right)}。这次连续几何变化未改变 32³ 占据，因此 Cₕ、Kₕ 相同。`
-    : `两侧拓扑相同，但节点位移和为 32³ 目标密度选出的半径略有差异；左侧移动 ${left.node_displacements.length} 个节点，右侧移动 ${right.node_displacements.length} 个节点。32³ 占据不同，可点开比较完整属性张量。`;
+    ? `两侧都用蓝点表示各自的实际节点位置；该对照的杆半径相同，右侧包含 ${right.node_displacements.length} 个实际节点位移。`
+    : `两侧都用蓝点表示各自的实际节点位置；左侧有 ${left.node_displacements.length} 个节点位移，右侧有 ${right.node_displacements.length} 个节点位移，杆半径也会随样本变化。`;
   requestAnimationFrame(drawComparisonCanvases);
 }
 
@@ -397,7 +397,7 @@ function renderTopologyDialog() {
   const canvas = document.querySelector("#topology-detail-canvas");
   canvas.setAttribute("aria-label", `${topology.id} 的骨架、节点和 ${variant.id} 的扰动位置`);
   requestAnimationFrame(() => window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
-    mode: "skeleton", showNodes: true, nodeRadius: 4.8, radiusDisplay: true,
+    mode: "skeleton", showNodes: true, nodeColor: "#70d5ff", showDisplacementGuides: false, nodeRadius: 4.8, radiusDisplay: true,
     radiusRange: [radiusMin, radiusMax], skeletonLineWidth: 1.8,
     highlightEntries: variant.node_displacements,
   }));

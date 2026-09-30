@@ -241,7 +241,23 @@
       const resolution = options.surfaceResolution || 48;
       const mesh = extractSurface(geometry, sample.radius, resolution);
       renderSurface(ctx, mesh, project, rotate, color, width, height, scale);
-      if (options.highlightEntries) {
+      if (options.showNodes) {
+        const nodeRadius = options.nodeRadius || 4.8;
+        for (const node of geometry.nodes.map(project)) {
+          ctx.beginPath();
+          ctx.arc(node[0], node[1], nodeRadius + 1.4, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(3, 12, 23, .88)";
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(node[0], node[1], nodeRadius, 0, Math.PI * 2);
+          ctx.fillStyle = options.nodeColor || "#70d5ff";
+          ctx.fill();
+          ctx.strokeStyle = "#d8f5ff";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+      if (options.highlightEntries && options.showDisplacementGuides !== false) {
         ctx.font = "bold 10px ui-monospace, Consolas, monospace";
         for (const [index, dx, dy, dz] of options.highlightEntries) {
           const base = project(topology.nodes[index]);
@@ -300,7 +316,7 @@
         ctx.fill();
         ctx.beginPath();
         ctx.arc(node[0], node[1], nodeRadius, 0, Math.PI * 2);
-        ctx.fillStyle = color.light;
+        ctx.fillStyle = options.nodeColor || "#70d5ff";
         ctx.fill();
         ctx.strokeStyle = color.shade;
         ctx.lineWidth = mode === "skeleton" ? 1.2 : 0.8;
@@ -308,7 +324,7 @@
       }
     }
 
-    if (options.highlightEntries) {
+    if (options.highlightEntries && options.showDisplacementGuides !== false) {
       ctx.font = "bold 10px ui-monospace, Consolas, monospace";
       for (const [index, dx, dy, dz] of options.highlightEntries) {
         const base = project(topology.nodes[index]);
