@@ -61,8 +61,13 @@
   const tetraEdges = [[0, 1], [1, 2], [2, 0], [0, 3], [1, 3], [2, 3]];
 
   function sampleField(geometry, radius, resolution, paddingVoxels = 1) {
-    const padCount = Math.max(0, Math.floor(paddingVoxels));
     const step = 2 / resolution;
+    // Boundary-centered ETH members need a complete radius on both sides of
+    // the cell boundary. One voxel of padding is not enough for the larger
+    // radii, otherwise MC keeps only the inner half of the capsule and the
+    // blue centerline appears outside the yellow surface.
+    const radiusPadCount = Math.ceil(Math.max(0, radius) / step) + 1;
+    const padCount = Math.max(1, Math.floor(paddingVoxels), radiusPadCount);
     const padding = padCount * step;
     const cells = resolution + padCount * 2;
     const count = cells + 1;
@@ -79,24 +84,10 @@
       const dz = p[2] - (a[2] + t * abz);
       return dx * dx + dy * dy + dz * dz;
     };
-    const queryMin = origin - radius;
-    const queryMax = origin + cells * step + radius;
-    const segments = [];
-    // Include neighboring periodic images only when their bounding box can
-    // affect the padded visualization domain. This keeps boundary rods
-    // continuous without multiplying every segment by all 27 images.
-    for (const [aIndex, bIndex] of geometry.edges) {
-      const a = geometry.nodes[aIndex], b = geometry.nodes[bIndex];
-      for (let sx = -1; sx <= 1; sx++) for (let sy = -1; sy <= 1; sy++) for (let sz = -1; sz <= 1; sz++) {
-        const shift = [sx * 2, sy * 2, sz * 2];
-        const left = [a[0] + shift[0], a[1] + shift[1], a[2] + shift[2]];
-        const right = [b[0] + shift[0], b[1] + shift[1], b[2] + shift[2]];
-        if (Math.max(left[0], right[0]) < queryMin || Math.min(left[0], right[0]) > queryMax) continue;
-        if (Math.max(left[1], right[1]) < queryMin || Math.min(left[1], right[1]) > queryMax) continue;
-        if (Math.max(left[2], right[2]) < queryMin || Math.min(left[2], right[2]) > queryMax) continue;
-        segments.push([left, right]);
-      }
-    }
+    // Padding extends the sampling domain so endpoint caps are fully
+    // reconstructed, while the visual mesh stays tied to the same finite
+    // centerline segments used by the blue skeleton overlay.
+    const segments = geometry.edges.map(([aIndex, bIndex]) => [geometry.nodes[aIndex], geometry.nodes[bIndex]]);
     for (let z = 0; z < count; z++) for (let y = 0; y < count; y++) for (let x = 0; x < count; x++) {
       const point = [origin + x * step, origin + y * step, origin + z * step];
       let nearest = Infinity;
@@ -286,6 +277,8 @@
     ctx.fillStyle = fill;
     ctx.fillRect(0, 0, width, height);
 
+    const mode = options.mode || "surface";
+
     const pitch = 0.56;
     const cy = Math.cos(yaw), sy = Math.sin(yaw);
     const cp = Math.cos(pitch), sp = Math.sin(pitch);
@@ -298,8 +291,16 @@
     const cubeWorld = [];
     for (const x of [-1, 1]) for (const y of [-1, 1]) for (const z of [-1, 1]) cubeWorld.push([x, y, z]);
     const cube = cubeWorld.map(rotate);
-    const maxX = Math.max(...cube.map((point) => Math.abs(point[0])));
-    const maxY = Math.max(...cube.map((point) => Math.abs(point[1])));
+    // Scale the view to include the full radius of boundary-centered members
+    // while keeping the unit-cell frame at ±1 as a visual reference.
+    const viewExtent = (mode === "surface" || mode === "implicit")
+      ? 1 + Math.max(0, sample.radius) + 2 / (options.surfaceResolution || options.implicitResolution || 48)
+      : 1;
+    const viewWorld = [];
+    for (const x of [-viewExtent, viewExtent]) for (const y of [-viewExtent, viewExtent]) for (const z of [-viewExtent, viewExtent]) viewWorld.push([x, y, z]);
+    const viewCube = viewWorld.map(rotate);
+    const maxX = Math.max(...viewCube.map((point) => Math.abs(point[0])));
+    const maxY = Math.max(...viewCube.map((point) => Math.abs(point[1])));
     const scale = Math.min((width * 0.77) / (2 * maxX), (height * 0.77) / (2 * maxY));
     const project = (point) => {
       const [x, y, depth] = rotate(point);
@@ -323,7 +324,6 @@
     // Topology-browser variants are compact records and inherit their source
     // from the parent topology rather than duplicating it per variant.
     const color = palette[sample.source] || palette[topology.source] || palette.panetta;
-    const mode = options.mode || "surface";
     if (mode === "surface" || mode === "implicit") {
       const resolution = mode === "implicit"
         ? (options.implicitResolution || 72)
