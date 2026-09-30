@@ -40,62 +40,6 @@
     </header>
 
     <main id="top">
-      <section class="generation" id="generation" aria-labelledby="generation-title">
-        <div class="generation-head">
-          <div>
-            <p class="section-kicker">LIVE DATASET RUN</p>
-            <h2 id="generation-title">10 万条生成进度</h2>
-            <p>32³ 周期点阵 · 实际体积分数 5%–35% · 骨架与参数、力学和导热性质</p>
-          </div>
-          <div class="generation-state" id="live-state" role="status">连接生成进度…</div>
-        </div>
-        <div class="generation-overview">
-          <div class="generation-numbers">
-            <div><span>已完成</span><strong id="live-count">—</strong><small>/ 100,000</small></div>
-            <div><span>完成比例</span><strong id="live-percent">—</strong></div>
-            <div><span>预计剩余</span><strong id="live-eta">估算中</strong></div>
-          </div>
-          <progress id="live-progress" max="100000" value="0" aria-label="10 万条样本生成进度"></progress>
-          <p class="generation-foot" id="live-foot">每条结果通过体积分数、周期面、去重和属性求解校验后才计入进度。</p>
-        </div>
-        <div class="generation-bins" id="live-bins" aria-label="各体积分数区间进度"></div>
-        <div class="generation-results-head">
-          <div><p class="section-kicker">LATEST ACCEPTED</p><h2>刚生成的结构</h2></div>
-          <span id="live-refreshed">每 8 秒自动更新</span>
-        </div>
-        <div class="generation-results" id="live-results" aria-live="polite">
-          <p class="generation-empty">正在等待首批通过校验的样本…</p>
-        </div>
-      </section>
-      <section class="intro" aria-labelledby="page-title">
-        <div class="intro-copy">
-          <p class="eyebrow">GEOMETRY × MECHANICS × THERMAL</p>
-          <h1 id="page-title">微结构性能图谱</h1>
-          <p class="intro-lede">
-            浏览 Panetta 与 ETH 的 32³ 周期点阵。几何由同一套骨架、节点位移和杆半径数据绘制；首页看连接骨架，结果卡看实体 mesh。
-          </p>
-          <a class="intro-link" href="#eth-variants">查看 ETH 模板与变体 <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="dataset-summary" aria-label="数据集摘要">
-          <div class="summary-cell">
-            <span>样本</span>
-            <strong id="stat-samples">—</strong>
-          </div>
-          <div class="summary-cell">
-            <span>唯一几何</span>
-            <strong id="stat-unique">—</strong>
-          </div>
-          <div class="summary-cell">
-            <span>分辨率</span>
-            <strong>32³</strong>
-          </div>
-          <div class="summary-cell">
-            <span>属性</span>
-            <strong>C₆×₆ · K₃×₃</strong>
-          </div>
-        </div>
-      </section>
-
       <section class="topology-browser" id="topology-browser" aria-labelledby="topology-browser-title">
         <div class="topology-browser-head">
           <div>
@@ -128,7 +72,7 @@
           <div>
             <p class="section-kicker">VOLUME FRACTION × EFFECTIVE PROPERTIES</p>
             <h2 id="property-title">体积分数与等效性质</h2>
-            <p>每个点对应一条样本记录；图中包含原始 10 万条记录和 vf 缺口补采结果。颜色区分 Panetta 与 ETH，杨氏模量取三个正应力方向工程模量的均值。</p>
+            <p>两张图均绘制全部 100,000 条样本记录；颜色区分 Panetta 与 ETH，杨氏模量取三个正应力方向工程模量的均值。点击 PNG 可查看或下载完整图。</p>
           </div>
           <div class="chart-legend" aria-label="数据来源图例">
             <span><i class="legend-dot panetta"></i>Panetta</span>
@@ -149,209 +93,7 @@
         </div>
       </section>
 
-      <section class="variant-explainer" id="eth-variants" aria-labelledby="variant-title">
-        <div class="variant-head">
-          <div>
-            <p class="section-kicker">SAME TOPOLOGY · DIFFERENT NODE POSITIONS</p>
-            <h2 id="variant-title">一个骨架，多个变体</h2>
-            <p>ETH 的“模板”指连接关系不变的 27 节点正八分体骨架；变体在允许的方向移动部分节点。拖动任一几何，可同步旋转对比。</p>
-          </div>
-          <div class="variant-switch" role="group" aria-label="选择 ETH 模板对照组">
-            <button class="variant-switch-button is-active" type="button" data-variant-pair="0">基准 → 扰动</button>
-            <button class="variant-switch-button" type="button" data-variant-pair="1">两种扰动</button>
-          </div>
-        </div>
-        <div class="variant-meta" id="variant-meta" aria-live="polite"></div>
-        <div class="variant-grid">
-          <article class="variant-panel">
-            <div class="variant-panel-heading"><span id="variant-left-role"></span><strong id="variant-left-id"></strong></div>
-            <canvas id="variant-left-canvas" role="img" aria-label="ETH 模板骨架"></canvas>
-            <div class="variant-panel-facts" id="variant-left-facts"></div>
-            <button class="variant-detail-link" type="button" data-variant-side="left">查看 C<sub>H</sub> 与 K<sub>H</sub> ↗</button>
-          </article>
-          <article class="variant-panel">
-            <div class="variant-panel-heading"><span id="variant-right-role"></span><strong id="variant-right-id"></strong></div>
-            <canvas id="variant-right-canvas" role="img" aria-label="ETH 扰动变体骨架"></canvas>
-            <div class="variant-panel-facts" id="variant-right-facts"></div>
-            <button class="variant-detail-link" type="button" data-variant-side="right">查看 C<sub>H</sub> 与 K<sub>H</sub> ↗</button>
-          </article>
-        </div>
-        <p class="variant-footnote" id="variant-footnote"></p>
-      </section>
-
-      <section class="workspace" aria-labelledby="gallery-title">
-        <div class="controls-panel">
-          <div class="control-row control-row-primary">
-            <label class="search-box">
-              <span class="sr-only">搜索样本编号</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="10.8" cy="10.8" r="6.4"></circle>
-                <path d="m16 16 4 4"></path>
-              </svg>
-              <input id="search" type="search" placeholder="搜索样本，例如 eth_000120" autocomplete="off" />
-              <kbd>/</kbd>
-            </label>
-
-            <div class="source-tabs" role="group" aria-label="数据来源筛选">
-              <button class="source-tab is-active" type="button" data-source="all">
-                全部 <span id="count-all">—</span>
-              </button>
-              <button class="source-tab panetta" type="button" data-source="panetta">
-                Panetta <span id="count-panetta">—</span>
-              </button>
-              <button class="source-tab eth" type="button" data-source="eth">
-                ETH <span id="count-eth">—</span>
-              </button>
-            </div>
-
-            <div class="render-tabs" role="group" aria-label="几何渲染方式" title="实体网格和隐式表面均按当前样本在浏览器内实时提取，不写入硬盘">
-              <button class="render-mode-button is-active" type="button" data-render-mode="surface" aria-pressed="true">
-                实体网格 <span>64³</span>
-              </button>
-              <button class="render-mode-button" type="button" data-render-mode="implicit" aria-pressed="false" title="基于杆件距离场实时提取隐式表面，不保存体素">
-                隐式表面 <span>56–72³</span>
-              </button>
-              <button class="render-mode-button" type="button" data-render-mode="skeleton" aria-pressed="false">
-                骨架线
-              </button>
-            </div>
-          </div>
-
-          <div class="control-row control-row-secondary">
-            <div class="result-heading">
-              <div>
-                <p class="section-kicker">RESULT MATRIX</p>
-                <h2 id="gallery-title">几何与属性</h2>
-              </div>
-              <p id="result-count" aria-live="polite">正在载入…</p>
-            </div>
-
-            <div class="sort-controls">
-              <label>
-                <span>排序</span>
-                <select id="sort-by">
-                  <option value="density">相对密度 ρ</option>
-                  <option value="C11">轴向刚度 C₁₁</option>
-                  <option value="C44">剪切刚度 C₄₄</option>
-                  <option value="Kxx">X 向导热 Kₓₓ</option>
-                  <option value="radius">杆半径 r</option>
-                  <option value="anisotropyC">力学各向异性</option>
-                  <option value="anisotropyK">导热各向异性</option>
-                  <option value="id">样本编号</option>
-                </select>
-              </label>
-              <button id="sort-direction" class="direction-button" type="button" aria-label="当前降序，点击切换">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14m0 0-4-4m4 4 4-4M16 19V5m0 0-4 4m4-4 4 4" /></svg>
-                <span>降序</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div id="loading" class="loading-state" role="status">
-          <span class="loader"></span>
-          <span>正在装载 32³ 几何与张量数据…</span>
-        </div>
-        <div id="gallery" class="gallery" aria-live="polite"></div>
-        <div id="empty" class="empty-state" hidden>
-          <strong>没有匹配的结构</strong>
-          <span>尝试更换来源筛选或清空搜索词。</span>
-        </div>
-        <div class="load-more-wrap">
-          <button id="load-more" class="load-more" type="button" hidden>加载更多结构</button>
-        </div>
-      </section>
     </main>
-
-    <footer>
-      <p>TRUSS-32 · PERIODIC VOXEL HOMOGENIZATION</p>
-      <p>E = 1 · ν = 0.3 · k<sub>solid</sub> = 1 · k<sub>void</sub> = 0</p>
-    </footer>
-
-    <dialog id="detail-dialog" class="detail-dialog">
-      <div class="dialog-shell">
-        <button id="dialog-close" class="dialog-close" type="button" aria-label="关闭详情">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
-        </button>
-        <div class="detail-visual">
-          <div class="detail-image-frame">
-            <canvas id="detail-image" role="img" aria-label="样本骨架几何"></canvas>
-            <div class="axis-glyph" aria-hidden="true">
-              <i class="axis-x"></i><i class="axis-y"></i><i class="axis-z"></i>
-              <span class="label-x">x</span><span class="label-y">y</span><span class="label-z">z</span>
-            </div>
-          </div>
-          <div class="detail-identity">
-            <span id="detail-source" class="source-badge"></span>
-            <h2 id="detail-title"></h2>
-            <p id="detail-hash"></p>
-          </div>
-          <dl class="detail-facts">
-            <div><dt>相对密度</dt><dd id="detail-density"></dd></div>
-            <div><dt>实体体素</dt><dd id="detail-voxels"></dd></div>
-            <div><dt>最小特征值 · C</dt><dd id="detail-min-c"></dd></div>
-            <div><dt>最小特征值 · K</dt><dd id="detail-min-k"></dd></div>
-          </dl>
-        </div>
-
-        <div class="detail-data">
-          <div class="detail-data-head">
-            <div>
-              <p class="section-kicker">HOMOGENIZED PROPERTIES</p>
-              <h3>等效属性</h3>
-            </div>
-            <p id="detail-source-note"></p>
-          </div>
-
-          <section class="property-section" aria-labelledby="mechanics-heading">
-            <div class="property-title">
-              <div>
-                <span class="property-index">01</span>
-                <h4 id="mechanics-heading">力学刚度 <em>C<sub>H</sub></em></h4>
-              </div>
-              <span>Voigt: xx, yy, zz, xy, yz, zx</span>
-            </div>
-            <div id="mechanical-bars" class="property-bars"></div>
-            <div class="matrix-wrap">
-              <table id="mechanical-matrix" class="tensor-table"></table>
-            </div>
-          </section>
-
-          <section class="property-section" aria-labelledby="thermal-heading">
-            <div class="property-title">
-              <div>
-                <span class="property-index">02</span>
-                <h4 id="thermal-heading">等效导热 <em>K<sub>H</sub></em></h4>
-              </div>
-              <span>Axes: x, y, z</span>
-            </div>
-            <div id="thermal-bars" class="property-bars"></div>
-            <div class="matrix-wrap">
-              <table id="thermal-matrix" class="tensor-table"></table>
-            </div>
-          </section>
-
-          <section class="solver-section" aria-label="求解质量">
-            <div>
-              <span>力学最大相对残差</span>
-              <strong id="detail-mech-residual"></strong>
-            </div>
-            <div>
-              <span>导热最大相对残差</span>
-              <strong id="detail-thermal-residual"></strong>
-            </div>
-            <div>
-              <span>力学求解状态</span>
-              <strong id="detail-mech-iterations"></strong>
-            </div>
-            <div>
-              <span>导热求解状态</span>
-              <strong id="detail-thermal-iterations"></strong>
-            </div>
-          </section>
-        </div>
-      </div>
-    </dialog>
 
     <dialog id="topology-dialog" class="topology-dialog">
       <div class="topology-dialog-shell">
@@ -401,31 +143,6 @@
       </div>
     </dialog>
 
-    <template id="card-template">
-      <article class="sample-card">
-        <button class="card-open" type="button">
-          <div class="card-image-wrap">
-            <canvas class="card-image" role="img" aria-label="样本骨架几何"></canvas>
-            <span class="card-source"></span>
-            <span class="card-index"></span>
-            <span class="inspect-label">查看张量 <b>↗</b></span>
-          </div>
-          <div class="card-body">
-            <div class="card-title-row">
-              <h3></h3>
-              <span class="density-pill"></span>
-            </div>
-            <div class="mini-properties">
-              <div><span>C₁₁</span><strong data-value="c11"></strong></div>
-              <div><span>C₄₄</span><strong data-value="c44"></strong></div>
-              <div><span>Kₓₓ</span><strong data-value="kxx"></strong></div>
-              <div><span>杆半径 r</span><strong data-value="radius"></strong></div>
-            </div>
-          </div>
-        </button>
-      </article>
-    </template>
-
     <template id="topology-card-template">
       <article class="topology-card">
         <button class="topology-card-open" type="button">
@@ -444,7 +161,6 @@
     </template>
 
     <script src="geometry.js?v=38" defer></script>
-    <script src="app.js?v=31" defer></script>
-    <script src="live.js?v=20" defer></script>
+    <script src="app.js?v=33" defer></script>
   </body>
 </html>

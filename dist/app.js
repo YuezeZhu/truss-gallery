@@ -601,43 +601,6 @@ function openDetail(sample) {
 }
 
 function bindEvents() {
-  document.querySelectorAll(".variant-switch-button").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.comparisonPair = Number(button.dataset.variantPair);
-      renderComparison();
-    });
-  });
-  document.querySelectorAll(".variant-detail-link").forEach((button) => {
-    button.addEventListener("click", () => {
-      const comparison = comparisonSamples();
-      if (comparison) openDetail(comparison[button.dataset.variantSide]);
-    });
-  });
-  let comparisonDragX = null;
-  document.querySelectorAll(".variant-panel canvas").forEach((canvas) => {
-    canvas.addEventListener("pointerdown", (event) => {
-      comparisonDragX = event.clientX;
-      canvas.setPointerCapture(event.pointerId);
-    });
-    canvas.addEventListener("pointermove", (event) => {
-      if (comparisonDragX === null) return;
-      state.comparisonYaw += (event.clientX - comparisonDragX) * 0.012;
-      comparisonDragX = event.clientX;
-      drawComparisonCanvases();
-    });
-    canvas.addEventListener("pointerup", () => { comparisonDragX = null; });
-    canvas.addEventListener("pointercancel", () => { comparisonDragX = null; });
-  });
-  document.querySelectorAll(".source-tab").forEach((button) => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".source-tab").forEach((item) => item.classList.remove("is-active"));
-      button.classList.add("is-active");
-      state.source = button.dataset.source;
-      state.visible = pageSize;
-      render();
-    });
-  });
-
   document.querySelectorAll(".topology-source-tab").forEach((button) => {
     button.addEventListener("click", () => {
       document.querySelectorAll(".topology-source-tab").forEach((item) => item.classList.remove("is-active"));
@@ -657,54 +620,6 @@ function bindEvents() {
   els.topologyLoadMore.addEventListener("click", () => {
     state.topologyVisible += 24;
     renderTopologies();
-  });
-
-  document.querySelectorAll(".render-mode-button").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.renderMode = button.dataset.renderMode;
-      document.querySelectorAll(".render-mode-button").forEach((item) => {
-        const active = item === button;
-        item.classList.toggle("is-active", active);
-        item.setAttribute("aria-pressed", String(active));
-      });
-      render();
-      drawComparisonCanvases();
-      if (els.dialog.open && state.selected) {
-        window.TrussGeometry.render(document.querySelector("#detail-image"), state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw, geometryOptions(64));
-      }
-    });
-  });
-
-  els.search.addEventListener("input", () => {
-    state.query = els.search.value;
-    state.visible = pageSize;
-    render();
-  });
-
-  els.sortBy.addEventListener("change", () => {
-    state.sortBy = els.sortBy.value;
-    state.visible = pageSize;
-    render();
-  });
-
-  els.direction.addEventListener("click", () => {
-    state.direction = state.direction === "desc" ? "asc" : "desc";
-    const isDesc = state.direction === "desc";
-    els.direction.querySelector("span").textContent = isDesc ? "降序" : "升序";
-    els.direction.setAttribute("aria-label", `当前${isDesc ? "降序" : "升序"}，点击切换`);
-    render();
-  });
-
-  els.loadMore.addEventListener("click", () => {
-    state.visible += pageSize;
-    render();
-  });
-
-  els.gallery.addEventListener("click", (event) => {
-    const button = event.target.closest(".card-open");
-    if (!button) return;
-    const sample = state.payload.samples.find((item) => item.id === button.dataset.id);
-    if (sample) openDetail(sample);
   });
 
   els.topologyGrid.addEventListener("click", (event) => {
@@ -738,50 +653,14 @@ function bindEvents() {
   topologyCanvas.addEventListener("pointerup", () => { topologyDragX = null; });
   topologyCanvas.addEventListener("pointercancel", () => { topologyDragX = null; });
 
-  document.querySelector("#dialog-close").addEventListener("click", () => els.dialog.close());
-  els.dialog.addEventListener("click", (event) => {
-    if (event.target === els.dialog) els.dialog.close();
-  });
-
-  const detailCanvas = document.querySelector("#detail-image");
-  let dragX = null;
-  detailCanvas.addEventListener("pointerdown", (event) => {
-    dragX = event.clientX;
-    detailCanvas.setPointerCapture(event.pointerId);
-  });
-  detailCanvas.addEventListener("pointermove", (event) => {
-    if (dragX === null || !state.selected) return;
-    state.detailYaw += (event.clientX - dragX) * 0.012;
-    dragX = event.clientX;
-    window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw, geometryOptions(64));
-  });
-  detailCanvas.addEventListener("pointerup", () => { dragX = null; });
-  detailCanvas.addEventListener("pointercancel", () => { dragX = null; });
   window.addEventListener("resize", () => {
-    if (state.payload) drawCardCanvases();
-    if (state.payload) drawComparisonCanvases();
-    if (state.payload) drawPropertyCharts();
-    if (els.dialog.open && state.selected) window.TrussGeometry.render(detailCanvas, state.selected, state.topologies.get(state.selected.topology_id), state.detailYaw, geometryOptions(64));
     if (state.topologyPayload) drawTopologyCanvases();
     if (els.topologyDialog.open && state.selectedTopology) renderTopologyDialog();
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "/" && document.activeElement !== els.search && !els.dialog.open) {
-      event.preventDefault();
-      els.search.focus();
-    }
   });
 }
 
 async function initialize() {
   bindEvents();
-  if (initialView === "coarse") els.sortBy.value = "radius";
-  // The topology browser is the primary requested surface: place it first so
-  // the page opens directly on skeletons and nodes instead of the long run log.
-  const main = document.querySelector("main");
-  const topologySection = document.querySelector("#topology-browser");
-  if (main && topologySection) main.prepend(topologySection);
   try {
     const [response, topologyResponse] = await Promise.all([fetch("data/samples.json"), fetch("data/topology_browser.json")]);
     if (!response.ok || !topologyResponse.ok) throw new Error(`HTTP ${!response.ok ? response.status : topologyResponse.status}`);
@@ -798,23 +677,10 @@ async function initialize() {
     for (const sample of state.payload.samples) {
       if (!state.samplesByTopology.has(sample.topology_id)) state.samplesByTopology.set(sample.topology_id, sample);
     }
-    document.querySelector("#stat-samples").textContent = state.payload.sampleCount.toLocaleString("zh-CN");
-    document.querySelector("#stat-unique").textContent = state.payload.uniqueVoxelCount.toLocaleString("zh-CN");
-    const counts = state.payload.samples.reduce((total, sample) => {
-      total[sample.source] += 1;
-      return total;
-    }, { panetta: 0, eth: 0 });
-    document.querySelector("#count-all").textContent = state.payload.sampleCount;
-    document.querySelector("#count-panetta").textContent = counts.panetta;
-    document.querySelector("#count-eth").textContent = counts.eth;
-    els.loading.remove();
     els.topologyLoading.remove();
-    renderComparison();
     renderTopologies();
-    render();
-    drawPropertyCharts();
   } catch (error) {
-    els.loading.innerHTML = `<strong>数据载入失败</strong><span>${error.message}</span>`;
+    els.topologyLoading.innerHTML = `<strong>数据载入失败</strong><span>${error.message}</span>`;
   }
 }
 
