@@ -60,10 +60,14 @@
   ];
   const tetraEdges = [[0, 1], [1, 2], [2, 0], [0, 3], [1, 3], [2, 3]];
 
-  function sampleField(geometry, radius, resolution) {
-    const count = resolution + 1;
-    const values = new Float32Array(count * count * count);
+  function sampleField(geometry, radius, resolution, paddingVoxels = 1) {
+    const padCount = Math.max(0, Math.floor(paddingVoxels));
     const step = 2 / resolution;
+    const padding = padCount * step;
+    const cells = resolution + padCount * 2;
+    const count = cells + 1;
+    const origin = -1 - padding;
+    const values = new Float32Array(count * count * count);
     const index = (x, y, z) => (z * count + y) * count + x;
     const segmentDistanceSquared = (p, a, b) => {
       const abx = b[0] - a[0], aby = b[1] - a[1], abz = b[2] - a[2];
@@ -75,22 +79,40 @@
       const dz = p[2] - (a[2] + t * abz);
       return dx * dx + dy * dy + dz * dz;
     };
+    const queryMin = origin - radius;
+    const queryMax = origin + cells * step + radius;
+    const segments = [];
+    // Include neighboring periodic images only when their bounding box can
+    // affect the padded visualization domain. This keeps boundary rods
+    // continuous without multiplying every segment by all 27 images.
+    for (const [aIndex, bIndex] of geometry.edges) {
+      const a = geometry.nodes[aIndex], b = geometry.nodes[bIndex];
+      for (let sx = -1; sx <= 1; sx++) for (let sy = -1; sy <= 1; sy++) for (let sz = -1; sz <= 1; sz++) {
+        const shift = [sx * 2, sy * 2, sz * 2];
+        const left = [a[0] + shift[0], a[1] + shift[1], a[2] + shift[2]];
+        const right = [b[0] + shift[0], b[1] + shift[1], b[2] + shift[2]];
+        if (Math.max(left[0], right[0]) < queryMin || Math.min(left[0], right[0]) > queryMax) continue;
+        if (Math.max(left[1], right[1]) < queryMin || Math.min(left[1], right[1]) > queryMax) continue;
+        if (Math.max(left[2], right[2]) < queryMin || Math.min(left[2], right[2]) > queryMax) continue;
+        segments.push([left, right]);
+      }
+    }
     for (let z = 0; z < count; z++) for (let y = 0; y < count; y++) for (let x = 0; x < count; x++) {
-      const point = [-1 + x * step, -1 + y * step, -1 + z * step];
+      const point = [origin + x * step, origin + y * step, origin + z * step];
       let nearest = Infinity;
-      for (const [a, b] of geometry.edges) {
-        nearest = Math.min(nearest, segmentDistanceSquared(point, geometry.nodes[a], geometry.nodes[b]));
+      for (const [a, b] of segments) {
+        nearest = Math.min(nearest, segmentDistanceSquared(point, a, b));
       }
       values[index(x, y, z)] = radius - Math.sqrt(nearest);
     }
-    return { values, count, step, index };
+    return { values, count, cells, origin, step, index };
   }
 
-  function extractSurface(geometry, radius, resolution) {
-    const cacheKey = `${geometry.nodes.length}:${geometry.edges.length}:${radius.toFixed(7)}:${resolution}:${geometry.nodes.flat().map((v) => v.toFixed(5)).join(",")}`;
+  function extractSurface(geometry, radius, resolution, paddingVoxels = 1) {
+    const cacheKey = `${geometry.nodes.length}:${geometry.edges.length}:${radius.toFixed(7)}:${resolution}:pad${paddingVoxels}:${geometry.nodes.flat().map((v) => v.toFixed(5)).join(",")}`;
     if (surfaceCache.has(cacheKey)) return surfaceCache.get(cacheKey);
-    const field = sampleField(geometry, radius, resolution);
-    const { values, count, step, index } = field;
+    const field = sampleField(geometry, radius, resolution, paddingVoxels);
+    const { values, cells, origin, step, index } = field;
     const triangles = [];
     const interpolate = (left, right) => {
       const lv = left.value, rv = right.value;
@@ -126,10 +148,10 @@
         addTriangle(intersections[0], intersections[2], intersections[3]);
       }
     };
-    for (let z = 0; z < resolution; z++) for (let y = 0; y < resolution; y++) for (let x = 0; x < resolution; x++) {
+    for (let z = 0; z < cells; z++) for (let y = 0; y < cells; y++) for (let x = 0; x < cells; x++) {
       const corners = cubeCorners.map(([dx, dy, dz]) => {
         const gx = x + dx, gy = y + dy, gz = z + dz;
-        return { point: [-1 + gx * step, -1 + gy * step, -1 + gz * step], value: values[index(gx, gy, gz)] };
+        return { point: [origin + gx * step, origin + gy * step, origin + gz * step], value: values[index(gx, gy, gz)] };
       });
       for (const tetra of tetrahedra) addTetra(tetra.map((corner) => corners[corner]));
     }
@@ -306,7 +328,7 @@
       const resolution = mode === "implicit"
         ? (options.implicitResolution || 72)
         : (options.surfaceResolution || 48);
-      const mesh = extractSurface(geometry, sample.radius, resolution);
+      const mesh = extractSurface(geometry, sample.radius, resolution, options.paddingVoxels ?? 1);
       if (mode === "implicit") renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale);
       else renderSurface(ctx, mesh, project, rotate, options.surfaceColor || color, width, height, scale, options);
       if (options.overlaySkeleton) {
