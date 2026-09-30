@@ -302,7 +302,12 @@
             ctx.lineWidth = 2; ctx.strokeStyle = "#ffb36d"; ctx.stroke(); ctx.setLineDash([]);
           }
           ctx.beginPath(); ctx.arc(base[0], base[1], 4, 0, Math.PI * 2); ctx.fillStyle = "#70d5ff"; ctx.fill();
-          if (!options.baselineOnly) { ctx.beginPath(); ctx.arc(moved[0], moved[1], 5, 0, Math.PI * 2); ctx.fillStyle = "#ff913b"; ctx.fill(); }
+          if (!options.baselineOnly) {
+            ctx.beginPath();
+            ctx.arc(moved[0], moved[1], 5, 0, Math.PI * 2);
+            ctx.fillStyle = options.nodeColor || "#70d5ff";
+            ctx.fill();
+          }
           ctx.fillStyle = "#f1f6ff"; ctx.fillText(`N${index}`, (options.baselineOnly ? base : moved)[0] + 8, (options.baselineOnly ? base : moved)[1] - 8);
         }
       }
@@ -386,7 +391,7 @@
         if (!options.baselineOnly) {
           ctx.beginPath();
           ctx.arc(moved[0], moved[1], 7.2, 0, Math.PI * 2);
-          ctx.fillStyle = "#ff913b";
+          ctx.fillStyle = options.nodeColor || "#70d5ff";
           ctx.fill();
         }
         ctx.fillStyle = "#f1f6ff";

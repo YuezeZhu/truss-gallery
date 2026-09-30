@@ -72,7 +72,7 @@
           <p class="eyebrow">GEOMETRY × MECHANICS × THERMAL</p>
           <h1 id="page-title">微结构性能图谱</h1>
           <p class="intro-lede">
-            浏览 Panetta 与 ETH 的 32³ 周期点阵。几何由骨架、节点位移和杆半径绘制，力学与导热属性对应同一结构。
+            浏览 Panetta 与 ETH 的 32³ 周期点阵。几何由同一套骨架、节点位移和杆半径数据绘制；首页看连接骨架，结果卡看实体 mesh。
           </p>
           <a class="intro-link" href="#eth-variants">查看 ETH 模板与变体 <span aria-hidden="true">↗</span></a>
         </div>
@@ -101,7 +101,7 @@
           <div>
             <p class="section-kicker">TOPOLOGY FIRST · NODE PERTURBATIONS</p>
             <h2 id="topology-browser-title">先看骨架，再看变体</h2>
-            <p>每张卡片先展示连接骨架和节点。点开后，可切换同一拓扑下不同节点位置与杆半径的真实样本。</p>
+            <p>首页用细线只展示连接骨架和节点；下方样本卡按节点扰动和实际杆半径实时提取实体 mesh，因此外观会比骨架预览更粗、更密。</p>
           </div>
           <div class="topology-browser-stats" id="topology-browser-stats">正在载入拓扑…</div>
         </div>
@@ -422,8 +422,8 @@
       </article>
     </template>
 
-    <script src="geometry.js?v=21" defer></script>
-    <script src="app.js?v=21" defer></script>
+    <script src="geometry.js?v=22" defer></script>
+    <script src="app.js?v=22" defer></script>
     <script src="live.js?v=20" defer></script>
   </body>
 </html>
