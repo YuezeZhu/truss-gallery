@@ -12,7 +12,11 @@
       nodes[index][1] += dy;
       nodes[index][2] += dz;
     }
-    if (sample.source !== "eth") return { nodes, edges: topology.edges };
+    // Compact topology variants inherit their source from the parent topology.
+    // Without this fallback ETH variants (whose coordinates are one-octant
+    // records) skip the symmetry expansion and render into a single corner.
+    const source = sample.source || topology.source;
+    if (source !== "eth") return { nodes, edges: topology.edges };
 
     const mirroredNodes = [];
     const mirroredEdges = [];
