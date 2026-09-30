@@ -300,7 +300,9 @@ function drawTopologyCanvases() {
     const topology = state.topologyPayload.topologies.find((item) => item.id === canvas.dataset.topologyId);
     const variant = topology?.variants?.[0];
     if (topology && variant) {
-      window.TrussGeometry.render(canvas, variant, topology, -0.68, { mode: "skeleton", showNodes: true, nodeRadius: 3.1 });
+      window.TrussGeometry.render(canvas, variant, topology, -0.68, {
+        mode: "skeleton", showNodes: true, nodeRadius: 4.4, skeletonLineWidth: 1.45,
+      });
     }
   });
 }
@@ -344,6 +346,10 @@ function renderTopologyDialog() {
   const variants = topology.variants || [];
   const variant = variants[state.selectedTopologyVariant] || variants[0];
   if (!variant) return;
+  const radii = variants.map((item) => item.radius).filter(Number.isFinite);
+  const radiusMin = Math.min(...radii, 0.05);
+  const radiusMax = Math.max(...radii, 0.35);
+  const radiusSpan = Math.max(radiusMax - radiusMin, 1e-9);
   const dialog = els.topologyDialog;
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
   document.querySelector("#topology-dialog-source").textContent = labels[topology.source];
@@ -361,7 +367,15 @@ function renderTopologyDialog() {
     const title = document.createElement("strong");
     title.textContent = item.id;
     const facts = document.createElement("span");
-    facts.textContent = `r=${item.radius.toFixed(5)} · vf=${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} 个点位移`;
+    facts.className = "topology-variant-facts";
+    const radiusText = document.createElement("b");
+    radiusText.textContent = `r=${item.radius.toFixed(5)}`;
+    const meter = document.createElement("i");
+    meter.className = "variant-radius-meter";
+    meter.style.setProperty("--radius-level", `${((item.radius - radiusMin) / radiusSpan) * 100}%`);
+    const detailText = document.createElement("em");
+    detailText.textContent = `vf ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} 个点位移`;
+    facts.append(radiusText, meter, detailText);
     button.append(title, facts);
     list.append(button);
   });
@@ -370,10 +384,16 @@ function renderTopologyDialog() {
   const intro = document.createElement("p");
   intro.textContent = itemDisplacementText(variant);
   info.append(intro);
+  const radiusNote = document.createElement("p");
+  radiusNote.className = "radius-note";
+  radiusNote.textContent = `线宽按杆半径增强显示：当前 r=${variant.radius.toFixed(5)}；右侧列表中的横条表示相对半径大小。`;
+  info.append(radiusNote);
   const canvas = document.querySelector("#topology-detail-canvas");
   canvas.setAttribute("aria-label", `${topology.id} 的骨架、节点和 ${variant.id} 的扰动位置`);
   requestAnimationFrame(() => window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
-    mode: "skeleton", showNodes: true, nodeRadius: 3.8, highlightEntries: variant.node_displacements,
+    mode: "skeleton", showNodes: true, nodeRadius: 4.8, radiusDisplay: true,
+    radiusRange: [radiusMin, radiusMax], skeletonLineWidth: 1.8,
+    highlightEntries: variant.node_displacements,
   }));
 }
 

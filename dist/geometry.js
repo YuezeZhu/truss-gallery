@@ -166,6 +166,18 @@
     }
   }
 
+  function clamp(value, low, high) {
+    return Math.max(low, Math.min(high, value));
+  }
+
+  function radiusT(sample, options) {
+    const range = options.radiusRange;
+    if (!range || range.length < 2) return 0.5;
+    const span = range[1] - range[0];
+    if (span <= 1e-9) return 0.5;
+    return clamp((sample.radius - range[0]) / span, 0, 1);
+  }
+
   function render(canvas, sample, topology, yaw = -0.68, options = {}) {
     const bounds = canvas.getBoundingClientRect();
     const width = Math.max(1, bounds.width);
@@ -244,13 +256,22 @@
     const projected = geometry.nodes.map(project);
     const edges = geometry.edges.map(([a, b]) => ({ a: projected[a], b: projected[b] }));
     edges.sort((left, right) => (left.a[2] + left.b[2]) - (right.a[2] + right.b[2]));
-    const thickness = Math.max(2.5, 2 * sample.radius * scale);
+    const radiusLevel = radiusT(sample, options);
+    // Skeleton views intentionally decouple line width from the physical radius:
+    // topology cards stay fine and legible, while detail views can opt into a
+    // visible radius encoding through radiusDisplay.
+    const skeletonWidth = options.radiusDisplay
+      ? 2.4 + radiusLevel * 8.6
+      : (options.skeletonLineWidth || 1.8);
+    const thickness = mode === "skeleton"
+      ? skeletonWidth
+      : Math.max(2.5, 2 * sample.radius * scale);
 
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     for (const { a, b } of edges) {
       ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
-      ctx.lineWidth = thickness + 2;
+      ctx.lineWidth = thickness + (mode === "skeleton" ? 2.2 : 2);
       ctx.strokeStyle = color.shade;
       ctx.stroke();
       ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
@@ -259,7 +280,7 @@
       ctx.stroke();
       ctx.beginPath(); ctx.moveTo(a[0] - thickness * 0.1, a[1] - thickness * 0.16);
       ctx.lineTo(b[0] - thickness * 0.1, b[1] - thickness * 0.16);
-      ctx.lineWidth = Math.max(1, thickness * 0.25);
+      ctx.lineWidth = Math.max(0.8, thickness * (mode === "skeleton" ? 0.2 : 0.25));
       ctx.strokeStyle = color.light;
       ctx.globalAlpha = 0.6;
       ctx.stroke();
@@ -278,7 +299,7 @@
         ctx.fillStyle = color.light;
         ctx.fill();
         ctx.strokeStyle = color.shade;
-        ctx.lineWidth = 0.8;
+        ctx.lineWidth = mode === "skeleton" ? 1.2 : 0.8;
         ctx.stroke();
       }
     }
@@ -297,19 +318,19 @@
           ctx.setLineDash([4, 3]);
           ctx.moveTo(base[0], base[1]);
           ctx.lineTo(moved[0], moved[1]);
-          ctx.lineWidth = 2;
+          ctx.lineWidth = 2.6;
           ctx.strokeStyle = "#ffb36d";
           ctx.stroke();
           ctx.setLineDash([]);
         }
         ctx.beginPath();
-        ctx.arc(base[0], base[1], 4, 0, Math.PI * 2);
+        ctx.arc(base[0], base[1], 5.4, 0, Math.PI * 2);
         ctx.fillStyle = "#70d5ff";
         ctx.fill();
         const labelPoint = options.baselineOnly ? base : moved;
         if (!options.baselineOnly) {
           ctx.beginPath();
-          ctx.arc(moved[0], moved[1], 5, 0, Math.PI * 2);
+          ctx.arc(moved[0], moved[1], 7.2, 0, Math.PI * 2);
           ctx.fillStyle = "#ff913b";
           ctx.fill();
         }
