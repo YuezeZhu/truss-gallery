@@ -73,7 +73,7 @@ function geometryOptions(resolution, extra = {}) {
     ...extra,
     mode: state.renderMode,
     surfaceResolution: resolution,
-    implicitResolution: Math.max(resolution, 72),
+    implicitResolution: resolution >= 64 ? 72 : Math.max(resolution, 56),
   };
 }
 
