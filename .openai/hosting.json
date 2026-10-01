@@ -1,4 +1,7 @@
 {
   "project_id": "appgprj_6abcb7bc367c8191b18b7adc466cab3f",
-  "r2": "BUCKET"
+  "static": {
+    "directory": "dist",
+    "not_found_handling": "404-page"
+  }
 }
