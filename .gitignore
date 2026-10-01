@@ -1,3 +1,6 @@
 __pycache__/
 *.py[cod]
 *.tar.gz
+*.zip
+_site-package-*/
+github-pages/
