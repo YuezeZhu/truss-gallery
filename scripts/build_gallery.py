@@ -7,11 +7,14 @@ import sqlite3
 import shutil
 from pathlib import Path
 
+from build_full_index import main as build_full_index
+
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "truss32_minimal" / "dataset.json"
 TARGET = ROOT / "truss-gallery" / "dist" / "data" / "samples.json"
 TOPOLOGY_TARGET = ROOT / "truss-gallery" / "dist" / "data" / "topology_browser.json"
+CATALOG_TARGET = ROOT / "truss-gallery" / "dist" / "data" / "catalog.json"
 TRUSS100K = ROOT / "truss100k"
 
 
@@ -88,8 +91,10 @@ def main() -> None:
         raise ValueError("Expected 303 accepted samples")
     TARGET.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(SOURCE, TARGET)
+    shutil.copyfile(TRUSS100K / "catalog.json", CATALOG_TARGET)
     print(f"Copied {len(dataset['samples'])} skeleton records to {TARGET}")
     build_topology_browser(dataset)
+    build_full_index()
 
 
 if __name__ == "__main__":
