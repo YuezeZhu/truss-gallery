@@ -21,9 +21,15 @@ const state = {
   topologyVisible: 24,
   selectedTopology: null,
   selectedTopologyVariant: 0,
+  selectedTopologyVariantRecord: null,
   topologyYaw: -0.68,
+  showMesh: false,
+  showTopology: true,
+  topologyCanvasFrame: 0,
   samplesById: new Map(),
   samplesByTopology: new Map(),
+  indexRowsById: new Map(),
+  fullVariantsByTopology: new Map(),
   selected: null,
   detailYaw: -0.68,
   comparisonPair: 0,
@@ -35,8 +41,8 @@ const pageSize = 36;
 const accent = { panetta: "#4cc7ff", eth: "#4cc7ff" };
 const labels = { panetta: "PANETTA / MESHFEM", eth: "ETH ZÜRICH" };
 const comparisonPairs = [
-  { left: "eth_000001", right: "eth_000000", leftRole: "未扰动基准", rightRole: "原始扰动变体" },
-  { left: "eth_173823", right: "eth_508593", leftRole: "原始扰动 A", rightRole: "原始扰动 B" },
+  { left: "eth_000001", right: "eth_000000", leftRole: "Unperturbed baseline", rightRole: "Original perturbed variant" },
+  { left: "eth_173823", right: "eth_508593", leftRole: "Original perturbation A", rightRole: "Original perturbation B" },
 ];
 
 const els = {
@@ -131,7 +137,7 @@ function renderComparison() {
   const meta = document.querySelector("#variant-meta");
   meta.replaceChildren();
   const sameVoxel = left.quality.voxel_sha256 === right.quality.voxel_sha256;
-  for (const value of [`共同连接关系 ${topology.id}`, `${topology.nodes.length} 个正八分体节点`, `${topology.edges.length} 条正八分体连杆`, sameVoxel ? "32³ 占据相同" : "32³ 占据不同", "数据来源：ETH 原附件"]) {
+  for (const value of [`Shared topology ${topology.id}`, `${topology.nodes.length} octant nodes`, `${topology.edges.length} octant members`, sameVoxel ? "Same 32³ occupancy" : "Different 32³ occupancy", "Source: ETH attachment"]) {
     const item = document.createElement("span");
     item.textContent = value;
     meta.append(item);
@@ -142,9 +148,9 @@ function renderComparison() {
     const facts = document.querySelector(`#variant-${side}-facts`);
     facts.replaceChildren();
     for (const [name, value] of [
-      ["移动节点", String(sample.node_displacements.length)],
-      ["杆半径", sample.radius.toFixed(5)],
-      ["相对密度", formatPercent(sample.density)],
+      ["Moved nodes", String(sample.node_displacements.length)],
+      ["Rod radius", sample.radius.toFixed(5)],
+      ["Volume fraction", formatPercent(sample.density)],
       ["C₁₁", formatValue(sample.Cdiag[0], 4)],
       ["Kₓₓ", formatValue(sample.Kdiag[0], 4)],
     ]) {
@@ -156,8 +162,8 @@ function renderComparison() {
     }
   }
   document.querySelector("#variant-footnote").textContent = state.comparisonPair === 0
-    ? `两侧都用蓝点表示各自的实际节点位置；该对照的杆半径相同，右侧包含 ${right.node_displacements.length} 个实际节点位移。`
-    : `两侧都用蓝点表示各自的实际节点位置；左侧有 ${left.node_displacements.length} 个节点位移，右侧有 ${right.node_displacements.length} 个节点位移，杆半径也会随样本变化。`;
+    ? `Blue nodes show each actual position; both records use the same radius, and the right record moves ${right.node_displacements.length} nodes.`
+    : `Blue nodes show each actual position; the left record moves ${left.node_displacements.length} nodes and the right record moves ${right.node_displacements.length}. Radius also changes between records.`;
   requestAnimationFrame(drawComparisonCanvases);
 }
 
@@ -254,7 +260,7 @@ function drawPropertyChart(targetId, samples, valueKey, yLabel, formatter) {
   const yScale = (value) => margin.top + plotHeight - (value - yDomain[0]) / (yDomain[1] - yDomain[0]) * plotHeight;
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   const title = svgElement("title");
-  title.textContent = `${yLabel} 与相对体积分数`;
+  title.textContent = `${yLabel} vs. volume fraction`;
   svg.append(title);
   const tickCount = 5;
   for (let tick = 0; tick <= tickCount; tick++) {
@@ -272,7 +278,7 @@ function drawPropertyChart(targetId, samples, valueKey, yLabel, formatter) {
   svg.append(svgElement("line", { x1: margin.left, x2: margin.left + plotWidth, y1: margin.top + plotHeight, y2: margin.top + plotHeight, class: "chart-axis" }));
   svg.append(svgElement("line", { x1: margin.left, x2: margin.left, y1: margin.top, y2: margin.top + plotHeight, class: "chart-axis" }));
   const xLabel = svgElement("text", { x: margin.left + plotWidth / 2, y: height - 8, class: "chart-axis-title", "text-anchor": "middle" });
-  xLabel.textContent = "相对体积分数 vf";
+  xLabel.textContent = "Volume fraction vf";
   const yLabelElement = svgElement("text", { x: 15, y: margin.top + plotHeight / 2, class: "chart-axis-title", "text-anchor": "middle", transform: `rotate(-90 15 ${margin.top + plotHeight / 2})` });
   yLabelElement.textContent = yLabel;
   svg.append(xLabel, yLabelElement);
@@ -319,18 +325,27 @@ function drawCardCanvases() {
   requestAnimationFrame(drawNext);
 }
 
-function topologyVariantLabel(variant) {
+function topologyDisplayName(topology) {
+  const topologies = state.topologyPayload?.topologies || [];
+  const index = topologies.findIndex((item) => item.id === topology?.id || item.catalog_id === topology?.catalog_id);
+  return `Lattice ${String(Math.max(0, index) + 1).padStart(4, "0")}`;
+}
+
+function variantDisplayName(topology, index) {
+  return `${topologyDisplayName(topology)} · Variant ${String(index + 1).padStart(3, "0")}`;
+}
+
+function topologyVariantLabel(variant, topology, index = 0) {
   const moved = variant.node_displacements?.length || 0;
-  return `${variant.id} · r=${variant.radius.toFixed(4)} · ${moved} 个点`;
+  return `${variantDisplayName(topology, index)} · r=${variant.radius.toFixed(4)} · ${moved} moved`;
 }
 
 function filteredTopologies() {
   if (!state.topologyPayload) return [];
   const query = state.topologyQuery.trim().toLowerCase();
   return state.topologyPayload.topologies.filter((topology) => {
-    const sourceMatch = state.topologySource === "all" || topology.source === state.topologySource;
     const searchMatch = !query || topology.id.toLowerCase().includes(query) || topology.catalog_id.toLowerCase().includes(query);
-    return sourceMatch && searchMatch;
+    return searchMatch;
   });
 }
 
@@ -349,23 +364,23 @@ function drawTopologyCanvases() {
 
 function topologyCardFor(topology, position) {
   const card = document.querySelector("#topology-card-template").content.firstElementChild.cloneNode(true);
-  const variant = topology.variants[0];
+  const variants = state.fullVariantsByTopology.get(topology.catalog_id) || topology.variants;
+  const variant = variants[0];
   const button = card.querySelector(".topology-card-open");
   const canvas = card.querySelector(".topology-card-image");
   button.dataset.topologyId = topology.id;
-  button.setAttribute("aria-label", `查看 ${topology.id} 的节点位置和半径变体`);
+  button.setAttribute("aria-label", `Open ${topologyDisplayName(topology)} node-position and radius variants`);
   canvas.dataset.topologyId = topology.id;
   card.style.setProperty("--card-accent", accent[topology.source]);
-  card.querySelector(".topology-card-source").textContent = labels[topology.source];
   card.querySelector(".topology-card-index").textContent = String(position + 1).padStart(3, "0");
-  card.querySelector("h3").textContent = topology.id;
+  card.querySelector("h3").textContent = topologyDisplayName(topology);
   const hasNodePerturbations = topology.variants.some((item) => item.node_displacements?.length);
   card.querySelector(".topology-card-variant-pill").textContent = hasNodePerturbations
-    ? `${topology.variants.length} 个变体`
-    : `${topology.variants.length} 个半径变体`;
-  card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.nodes.length} 节点`;
-  card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.edges.length} 连杆`;
-  card.querySelector('[data-topology-fact="radius"]').textContent = variant ? `r ${variant.radius.toFixed(4)}` : "无样本";
+    ? `${variants.length} variants`
+    : `${variants.length} radius variants`;
+  card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.nodes.length} nodes`;
+  card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.edges.length} members`;
+  card.querySelector('[data-topology-fact="radius"]').textContent = variant ? `r ${variant.radius.toFixed(4)}` : "No variants";
   return card;
 }
 
@@ -376,11 +391,11 @@ function renderTopologies() {
   shown.forEach((topology, index) => fragment.append(topologyCardFor(topology, index)));
   els.topologyGrid.replaceChildren(fragment);
   requestAnimationFrame(drawTopologyCanvases);
-  const variants = topologies.reduce((total, topology) => total + topology.variants.length, 0);
-  els.topologyStats.textContent = `${topologies.length.toLocaleString("zh-CN")} 个拓扑 · ${variants.toLocaleString("zh-CN")} 个变体`;
+  const variants = topologies.reduce((total, topology) => total + (state.fullVariantsByTopology.get(topology.catalog_id)?.length || topology.variants.length), 0);
+  els.topologyStats.textContent = `${topologies.length.toLocaleString("en-US")} topology groups · ${variants.toLocaleString("en-US")} variants`;
   els.topologyEmpty.hidden = topologies.length !== 0;
   els.topologyLoadMore.hidden = shown.length >= topologies.length;
-  els.topologyLoadMore.textContent = `加载更多拓扑 · ${topologies.length - shown.length} remaining`;
+  els.topologyLoadMore.textContent = `Load more topologies · ${topologies.length - shown.length} remaining`;
 }
 
 function renderTopologyDialog() {
@@ -389,12 +404,13 @@ function renderTopologyDialog() {
   const propertySample = state.selectedFullSample?.topology_id === topology.id
     ? state.selectedFullSample
     : state.samplesByTopology.get(topology.id);
-  const browserVariants = topology.variants || [];
+  const browserVariants = state.fullVariantsByTopology.get(topology.catalog_id) || topology.variants || [];
   const variants = propertySample
     ? [propertySample, ...browserVariants.filter((item) => item.id !== propertySample.id)]
     : browserVariants;
   const variant = variants[state.selectedTopologyVariant] || variants[0];
   if (!variant) return;
+  state.selectedTopologyVariantRecord = variant;
   const radii = variants.map((item) => item.radius).filter(Number.isFinite);
   const actualMin = radii.length ? Math.min(...radii) : 0;
   const actualMax = radii.length ? Math.max(...radii) : 1;
@@ -403,14 +419,13 @@ function renderTopologyDialog() {
   const radiusSpan = Math.max(radiusMax - radiusMin, 1e-9);
   const dialog = els.topologyDialog;
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
-  document.querySelector("#topology-dialog-source").textContent = labels[topology.source];
-  document.querySelector("#topology-dialog-title").textContent = topology.id;
+  document.querySelector("#topology-dialog-title").textContent = topologyDisplayName(topology);
   const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
   document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
-    ? `${topology.nodes.length} 个节点 · ${topology.edges.length} 条连接 · 连接关系固定，节点位置和半径随样本变化`
-    : `${topology.nodes.length} 个节点 · ${topology.edges.length} 条连接 · 节点位置固定，变体只改变杆半径`;
-  document.querySelector("#topology-dialog-variant-count").textContent = `${browserVariants.length} 个几何变体 · ${propertySample ? "含 1 条属性记录" : "暂无属性记录"}`;
-  document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant);
+    ? `${topology.nodes.length} nodes · ${topology.edges.length} members · connectivity fixed; node positions and radius vary by record`
+    : `${topology.nodes.length} nodes · ${topology.edges.length} members · node positions fixed; variants change radius only`;
+  document.querySelector("#topology-dialog-variant-count").textContent = `${browserVariants.length} geometry variants · ${propertySample ? "1 property record loaded" : "no property record loaded"}`;
+  document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant, topology, state.selectedTopologyVariant);
   const list = document.querySelector("#topology-variant-list");
   list.replaceChildren();
   variants.forEach((item, index) => {
@@ -419,7 +434,7 @@ function renderTopologyDialog() {
     button.className = `topology-variant-button${index === state.selectedTopologyVariant ? " is-active" : ""}`;
     button.dataset.variantIndex = String(index);
     const title = document.createElement("strong");
-    title.textContent = item.id;
+    title.textContent = variantDisplayName(topology, index);
     const facts = document.createElement("span");
     facts.className = "topology-variant-facts";
     const radiusText = document.createElement("b");
@@ -428,8 +443,8 @@ function renderTopologyDialog() {
     meter.className = "variant-radius-meter";
     meter.style.setProperty("--radius-level", `${((item.radius - radiusMin) / radiusSpan) * 100}%`);
     const detailText = document.createElement("em");
-    const propertyNote = state.selectedFullSample?.id === item.id || state.samplesById.has(item.id) ? " · 有 Cₕ/Kₕ" : "";
-    detailText.textContent = `vf ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} 个点位移${propertyNote}`;
+    const propertyNote = state.selectedFullSample?.id === item.id || state.samplesById.has(item.id) || state.indexRowsById.has(item.id) ? " · Cₕ/Kₕ loaded" : "";
+    detailText.textContent = `VF ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} moved nodes${propertyNote}`;
     facts.append(radiusText, meter, detailText);
     button.append(title, facts);
     list.append(button);
@@ -441,20 +456,78 @@ function renderTopologyDialog() {
   info.append(intro);
   const radiusNote = document.createElement("p");
   radiusNote.className = "radius-note";
-  radiusNote.textContent = `蓝色是连接骨架，黄色实体网格按实际直径 2r 绘制：当前 r=${variant.radius.toFixed(5)}。`;
+  radiusNote.textContent = `Blue lines are the topology. The orange mesh uses the actual diameter 2r; current r=${variant.radius.toFixed(5)}.`;
   info.append(radiusNote);
   const variantProperties = state.selectedFullSample?.id === variant.id
     ? state.selectedFullSample
-    : state.samplesById.get(variant.id);
+    : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
   renderTopologyProperties(variantProperties, variant);
   const canvas = document.querySelector("#topology-detail-canvas");
-  canvas.setAttribute("aria-label", `${topology.id} 的骨架、节点和 ${variant.id} 的扰动位置`);
-  requestAnimationFrame(() => window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
-    mode: "surface", surfaceResolution: 48, meshWireframe: true, surfaceColor: { body: "#ffd166", light: "#fff1a8", shade: "#936d18" },
-    overlaySkeleton: true, overlaySkeletonColor: "#4cc7ff", overlaySkeletonWidth: 1.35, overlayNodeColor: "#4cc7ff", overlayNodeRadius: 2.8,
-    showNodes: true, nodeColor: "#4cc7ff", showDisplacementGuides: false, nodeRadius: 2.8, highlightNodeRadius: 2.8,
+  canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, state.selectedTopologyVariant)}`);
+  updateMeshToggle();
+  scheduleTopologyCanvasRender();
+}
+
+function updateMeshToggle() {
+  const toggle = document.querySelector("#topology-mesh-toggle");
+  const topologyToggle = document.querySelector("#topology-topology-toggle");
+  if (toggle) {
+    toggle.textContent = state.showMesh ? "Hide mesh" : "Show mesh";
+    toggle.setAttribute("aria-pressed", String(state.showMesh));
+    toggle.classList.toggle("is-active", state.showMesh);
+  }
+  if (topologyToggle) {
+    topologyToggle.textContent = state.showTopology ? "Hide topology" : "Show topology";
+    topologyToggle.setAttribute("aria-pressed", String(state.showTopology));
+    topologyToggle.classList.toggle("is-active", state.showTopology);
+  }
+  const label = document.querySelector(".visual-mode-label");
+  if (label) {
+    label.textContent = state.showMesh
+      ? (state.showTopology ? "Mesh + topology" : "Mesh only")
+      : (state.showTopology ? "Topology preview" : "Topology hidden");
+  }
+  document.querySelector("#topology-legend-nodes")?.toggleAttribute("hidden", !state.showTopology);
+  document.querySelector("#topology-legend-skeleton")?.toggleAttribute("hidden", !state.showTopology);
+  const radiusNote = document.querySelector("#topology-variant-info .radius-note");
+  if (radiusNote && state.selectedTopologyVariantRecord) {
+    radiusNote.textContent = state.showTopology
+      ? `Blue lines are the topology. The orange mesh uses the actual diameter 2r; current r=${state.selectedTopologyVariantRecord.radius.toFixed(5)}.`
+      : `Topology hidden. The orange mesh uses the actual diameter 2r; current r=${state.selectedTopologyVariantRecord.radius.toFixed(5)}.`;
+  }
+}
+
+function renderTopologyCanvas() {
+  const topology = state.selectedTopology;
+  const variant = state.selectedTopologyVariantRecord;
+  const canvas = document.querySelector("#topology-detail-canvas");
+  if (!topology || !variant || !canvas) return;
+  const meshOptions = state.showMesh
+    ? {
+      mode: "surface", surfaceResolution: 36, meshWireframe: true,
+      surfaceColor: { body: "#ff9f1c", light: "#fff4c2", shade: "#6b2d08" },
+      meshEdgeColor: "#fff0a8", meshEdgeAlpha: 0.68, meshEdgeWidth: 0.0075,
+      overlaySkeleton: true, overlaySkeletonColor: "#4cc7ff", overlaySkeletonWidth: 1.25,
+      overlayNodeColor: "#4cc7ff", overlayNodeRadius: 2.5,
+    }
+    : {
+      mode: "skeleton", skeletonLineWidth: 1.55,
+    };
+  window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
+    ...meshOptions,
+    showTopology: state.showTopology,
+    showNodes: state.showTopology, nodeColor: "#4cc7ff", showDisplacementGuides: false,
+    nodeRadius: 2.7, highlightNodeRadius: 2.7,
     highlightEntries: variant.node_displacements,
-  }));
+  });
+}
+
+function scheduleTopologyCanvasRender() {
+  if (state.topologyCanvasFrame) return;
+  state.topologyCanvasFrame = requestAnimationFrame(() => {
+    state.topologyCanvasFrame = 0;
+    renderTopologyCanvas();
+  });
 }
 
 function renderTopologyProperties(sample, variant) {
@@ -467,20 +540,20 @@ function renderTopologyProperties(sample, variant) {
   const source = document.querySelector("#topology-property-source");
   facts.replaceChildren();
   if (!sample) {
-    source.textContent = "该变体暂无属性记录";
-    facts.innerHTML = "<span>该变体暂无对应的等效属性记录</span>";
+    source.textContent = "No property record for this variant";
+    facts.innerHTML = "<span>No effective-property record is attached to this variant.</span>";
     mechanicalBars.replaceChildren();
     thermalBars.replaceChildren();
     mechanicalMatrix.replaceChildren();
     thermalMatrix.replaceChildren();
-    quality.textContent = "属性将在样本记录与拓扑变体编号匹配后显示。";
+    quality.textContent = "Properties appear when a full sample record matches this variant.";
     return;
   }
-  source.textContent = sample.id === variant.id ? `属性记录 ${sample.id}` : `参考记录 ${sample.id}`;
+  source.textContent = sample.id === variant.id ? "Property record for selected variant" : "Reference property record";
   const factItems = [
     ["VF", formatPercent(sample.density)],
-    ["杆半径 r", formatValue(sample.radius, 5)],
-    ["平均杨氏模量 Ē", formatValue(sample.youngsModulus, 4)],
+    ["Rod radius r", formatValue(sample.radius, 5)],
+    ["Mean Young's modulus Ē", formatValue(sample.youngsModulus, 4)],
     ["mean diag(K)", formatValue(sample.thermalDiagonalMean, 4)],
   ];
   factItems.forEach(([label, value]) => {
@@ -496,23 +569,26 @@ function renderTopologyProperties(sample, variant) {
   thermalBars.innerHTML = barsMarkup(sample.Kdiag, ["Kₓₓ", "Kᵧᵧ", "Kzz"]);
   mechanicalMatrix.innerHTML = matrixMarkup(sample.C, ["xx", "yy", "zz", "xy", "yz", "zx"]);
   thermalMatrix.innerHTML = matrixMarkup(sample.K, ["x", "y", "z"]);
-  quality.textContent = `质量：最小特征值 C=${formatValue(sample.minC, 5)} · K=${formatValue(sample.minK, 5)}；残差 C=${formatValue(sample.mechanicalResidual, 2)} · K=${formatValue(sample.thermalResidual, 2)}。`;
+  quality.textContent = `Quality: min eigenvalues C=${formatValue(sample.minC, 5)} · K=${formatValue(sample.minK, 5)}; residuals C=${formatValue(sample.mechanicalResidual, 2)} · K=${formatValue(sample.thermalResidual, 2)}.`;
 }
 
 function itemDisplacementText(variant) {
-  if (!variant.node_displacements?.length) return "该样本没有额外节点位移；模型变化来自该样本的杆半径。";
+  if (!variant.node_displacements?.length) return "This variant has no additional node displacement; its geometry changes through rod radius.";
   const parts = variant.node_displacements.map(([index, dx, dy, dz]) => {
     const values = [dx, dy, dz].map((value, axis) => Math.abs(value) > 1e-12 ? `${"xyz"[axis]}${value >= 0 ? "+" : ""}${value.toFixed(4)}` : null).filter(Boolean);
     return `N${index} (${values.join(", ")})`;
   });
-  return `节点位置变化：${parts.join("；")}`;
+  return `Node displacements: ${parts.join("; ")}`;
 }
 
 function openTopology(topology) {
   state.selectedFullSample = null;
   state.selectedTopology = topology;
   state.selectedTopologyVariant = 0;
+  state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
+  state.showMesh = false;
+  state.showTopology = true;
   els.topologyDialog.showModal();
   renderTopologyDialog();
 }
@@ -573,11 +649,11 @@ function cardFor(sample, position) {
   card.style.setProperty("--card-accent", accent[sample.source]);
   const button = card.querySelector(".card-open");
   button.dataset.id = sample.id;
-  button.setAttribute("aria-label", `查看 ${sample.id} 的几何与属性`);
+  button.setAttribute("aria-label", `Open geometry and properties for ${sample.id}`);
   const image = card.querySelector(".card-image");
   image.dataset.id = sample.id;
-  image.setAttribute("aria-label", `${sample.id} 的蓝色骨架和节点`);
-  card.querySelector(".card-source").textContent = sample.dataset === "gap_samples" ? `${labels[sample.source]} · VF 补齐` : labels[sample.source];
+  image.setAttribute("aria-label", `${sample.id} blue skeleton and nodes`);
+  card.querySelector(".card-source").textContent = sample.dataset === "gap_samples" ? `${labels[sample.source]} · VF gap fill` : labels[sample.source];
   card.querySelector(".card-index").textContent = String(position + 1).padStart(3, "0");
   card.querySelector("h3").textContent = sample.id;
   card.querySelector(".density-pill").textContent = formatPercent(sample.density);
@@ -597,7 +673,7 @@ function render() {
   els.resultCount.textContent = `${samples.length} / ${state.payload.sampleCount} SAMPLES`;
   els.empty.hidden = samples.length !== 0;
   els.loadMore.hidden = shown.length >= samples.length;
-  els.loadMore.textContent = `加载更多结构 · ${samples.length - shown.length} remaining`;
+  els.loadMore.textContent = `Load more records · ${samples.length - shown.length} remaining`;
 }
 
 function filteredIndexRows() {
@@ -626,7 +702,7 @@ function renderSampleIndex() {
   for (const row of visible) {
     const tr = document.createElement("tr");
     const values = [
-      row.n.toLocaleString("zh-CN"),
+      row.n.toLocaleString("en-US"),
       row.id,
       labels[row.source] || row.source,
       row.topology_id,
@@ -647,14 +723,14 @@ function renderSampleIndex() {
     action.type = "button";
     action.className = "sample-index-open";
     action.dataset.indexRow = String(row.n);
-    action.textContent = "查看";
+    action.textContent = "Open";
     actionCell.append(action);
     tr.append(actionCell);
     tbody.append(tr);
   }
   els.sampleIndexEmpty.hidden = rows.length !== 0;
-  els.sampleIndexStats.textContent = `${rows.length.toLocaleString("zh-CN")} 条匹配 · 主数据 ${state.sampleIndex.counts.samples.toLocaleString("zh-CN")} · VF 补齐 ${state.sampleIndex.counts.gap_samples.toLocaleString("zh-CN")} · 分页 ${state.sampleIndexPageSize} / 页`;
-  els.sampleIndexPageLabel.textContent = `第 ${state.sampleIndexPage.toLocaleString("zh-CN")} / ${totalPages.toLocaleString("zh-CN")} 页`;
+  els.sampleIndexStats.textContent = `${rows.length.toLocaleString("en-US")} matches · ${state.sampleIndex.counts.samples.toLocaleString("en-US")} primary · ${state.sampleIndex.counts.gap_samples.toLocaleString("en-US")} VF gap fills · ${state.sampleIndexPageSize} / page`;
+  els.sampleIndexPageLabel.textContent = `Page ${state.sampleIndexPage.toLocaleString("en-US")} / ${totalPages.toLocaleString("en-US")}`;
   els.sampleIndexPrev.disabled = state.sampleIndexPage <= 1;
   els.sampleIndexNext.disabled = state.sampleIndexPage >= totalPages;
 }
@@ -670,7 +746,10 @@ function openIndexedSample(row) {
   state.selectedFullSample = sample;
   state.selectedTopology = { ...topology, variants: [sample] };
   state.selectedTopologyVariant = 0;
+  state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
+  state.showMesh = false;
+  state.showTopology = true;
   els.topologyDialog.showModal();
   renderTopologyDialog();
 }
@@ -701,7 +780,7 @@ function openDetail(sample) {
   state.detailYaw = -0.68;
   els.dialog.style.setProperty("--detail-accent", accent[sample.source]);
   const image = document.querySelector("#detail-image");
-  image.setAttribute("aria-label", `${sample.id} 的骨架和杆半径几何，可拖动旋转`);
+  image.setAttribute("aria-label", `${sample.id} skeleton and radius geometry; drag to rotate`);
   const source = document.querySelector("#detail-source");
   source.textContent = labels[sample.source];
   document.querySelector("#detail-title").textContent = sample.id;
@@ -716,12 +795,12 @@ function openDetail(sample) {
   document.querySelector("#thermal-matrix").innerHTML = matrixMarkup(sample.K, ["x", "y", "z"]);
   document.querySelector("#detail-mech-residual").textContent = formatValue(sample.mechanicalResidual, 2);
   document.querySelector("#detail-thermal-residual").textContent = formatValue(sample.thermalResidual, 2);
-  document.querySelector("#detail-mech-iterations").textContent = "已收敛";
-  document.querySelector("#detail-thermal-iterations").textContent = "已收敛";
+  document.querySelector("#detail-mech-iterations").textContent = "Converged";
+  document.querySelector("#detail-thermal-iterations").textContent = "Converged";
 
   const sourceNote = sample.source === "eth"
-    ? `原始样本 #${sample.sourceSampleIndex.toLocaleString("zh-CN")} · 保留原始节点几何扰动 · 可拖动旋转`
-    : `Panetta / MeshFEM topology enumeration · 可拖动旋转`;
+    ? `Original sample #${sample.sourceSampleIndex.toLocaleString("en-US")} · original node geometry retained · drag to rotate`
+    : `Panetta / MeshFEM topology enumeration · drag to rotate`;
   document.querySelector("#detail-source-note").textContent = sourceNote;
 
   els.dialog.showModal();
@@ -729,52 +808,6 @@ function openDetail(sample) {
 }
 
 function bindEvents() {
-  document.querySelectorAll(".source-tab").forEach((button) => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".source-tab").forEach((item) => item.classList.remove("is-active"));
-      button.classList.add("is-active");
-      state.source = button.dataset.source;
-      state.visible = pageSize;
-      render();
-    });
-  });
-  els.search.addEventListener("input", () => {
-    state.query = els.search.value;
-    state.visible = pageSize;
-    render();
-  });
-  els.sortBy.addEventListener("change", () => {
-    state.sortBy = els.sortBy.value;
-    state.visible = pageSize;
-    render();
-  });
-  els.direction.addEventListener("click", () => {
-    state.direction = state.direction === "asc" ? "desc" : "asc";
-    els.direction.querySelector("span").textContent = state.direction === "asc" ? "升序" : "降序";
-    els.direction.setAttribute("aria-label", `当前${state.direction === "asc" ? "升序" : "降序"}，点击切换`);
-    render();
-  });
-  els.loadMore.addEventListener("click", () => {
-    state.visible += pageSize;
-    render();
-  });
-  els.gallery.addEventListener("click", (event) => {
-    const button = event.target.closest(".card-open");
-    if (!button || !state.payload) return;
-    const row = state.payload.samples.find((item) => item.id === button.dataset.id);
-    if (row) openIndexedSample(row);
-  });
-
-  document.querySelectorAll(".topology-source-tab").forEach((button) => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".topology-source-tab").forEach((item) => item.classList.remove("is-active"));
-      button.classList.add("is-active");
-      state.topologySource = button.dataset.topologySource;
-      state.topologyVisible = 24;
-      renderTopologies();
-    });
-  });
-
   els.topologySearch.addEventListener("input", () => {
     state.topologyQuery = els.topologySearch.value;
     state.topologyVisible = 24;
@@ -786,44 +819,6 @@ function bindEvents() {
     renderTopologies();
   });
 
-  document.querySelectorAll(".sample-index-source-tab").forEach((button) => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".sample-index-source-tab").forEach((item) => item.classList.remove("is-active"));
-      button.classList.add("is-active");
-      state.sampleIndexSource = button.dataset.sampleSource;
-      state.sampleIndexPage = 1;
-      renderSampleIndex();
-    });
-  });
-  els.sampleIndexSearch.addEventListener("input", () => {
-    state.sampleIndexQuery = els.sampleIndexSearch.value;
-    state.sampleIndexPage = 1;
-    renderSampleIndex();
-  });
-  els.sampleIndexPageSize.addEventListener("change", () => {
-    state.sampleIndexPageSize = Number(els.sampleIndexPageSize.value) || 50;
-    state.sampleIndexPage = 1;
-    renderSampleIndex();
-  });
-  els.sampleIndexPrev.addEventListener("click", () => {
-    state.sampleIndexPage = Math.max(1, state.sampleIndexPage - 1);
-    renderSampleIndex();
-  });
-  els.sampleIndexNext.addEventListener("click", () => {
-    state.sampleIndexPage += 1;
-    renderSampleIndex();
-  });
-  els.sampleIndexTable.addEventListener("click", (event) => {
-    const button = event.target.closest(".sample-index-open");
-    if (!button || !state.sampleIndex) return;
-    const row = state.sampleIndex.rows.find((item) => item.n === Number(button.dataset.indexRow));
-    if (row) openIndexedSample(row);
-  });
-  document.querySelector("#sample-index-dialog-close").addEventListener("click", () => els.sampleIndexDialog.close());
-  els.sampleIndexDialog.addEventListener("click", (event) => {
-    if (event.target === els.sampleIndexDialog) els.sampleIndexDialog.close();
-  });
-
   els.topologyGrid.addEventListener("click", (event) => {
     const button = event.target.closest(".topology-card-open");
     if (!button || !state.topologyPayload) return;
@@ -832,6 +827,16 @@ function bindEvents() {
   });
 
   document.querySelector("#topology-dialog-close").addEventListener("click", () => els.topologyDialog.close());
+  document.querySelector("#topology-mesh-toggle").addEventListener("click", () => {
+    state.showMesh = !state.showMesh;
+    updateMeshToggle();
+    scheduleTopologyCanvasRender();
+  });
+  document.querySelector("#topology-topology-toggle").addEventListener("click", () => {
+    state.showTopology = !state.showTopology;
+    updateMeshToggle();
+    scheduleTopologyCanvasRender();
+  });
   els.topologyDialog.addEventListener("click", (event) => {
     if (event.target === els.topologyDialog) els.topologyDialog.close();
     const button = event.target.closest(".topology-variant-button");
@@ -850,14 +855,14 @@ function bindEvents() {
     if (topologyDragX === null || !state.selectedTopology) return;
     state.topologyYaw += (event.clientX - topologyDragX) * 0.012;
     topologyDragX = event.clientX;
-    renderTopologyDialog();
+    scheduleTopologyCanvasRender();
   });
   topologyCanvas.addEventListener("pointerup", () => { topologyDragX = null; });
   topologyCanvas.addEventListener("pointercancel", () => { topologyDragX = null; });
 
   window.addEventListener("resize", () => {
     if (state.topologyPayload) drawTopologyCanvases();
-    if (els.topologyDialog.open && state.selectedTopology) renderTopologyDialog();
+    if (els.topologyDialog.open && state.selectedTopology) scheduleTopologyCanvasRender();
   });
 }
 
@@ -874,7 +879,8 @@ async function initialize() {
     state.topologyPayload = topologyPayload;
     state.catalogById = new Map(catalog.topologies.map((topology) => [topology.id, topology]));
     // The compact records retain full C_H/K_H tensors for the topology detail
-    // panel. The full gallery uses the lightweight 120,894-row index.
+    // panel. Full variant metadata is loaded in the background so each
+    // topology can expose every matching record without rendering an index.
     state.samplesById = new Map(compact.samples.map((sample) => [sample.id, normalizeSample(sample)]));
     state.samplesByTopology = new Map();
     for (const sample of state.samplesById.values()) {
@@ -886,31 +892,46 @@ async function initialize() {
     // index is intentionally fetched afterwards so the first paint is not
     // blocked by parsing a large metadata payload.
     try {
-      if (typeof DecompressionStream === "undefined") throw new Error("当前浏览器不支持压缩索引加载");
+      if (typeof DecompressionStream === "undefined") throw new Error("This browser cannot load compressed indexes");
       const loadIndexPart = async (partNumber) => {
         const indexResponse = await fetch(`sample_index_${partNumber}.json.gz?v=3`);
-        if (!indexResponse.ok || !indexResponse.body) throw new Error(`索引分片 ${partNumber} HTTP ${indexResponse.status}`);
+        if (!indexResponse.ok || !indexResponse.body) throw new Error(`Index part ${partNumber} HTTP ${indexResponse.status}`);
         const decompressed = indexResponse.body.pipeThrough(new DecompressionStream("gzip"));
         return new Response(decompressed).json();
       };
       const parts = await Promise.all([1, 2, 3, 4].map(loadIndexPart));
       state.sampleIndex = { ...parts[0], rows: parts.flatMap((part) => part.rows) };
+      state.indexRowsById = new Map(state.sampleIndex.rows.map((row) => [row.id, row]));
+      state.fullVariantsByTopology = new Map();
+      for (const row of state.sampleIndex.rows) {
+        const topologyVariants = state.fullVariantsByTopology.get(row.topology_id) || [];
+        topologyVariants.push({
+          id: row.id,
+          radius: Number(row.radius),
+          density: Number(row.density),
+          node_displacements: row.node_displacements || [],
+        });
+        state.fullVariantsByTopology.set(row.topology_id, topologyVariants);
+      }
       state.payload = {
         sampleCount: state.sampleIndex.counts.all,
         uniqueVoxelCount: 0,
         samples: state.sampleIndex.rows,
       };
-      els.sampleIndexLoading.remove();
-      els.loading.remove();
-      render();
-      renderSampleIndex();
+      if (els.sampleIndexLoading) els.sampleIndexLoading.remove();
+      // Replace the representative variant lists with all records available
+      // for each curated topology. The first paint still uses the compact
+      // topology payload, so parsing the full variant metadata never blocks the gallery.
+      renderTopologies();
+      if (els.topologyDialog.open && state.selectedTopology) renderTopologyDialog();
     } catch (indexError) {
-      els.sampleIndexLoading.innerHTML = `<strong>全量索引载入失败</strong><span>${indexError.message}</span>`;
+      console.warn("Full variant metadata failed to load", indexError);
     }
   } catch (error) {
-    els.topologyLoading.innerHTML = `<strong>数据载入失败</strong><span>${error.message}</span>`;
-    if (els.sampleIndexLoading) els.sampleIndexLoading.innerHTML = `<strong>全量索引载入失败</strong><span>${error.message}</span>`;
+    els.topologyLoading.innerHTML = `<strong>Data failed to load</strong><span>${error.message}</span>`;
+    console.warn("Full variant metadata failed to load", error);
   }
 }
 
 initialize();
+
