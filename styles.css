@@ -817,11 +817,8 @@ footer p { margin: 0; }
 .topology-variant-facts { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 5px 8px; }
 .topology-variant-facts b { color: var(--ink); font-weight: 600; }
 .topology-variant-facts em { grid-column: 1 / -1; color: var(--faint); font-style: normal; }
-.variant-radius-meter { position: relative; display: block; height: 7px; min-width: 68px; overflow: hidden; border-radius: 4px; background: rgba(159,186,213,.18); }
-.variant-radius-meter::after { content: ""; position: absolute; inset: 0 auto 0 0; width: clamp(10px, var(--radius-level), 100%); border-radius: inherit; background: linear-gradient(90deg, #ffd166, #fff1a8); box-shadow: 0 0 10px rgba(255,209,102,.62); }
 .topology-variant-info { margin-top: 16px; padding: 13px; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); background: rgba(9, 20, 34, .55); font: 11px/1.65 var(--font-mono); }
 .topology-variant-info p { margin: 0; }
-.topology-variant-info .radius-note { margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--line); color: var(--cyan); }
 .legend-radius { display: inline-block; width: 34px; height: 8px; margin-right: 6px; vertical-align: 0; border-radius: 5px; background: #ffd166; box-shadow: 0 0 10px rgba(255,209,102,.68); }
 .topology-properties { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line-strong); }
 .topology-properties-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; }
