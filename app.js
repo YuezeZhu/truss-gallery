@@ -24,6 +24,7 @@ const state = {
   selectedTopologyVariantRecord: null,
   topologyYaw: -0.68,
   topologyDragging: false,
+  topologyPreview: false,
   showMesh: false,
   showTopology: true,
   topologyCanvasFrame: 0,
@@ -497,9 +498,9 @@ function renderTopologyCanvas() {
       mode: "surface",
       // Use a lighter preview while dragging, then restore a denser, sharper
       // mesh as soon as the pointer is released.
-      surfaceResolution: state.topologyDragging ? 20 : 40,
-      pixelRatio: state.topologyDragging ? 1.25 : 2,
-      meshWireframe: !state.topologyDragging,
+      surfaceResolution: state.topologyDragging || state.topologyPreview ? 10 : 40,
+      pixelRatio: state.topologyDragging || state.topologyPreview ? 1.1 : 2,
+      meshWireframe: !(state.topologyDragging || state.topologyPreview),
       surfaceColor: { body: "#f08a24", light: "#fff0bd", shade: "#6b2f08" },
       meshEdgeColor: "#ffe1a0", meshEdgeAlpha: 0.38, meshEdgeWidth: 0.0058,
       overlaySkeleton: true, overlaySkeletonColor: "#4cc7ff", overlaySkeletonWidth: 1.25,
@@ -529,6 +530,7 @@ function queueTopologyMeshUpgrade(delay = 180) {
   if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
   state.topologyQualityTimer = window.setTimeout(() => {
     state.topologyQualityTimer = 0;
+    state.topologyPreview = false;
     if (state.showMesh && !state.topologyDragging) scheduleTopologyCanvasRender();
   }, delay);
 }
@@ -591,6 +593,7 @@ function openTopology(topology) {
   state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
   state.topologyDragging = false;
+  state.topologyPreview = false;
   if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
   state.showMesh = false;
   state.showTopology = true;
@@ -754,6 +757,7 @@ function openIndexedSample(row) {
   state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
   state.topologyDragging = false;
+  state.topologyPreview = false;
   if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
   state.showMesh = false;
   state.showTopology = true;
@@ -836,9 +840,9 @@ function bindEvents() {
   document.querySelector("#topology-dialog-close").addEventListener("click", () => els.topologyDialog.close());
   document.querySelector("#topology-mesh-toggle").addEventListener("click", () => {
     state.showMesh = !state.showMesh;
-    // First show a lightweight preview so the control responds immediately;
+    // First show a very lightweight preview so the control responds quickly;
     // the denser mesh is queued after the browser has painted the preview.
-    state.topologyDragging = state.showMesh;
+    state.topologyPreview = state.showMesh;
     updateMeshToggle();
     scheduleTopologyCanvasRender();
     if (state.showMesh) queueTopologyMeshUpgrade();
@@ -860,6 +864,8 @@ function bindEvents() {
   let topologyDragX = null;
   topologyCanvas.addEventListener("pointerdown", (event) => {
     topologyDragX = event.clientX;
+    if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
+    state.topologyPreview = false;
     state.topologyDragging = true;
     topologyCanvas.setPointerCapture(event.pointerId);
     scheduleTopologyCanvasRender();
@@ -873,12 +879,14 @@ function bindEvents() {
   topologyCanvas.addEventListener("pointerup", () => {
     topologyDragX = null;
     state.topologyDragging = false;
-    scheduleTopologyCanvasRender();
+    if (state.showMesh) queueTopologyMeshUpgrade(260);
+    else scheduleTopologyCanvasRender();
   });
   topologyCanvas.addEventListener("pointercancel", () => {
     topologyDragX = null;
     state.topologyDragging = false;
-    scheduleTopologyCanvasRender();
+    if (state.showMesh) queueTopologyMeshUpgrade(260);
+    else scheduleTopologyCanvasRender();
   });
 
   window.addEventListener("resize", () => {
