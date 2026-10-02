@@ -498,8 +498,8 @@ function renderTopologyCanvas() {
       mode: "surface",
       // Use a lighter preview while dragging, then restore a denser, sharper
       // mesh as soon as the pointer is released.
-      surfaceResolution: state.topologyDragging || state.topologyPreview ? 10 : 40,
-      pixelRatio: state.topologyDragging || state.topologyPreview ? 1.1 : 2,
+      surfaceResolution: state.topologyDragging || state.topologyPreview ? 8 : 18,
+      pixelRatio: state.topologyDragging || state.topologyPreview ? 1.1 : 1.7,
       meshWireframe: !(state.topologyDragging || state.topologyPreview),
       surfaceColor: { body: "#f08a24", light: "#fff0bd", shade: "#6b2f08" },
       meshEdgeColor: "#ffe1a0", meshEdgeAlpha: 0.38, meshEdgeWidth: 0.0058,
@@ -843,9 +843,13 @@ function bindEvents() {
     // First show a very lightweight preview so the control responds quickly;
     // the denser mesh is queued after the browser has painted the preview.
     state.topologyPreview = state.showMesh;
+    if (!state.showMesh && state.topologyQualityTimer) {
+      window.clearTimeout(state.topologyQualityTimer);
+      state.topologyQualityTimer = 0;
+      state.topologyPreview = false;
+    }
     updateMeshToggle();
     scheduleTopologyCanvasRender();
-    if (state.showMesh) queueTopologyMeshUpgrade();
   });
   document.querySelector("#topology-topology-toggle").addEventListener("click", () => {
     state.showTopology = !state.showTopology;
