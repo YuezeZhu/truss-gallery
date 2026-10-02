@@ -27,6 +27,7 @@ const state = {
   showMesh: false,
   showTopology: true,
   topologyCanvasFrame: 0,
+  topologyQualityTimer: 0,
   samplesById: new Map(),
   samplesByTopology: new Map(),
   indexRowsById: new Map(),
@@ -496,7 +497,7 @@ function renderTopologyCanvas() {
       mode: "surface",
       // Use a lighter preview while dragging, then restore a denser, sharper
       // mesh as soon as the pointer is released.
-      surfaceResolution: state.topologyDragging ? 24 : 44,
+      surfaceResolution: state.topologyDragging ? 20 : 40,
       pixelRatio: state.topologyDragging ? 1.25 : 2,
       meshWireframe: !state.topologyDragging,
       surfaceColor: { body: "#f08a24", light: "#fff0bd", shade: "#6b2f08" },
@@ -522,6 +523,14 @@ function scheduleTopologyCanvasRender() {
     state.topologyCanvasFrame = 0;
     renderTopologyCanvas();
   });
+}
+
+function queueTopologyMeshUpgrade(delay = 180) {
+  if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
+  state.topologyQualityTimer = window.setTimeout(() => {
+    state.topologyQualityTimer = 0;
+    if (state.showMesh && !state.topologyDragging) scheduleTopologyCanvasRender();
+  }, delay);
 }
 
 function renderTopologyProperties(sample, variant) {
@@ -581,6 +590,8 @@ function openTopology(topology) {
   state.selectedTopologyVariant = 0;
   state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
+  state.topologyDragging = false;
+  if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
   state.showMesh = false;
   state.showTopology = true;
   els.topologyDialog.showModal();
@@ -742,6 +753,8 @@ function openIndexedSample(row) {
   state.selectedTopologyVariant = 0;
   state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
+  state.topologyDragging = false;
+  if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
   state.showMesh = false;
   state.showTopology = true;
   els.topologyDialog.showModal();
@@ -823,8 +836,12 @@ function bindEvents() {
   document.querySelector("#topology-dialog-close").addEventListener("click", () => els.topologyDialog.close());
   document.querySelector("#topology-mesh-toggle").addEventListener("click", () => {
     state.showMesh = !state.showMesh;
+    // First show a lightweight preview so the control responds immediately;
+    // the denser mesh is queued after the browser has painted the preview.
+    state.topologyDragging = state.showMesh;
     updateMeshToggle();
     scheduleTopologyCanvasRender();
+    if (state.showMesh) queueTopologyMeshUpgrade();
   });
   document.querySelector("#topology-topology-toggle").addEventListener("click", () => {
     state.showTopology = !state.showTopology;
