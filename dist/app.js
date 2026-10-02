@@ -325,9 +325,19 @@ function drawCardCanvases() {
   requestAnimationFrame(drawNext);
 }
 
-function topologyVariantLabel(variant) {
+function topologyDisplayName(topology) {
+  const topologies = state.topologyPayload?.topologies || [];
+  const index = topologies.findIndex((item) => item.id === topology?.id || item.catalog_id === topology?.catalog_id);
+  return `Lattice ${String(Math.max(0, index) + 1).padStart(4, "0")}`;
+}
+
+function variantDisplayName(topology, index) {
+  return `${topologyDisplayName(topology)} · Variant ${String(index + 1).padStart(3, "0")}`;
+}
+
+function topologyVariantLabel(variant, topology, index = 0) {
   const moved = variant.node_displacements?.length || 0;
-  return `${variant.id} · r=${variant.radius.toFixed(4)} · ${moved} moved`;
+  return `${variantDisplayName(topology, index)} · r=${variant.radius.toFixed(4)} · ${moved} moved`;
 }
 
 function filteredTopologies() {
@@ -359,11 +369,11 @@ function topologyCardFor(topology, position) {
   const button = card.querySelector(".topology-card-open");
   const canvas = card.querySelector(".topology-card-image");
   button.dataset.topologyId = topology.id;
-  button.setAttribute("aria-label", `Open ${topology.id} node-position and radius variants`);
+  button.setAttribute("aria-label", `Open ${topologyDisplayName(topology)} node-position and radius variants`);
   canvas.dataset.topologyId = topology.id;
   card.style.setProperty("--card-accent", accent[topology.source]);
   card.querySelector(".topology-card-index").textContent = String(position + 1).padStart(3, "0");
-  card.querySelector("h3").textContent = topology.id;
+  card.querySelector("h3").textContent = topologyDisplayName(topology);
   const hasNodePerturbations = topology.variants.some((item) => item.node_displacements?.length);
   card.querySelector(".topology-card-variant-pill").textContent = hasNodePerturbations
     ? `${variants.length} variants`
@@ -409,13 +419,13 @@ function renderTopologyDialog() {
   const radiusSpan = Math.max(radiusMax - radiusMin, 1e-9);
   const dialog = els.topologyDialog;
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
-  document.querySelector("#topology-dialog-title").textContent = topology.id;
+  document.querySelector("#topology-dialog-title").textContent = topologyDisplayName(topology);
   const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
   document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
     ? `${topology.nodes.length} nodes · ${topology.edges.length} members · connectivity fixed; node positions and radius vary by record`
     : `${topology.nodes.length} nodes · ${topology.edges.length} members · node positions fixed; variants change radius only`;
   document.querySelector("#topology-dialog-variant-count").textContent = `${browserVariants.length} geometry variants · ${propertySample ? "1 property record loaded" : "no property record loaded"}`;
-  document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant);
+  document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant, topology, state.selectedTopologyVariant);
   const list = document.querySelector("#topology-variant-list");
   list.replaceChildren();
   variants.forEach((item, index) => {
@@ -424,7 +434,7 @@ function renderTopologyDialog() {
     button.className = `topology-variant-button${index === state.selectedTopologyVariant ? " is-active" : ""}`;
     button.dataset.variantIndex = String(index);
     const title = document.createElement("strong");
-    title.textContent = item.id;
+    title.textContent = variantDisplayName(topology, index);
     const facts = document.createElement("span");
     facts.className = "topology-variant-facts";
     const radiusText = document.createElement("b");
@@ -453,7 +463,7 @@ function renderTopologyDialog() {
     : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
   renderTopologyProperties(variantProperties, variant);
   const canvas = document.querySelector("#topology-detail-canvas");
-  canvas.setAttribute("aria-label", `${topology.id} skeleton and ${variant.id} variant`);
+  canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, state.selectedTopologyVariant)}`);
   updateMeshToggle();
   scheduleTopologyCanvasRender();
 }
@@ -539,7 +549,7 @@ function renderTopologyProperties(sample, variant) {
     quality.textContent = "Properties appear when a full sample record matches this variant.";
     return;
   }
-  source.textContent = sample.id === variant.id ? `Property record ${sample.id}` : `Reference record ${sample.id}`;
+  source.textContent = sample.id === variant.id ? "Property record for selected variant" : "Reference property record";
   const factItems = [
     ["VF", formatPercent(sample.density)],
     ["Rod radius r", formatValue(sample.radius, 5)],
