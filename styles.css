@@ -793,6 +793,12 @@ footer p { margin: 0; }
 .topology-variant-count { color: var(--cyan); font: 11px/1 var(--font-mono); white-space: nowrap; }
 .topology-detail-layout { display: grid; grid-template-columns: minmax(420px, 1.1fr) minmax(300px, .9fr); gap: 24px; padding-top: 24px; }
 .topology-detail-visual { min-width: 0; }
+.topology-visual-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+.visual-toggle-group { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
+.visual-mode-label { color: var(--faint); font: 10px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+.mesh-toggle { min-height: 32px; padding: 0 11px; border: 1px solid var(--line-strong); border-radius: 7px; color: var(--ink); background: rgba(76,199,255,.08); font: 11px/1 var(--font-mono); transition: border-color 150ms ease, background 150ms ease, color 150ms ease; }
+.mesh-toggle:hover, .mesh-toggle:focus-visible { border-color: var(--cyan); background: rgba(76,199,255,.15); }
+.mesh-toggle.is-active { border-color: rgba(255,209,102,.7); color: #ffe8a0; background: rgba(255,209,102,.12); }
 .topology-detail-visual canvas { display: block; width: 100%; height: 470px; border: 1px solid var(--line); border-radius: 12px; background: #091523; touch-action: none; }
 .topology-detail-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; color: var(--muted); font-size: 11px; font-weight: 500; }
 .legend-node, .legend-line { display: inline-block; vertical-align: -1px; margin-right: 5px; }
@@ -856,15 +862,8 @@ footer p { margin: 0; }
   .topology-property-bars { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Full 100k record index */
-.topology-browser { display: contents; }
-.topology-browser > .topology-browser-head,
-.topology-browser > .topology-controls,
-.topology-browser > #topology-loading,
-.topology-browser > #topology-grid,
-.topology-browser > #topology-empty,
-.topology-browser > .load-more-wrap,
-.topology-browser > .sample-index-panel { display: none !important; }
+/* The topology browser is the only gallery surface. */
+.topology-browser { display: block; }
 .full-gallery-section { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--line-strong); }
 .full-gallery-head { margin-bottom: 28px; }
 .full-gallery-head p:not(.section-kicker) { max-width: 620px; margin: 11px 0 0; }
