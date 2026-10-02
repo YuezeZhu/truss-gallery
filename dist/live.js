@@ -1,5 +1,5 @@
 (() => {
-  const number = new Intl.NumberFormat("zh-CN");
+  const number = new Intl.NumberFormat("en-US");
   const els = {
     state: document.querySelector("#live-state"),
     count: document.querySelector("#live-count"),
@@ -20,11 +20,11 @@
   }
 
   function formatEta(seconds) {
-    if (!Number.isFinite(seconds) || seconds <= 0) return "估算中";
+    if (!Number.isFinite(seconds) || seconds <= 0) return "Estimating";
     const hours = Math.ceil(seconds / 3600);
-    if (hours >= 48) return `约 ${(hours / 24).toFixed(1)} 天`;
-    if (hours >= 1) return `约 ${hours} 小时`;
-    return `约 ${Math.max(1, Math.ceil(seconds / 60))} 分钟`;
+    if (hours >= 48) return `About ${(hours / 24).toFixed(1)} days`;
+    if (hours >= 1) return `About ${hours} hours`;
+    return `About ${Math.max(1, Math.ceil(seconds / 60))} minutes`;
   }
 
   function fullMatrix(upper, size) {
@@ -59,18 +59,18 @@
     heading.append(id, source);
     const canvas = document.createElement("canvas");
     canvas.setAttribute("role", "img");
-    canvas.setAttribute("aria-label", `${sample.id} 的三维点阵骨架`);
+    canvas.setAttribute("aria-label", `${sample.id} 3D lattice skeleton`);
     const facts = document.createElement("div");
     facts.className = "live-card-data";
-    metric(facts, "体积分数", `${(sample.quality.relative_density * 100).toFixed(2)}%`);
+    metric(facts, "Volume fraction", `${(sample.quality.relative_density * 100).toFixed(2)}%`);
     metric(facts, "C₁₁", formatMetric(sample.C_H_upper[0]));
     metric(facts, "C₄₄", formatMetric(sample.C_H_upper[15]));
     metric(facts, "Kₓₓ", formatMetric(sample.K_H_upper[0]));
     const details = document.createElement("details");
     const summary = document.createElement("summary");
-    summary.textContent = "完整 Cₕ / Kₕ 张量与参数";
+    summary.textContent = "Full Cₕ / Kₕ tensors and parameters";
     const table = document.createElement("pre");
-    table.textContent = `C_H [xx, yy, zz, xy, yz, zx]\n${fullMatrix(sample.C_H_upper, 6)}\n\nK_H [x, y, z]\n${fullMatrix(sample.K_H_upper, 3)}\n\n半径 ${sample.radius.toFixed(6)} · 移动节点 ${sample.node_displacements.length} · 周期面对齐`;
+    table.textContent = `C_H [xx, yy, zz, xy, yz, zx]\n${fullMatrix(sample.C_H_upper, 6)}\n\nK_H [x, y, z]\n${fullMatrix(sample.K_H_upper, 3)}\n\nRadius ${sample.radius.toFixed(6)} · moved nodes ${sample.node_displacements.length} · periodic faces aligned`;
     details.append(summary, table);
     article.append(heading, canvas, facts, details);
     let yaw = -0.68;
@@ -96,18 +96,18 @@
     const percent = accepted / goal * 100;
     const updated = payload.updated_at ? new Date(payload.updated_at) : null;
     const stale = updated && Date.now() - updated.getTime() > 120000;
-    const labels = { running: "正在生成", paused: "已暂停，可续跑", complete: "全部完成", error: "生成遇到问题", preparing: "正在准备" };
+    const labels = { running: "Generating", paused: "Paused; can resume", complete: "Complete", error: "Generation error", preparing: "Preparing" };
     const status = stale && payload.status === "running" ? "stale" : payload.status;
     els.state.dataset.status = status;
-    els.state.textContent = status === "stale" ? "进度暂未更新" : labels[status] || "等待连接";
+    els.state.textContent = status === "stale" ? "Progress is stale" : labels[status] || "Waiting for connection";
     els.count.textContent = number.format(accepted);
     els.percent.textContent = `${percent.toFixed(2)}%`;
-    els.eta.textContent = payload.status === "complete" ? "已完成" : formatEta(payload.eta_seconds);
+    els.eta.textContent = payload.status === "complete" ? "Complete" : formatEta(payload.eta_seconds);
     els.progress.max = goal;
     els.progress.value = accepted;
-    const speed = payload.samples_per_second ? `${(payload.samples_per_second * 60).toFixed(1)} 条/分钟` : "速度估算中";
-    els.foot.textContent = `已尝试 ${number.format(payload.attempts || 0)} 条 · 退回 ${number.format(payload.rejected || 0)} 条 · ${speed} · 仅验收实际体积分数合格、几何不重复且性质求解通过的样本`;
-    els.refreshed.textContent = updated ? `更新于 ${updated.toLocaleTimeString("zh-CN", { hour12: false })} · 每 8 秒刷新` : "每 8 秒自动更新";
+    const speed = payload.samples_per_second ? `${(payload.samples_per_second * 60).toFixed(1)} records/min` : "Estimating speed";
+    els.foot.textContent = `Tried ${number.format(payload.attempts || 0)} · rejected ${number.format(payload.rejected || 0)} · ${speed} · only records with valid VF, unique geometry, and converged properties are accepted`;
+    els.refreshed.textContent = updated ? `Updated ${updated.toLocaleTimeString("en-US", { hour12: false })} · refreshes every 8 seconds` : "Auto-refresh every 8 seconds";
     els.bins.replaceChildren();
     for (const bin of payload.density_bins || []) {
       const item = document.createElement("div");
@@ -128,7 +128,7 @@
     if (!payload.latest?.length) {
       const waiting = document.createElement("p");
       waiting.className = "generation-empty";
-      waiting.textContent = "正在等待首批通过校验的样本…";
+      waiting.textContent = "Waiting for the first validated samples…";
       els.results.append(waiting);
       return;
     }
@@ -146,8 +146,8 @@
       show(await response.json());
     } catch (_) {
       els.state.dataset.status = "error";
-      els.state.textContent = "实时进度暂不可用";
-      els.foot.textContent = "生成记录仍保存在计算主机；恢复连接后会继续显示。";
+      els.state.textContent = "Live progress unavailable";
+      els.foot.textContent = "Generation records remain on the compute host; progress will resume when the connection returns.";
     }
   }
 

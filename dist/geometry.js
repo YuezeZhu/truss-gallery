@@ -178,10 +178,10 @@
       ctx.closePath();
       ctx.fillStyle = triangle.fill;
       ctx.fill();
-      ctx.strokeStyle = options.meshWireframe ? color.light : color.shade;
-      ctx.globalAlpha = options.meshWireframe ? 0.34 : 0.055;
+      ctx.strokeStyle = options.meshWireframe ? (options.meshEdgeColor || color.light) : color.shade;
+      ctx.globalAlpha = options.meshWireframe ? (options.meshEdgeAlpha || 0.5) : 0.055;
       ctx.lineWidth = options.meshWireframe
-        ? Math.max(0.45, scale * 0.0055)
+        ? Math.max(0.55, scale * (options.meshEdgeWidth || 0.0065))
         : Math.max(0.25, scale * 0.003);
       ctx.stroke();
       ctx.globalAlpha = 1;
@@ -320,6 +320,7 @@
       ctx.beginPath(); ctx.moveTo(...a); ctx.lineTo(...b); ctx.stroke();
     }
 
+    const showTopology = options.showTopology !== false;
     const geometry = makeGeometry(sample, topology);
     // Topology-browser variants are compact records and inherit their source
     // from the parent topology rather than duplicating it per variant.
@@ -331,10 +332,10 @@
       const mesh = extractSurface(geometry, sample.radius, resolution, options.paddingVoxels ?? 1);
       if (mode === "implicit") renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale);
       else renderSurface(ctx, mesh, project, rotate, options.surfaceColor || color, width, height, scale, options);
-      if (options.overlaySkeleton) {
+      if (showTopology && options.overlaySkeleton) {
         renderSkeletonOverlay(ctx, geometry, project, options.overlaySkeletonColor || "#4cc7ff", options);
       }
-      if (options.showNodes) {
+      if (showTopology && options.showNodes) {
         const nodeRadius = options.nodeRadius || 4.8;
         for (const node of geometry.nodes.map(project)) {
           ctx.beginPath();
@@ -350,7 +351,7 @@
           ctx.stroke();
         }
       }
-      if (options.highlightEntries && options.showDisplacementGuides !== false) {
+      if (showTopology && options.highlightEntries && options.showDisplacementGuides !== false) {
         ctx.font = "bold 10px ui-monospace, Consolas, monospace";
         for (const [index, dx, dy, dz] of options.highlightEntries) {
           const base = project(topology.nodes[index]);
@@ -372,6 +373,7 @@
       }
       return mesh.triangles.length;
     }
+    if (!showTopology) return 0;
     const projected = geometry.nodes.map(project);
     const edges = geometry.edges.map(([a, b]) => ({ a: projected[a], b: projected[b] }));
     edges.sort((left, right) => (left.a[2] + left.b[2]) - (right.a[2] + right.b[2]));
