@@ -23,6 +23,7 @@ const state = {
   selectedTopologyVariant: 0,
   selectedTopologyVariantRecord: null,
   topologyYaw: -0.68,
+  topologyDragging: false,
   showMesh: false,
   showTopology: true,
   topologyCanvasFrame: 0,
@@ -78,6 +79,7 @@ const els = {
 function formatValue(value, digits = 3) {
   if (value === null || value === undefined || !Number.isFinite(value)) return "—";
   const absolute = Math.abs(value);
+  if (absolute < 1e-7) return "0";
   if ((absolute > 0 && absolute < 0.001) || absolute >= 1000) return value.toExponential(2);
   return value.toFixed(digits);
 }
@@ -439,13 +441,10 @@ function renderTopologyDialog() {
     facts.className = "topology-variant-facts";
     const radiusText = document.createElement("b");
     radiusText.textContent = `r=${item.radius.toFixed(5)}`;
-    const meter = document.createElement("i");
-    meter.className = "variant-radius-meter";
-    meter.style.setProperty("--radius-level", `${((item.radius - radiusMin) / radiusSpan) * 100}%`);
     const detailText = document.createElement("em");
     const propertyNote = state.selectedFullSample?.id === item.id || state.samplesById.has(item.id) || state.indexRowsById.has(item.id) ? " · Cₕ/Kₕ loaded" : "";
     detailText.textContent = `VF ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} moved nodes${propertyNote}`;
-    facts.append(radiusText, meter, detailText);
+    facts.append(radiusText, detailText);
     button.append(title, facts);
     list.append(button);
   });
@@ -454,10 +453,6 @@ function renderTopologyDialog() {
   const intro = document.createElement("p");
   intro.textContent = itemDisplacementText(variant);
   info.append(intro);
-  const radiusNote = document.createElement("p");
-  radiusNote.className = "radius-note";
-  radiusNote.textContent = `Blue lines are the topology. The orange mesh uses the actual diameter 2r; current r=${variant.radius.toFixed(5)}.`;
-  info.append(radiusNote);
   const variantProperties = state.selectedFullSample?.id === variant.id
     ? state.selectedFullSample
     : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
@@ -489,12 +484,6 @@ function updateMeshToggle() {
   }
   document.querySelector("#topology-legend-nodes")?.toggleAttribute("hidden", !state.showTopology);
   document.querySelector("#topology-legend-skeleton")?.toggleAttribute("hidden", !state.showTopology);
-  const radiusNote = document.querySelector("#topology-variant-info .radius-note");
-  if (radiusNote && state.selectedTopologyVariantRecord) {
-    radiusNote.textContent = state.showTopology
-      ? `Blue lines are the topology. The orange mesh uses the actual diameter 2r; current r=${state.selectedTopologyVariantRecord.radius.toFixed(5)}.`
-      : `Topology hidden. The orange mesh uses the actual diameter 2r; current r=${state.selectedTopologyVariantRecord.radius.toFixed(5)}.`;
-  }
 }
 
 function renderTopologyCanvas() {
@@ -504,9 +493,14 @@ function renderTopologyCanvas() {
   if (!topology || !variant || !canvas) return;
   const meshOptions = state.showMesh
     ? {
-      mode: "surface", surfaceResolution: 36, meshWireframe: true,
-      surfaceColor: { body: "#ff9f1c", light: "#fff4c2", shade: "#6b2d08" },
-      meshEdgeColor: "#fff0a8", meshEdgeAlpha: 0.68, meshEdgeWidth: 0.0075,
+      mode: "surface",
+      // Use a lighter preview while dragging, then restore a denser, sharper
+      // mesh as soon as the pointer is released.
+      surfaceResolution: state.topologyDragging ? 24 : 44,
+      pixelRatio: state.topologyDragging ? 1.25 : 2,
+      meshWireframe: !state.topologyDragging,
+      surfaceColor: { body: "#f08a24", light: "#fff0bd", shade: "#6b2f08" },
+      meshEdgeColor: "#ffe1a0", meshEdgeAlpha: 0.38, meshEdgeWidth: 0.0058,
       overlaySkeleton: true, overlaySkeletonColor: "#4cc7ff", overlaySkeletonWidth: 1.25,
       overlayNodeColor: "#4cc7ff", overlayNodeRadius: 2.5,
     }
@@ -849,7 +843,9 @@ function bindEvents() {
   let topologyDragX = null;
   topologyCanvas.addEventListener("pointerdown", (event) => {
     topologyDragX = event.clientX;
+    state.topologyDragging = true;
     topologyCanvas.setPointerCapture(event.pointerId);
+    scheduleTopologyCanvasRender();
   });
   topologyCanvas.addEventListener("pointermove", (event) => {
     if (topologyDragX === null || !state.selectedTopology) return;
@@ -857,8 +853,16 @@ function bindEvents() {
     topologyDragX = event.clientX;
     scheduleTopologyCanvasRender();
   });
-  topologyCanvas.addEventListener("pointerup", () => { topologyDragX = null; });
-  topologyCanvas.addEventListener("pointercancel", () => { topologyDragX = null; });
+  topologyCanvas.addEventListener("pointerup", () => {
+    topologyDragX = null;
+    state.topologyDragging = false;
+    scheduleTopologyCanvasRender();
+  });
+  topologyCanvas.addEventListener("pointercancel", () => {
+    topologyDragX = null;
+    state.topologyDragging = false;
+    scheduleTopologyCanvasRender();
+  });
 
   window.addEventListener("resize", () => {
     if (state.topologyPayload) drawTopologyCanvases();
