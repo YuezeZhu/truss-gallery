@@ -66,12 +66,18 @@
     // the cell boundary. One voxel of padding is not enough for the larger
     // radii, otherwise MC keeps only the inner half of the capsule and the
     // blue centerline appears outside the yellow surface.
-    const radiusPadCount = Math.ceil(Math.max(0, radius) / step) + 1;
-    const padCount = Math.max(1, Math.floor(paddingVoxels), radiusPadCount);
-    const padding = padCount * step;
-    const cells = resolution + padCount * 2;
+    const geometryExtent = geometry.nodes.reduce(
+      (maximum, node) => Math.max(maximum, Math.abs(node[0]), Math.abs(node[1]), Math.abs(node[2])),
+      1,
+    );
+    const padding = Math.max(0, radius) + Math.max(1, Math.floor(paddingVoxels)) * step;
+    // Build the MC domain from the displaced centerline bounds, not only from
+    // the nominal unit cell. Otherwise a perturbed endpoint outside ±1 is
+    // clipped and the reconstructed mesh appears shorter than the skeleton.
+    const targetExtent = geometryExtent + padding;
+    const cells = Math.max(resolution, Math.ceil((2 * targetExtent) / step));
+    const origin = -(cells * step) / 2;
     const count = cells + 1;
-    const origin = -1 - padding;
     const values = new Float32Array(count * count * count);
     const index = (x, y, z) => (z * count + y) * count + x;
     const segmentDistanceSquared = (p, a, b) => {
@@ -84,9 +90,9 @@
       const dz = p[2] - (a[2] + t * abz);
       return dx * dx + dy * dy + dz * dz;
     };
-    // Padding extends the sampling domain so endpoint caps are fully
-    // reconstructed, while the visual mesh stays tied to the same finite
-    // centerline segments used by the blue skeleton overlay.
+    // The sampling domain now covers every finite centerline segment and a
+    // complete radius around it, so endpoint caps stay aligned with the blue
+    // skeleton overlay even after node-position perturbations.
     const segments = geometry.edges.map(([aIndex, bIndex]) => [geometry.nodes[aIndex], geometry.nodes[bIndex]]);
     for (let z = 0; z < count; z++) for (let y = 0; y < count; y++) for (let x = 0; x < count; x++) {
       const point = [origin + x * step, origin + y * step, origin + z * step];
@@ -293,9 +299,14 @@
     const cube = cubeWorld.map(rotate);
     // Scale the view to include the full radius of boundary-centered members
     // while keeping the unit-cell frame at ±1 as a visual reference.
+    const geometry = makeGeometry(sample, topology);
+    const geometryExtent = geometry.nodes.reduce(
+      (maximum, node) => Math.max(maximum, Math.abs(node[0]), Math.abs(node[1]), Math.abs(node[2])),
+      1,
+    );
     const viewExtent = (mode === "surface" || mode === "implicit")
-      ? 1 + Math.max(0, sample.radius) + 2 / (options.surfaceResolution || options.implicitResolution || 48)
-      : 1;
+      ? geometryExtent + Math.max(0, sample.radius) + 2 / (options.surfaceResolution || options.implicitResolution || 48)
+      : geometryExtent;
     const viewWorld = [];
     for (const x of [-viewExtent, viewExtent]) for (const y of [-viewExtent, viewExtent]) for (const z of [-viewExtent, viewExtent]) viewWorld.push([x, y, z]);
     const viewCube = viewWorld.map(rotate);
@@ -321,7 +332,6 @@
     }
 
     const showTopology = options.showTopology !== false;
-    const geometry = makeGeometry(sample, topology);
     // Topology-browser variants are compact records and inherit their source
     // from the parent topology rather than duplicating it per variant.
     const color = palette[sample.source] || palette[topology.source] || palette.panetta;
