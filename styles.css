@@ -95,6 +95,15 @@ button, select { cursor: pointer; }
   text-decoration: none;
 }
 
+.brand-logo {
+  width: 54px;
+  height: 54px;
+  display: block;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+}
+
 .brand-mark {
   width: 36px;
   height: 36px;
