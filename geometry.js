@@ -342,9 +342,16 @@
     // from the parent topology rather than duplicating it per variant.
     const color = palette[sample.source] || palette[topology.source] || palette.panetta;
     if (mode === "surface" || mode === "implicit") {
-      const resolution = mode === "implicit"
+      const baseResolution = mode === "implicit"
         ? (options.implicitResolution || 72)
         : (options.surfaceResolution || 48);
+      // Keep at least three samples across the diameter of the thinnest rod.
+      // Otherwise a small-radius member can disappear between grid points and
+      // look disconnected even though the underlying capsule union is joined.
+      const radiusResolution = sample.radius > 0
+        ? Math.ceil(3 / sample.radius)
+        : baseResolution;
+      const resolution = Math.min(64, Math.max(baseResolution, radiusResolution));
       const mesh = extractSurface(geometry, sample.radius, resolution, options.paddingVoxels ?? 1);
       if (mode === "implicit") renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale);
       else renderSurface(ctx, mesh, project, rotate, options.surfaceColor || color, width, height, scale, options);
