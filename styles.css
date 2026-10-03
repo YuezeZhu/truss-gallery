@@ -258,10 +258,10 @@ h1 {
 .legend-dot.eth { background: var(--cyan); }
 .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 22px; }
 .property-chart { min-width: 0; margin: 0; }
-.property-chart figcaption { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-items: baseline; margin-bottom: 10px; }
+.property-chart figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 10px; }
 .property-chart figcaption span { color: var(--orange); font: 10px/1 var(--font-mono); }
 .property-chart figcaption strong { font-size: 16px; font-weight: 520; }
-.property-chart figcaption small { grid-column: 2; color: var(--muted); font-size: 11px; }
+.property-chart figcaption small { color: var(--muted); font-size: 11px; white-space: nowrap; }
 .property-chart svg { display: block; width: 100%; height: 280px; overflow: visible; }
 .property-chart .chart-grid-line { stroke: rgba(164,190,219,.12); stroke-width: 1; }
 .property-chart .chart-axis { stroke: rgba(164,190,219,.34); stroke-width: 1; }
