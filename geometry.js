@@ -309,8 +309,12 @@
     // the same geometry visibly zoom in/out. The shared extent keeps overlays
     // and mode switches at a stable scale while still containing the surface.
     const viewResolution = options.surfaceResolution || options.implicitResolution || 48;
+    // Keep a common unit-cell camera for topology comparisons. Lattice 0007
+    // reaches the six face centers (±1, 0, 0), etc., but has no corner rods;
+    // a radius-dependent zoom can make that valid geometry look artificially
+    // shorter than corner-connected topologies.
     const viewExtent = Math.max(
-      1,
+      1.4,
       geometryExtent + Math.max(0, sample.radius) + 2 / viewResolution,
     );
     const viewWorld = [];
