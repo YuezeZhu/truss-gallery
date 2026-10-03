@@ -304,9 +304,15 @@
       (maximum, node) => Math.max(maximum, Math.abs(node[0]), Math.abs(node[1]), Math.abs(node[2])),
       1,
     );
-    const viewExtent = (mode === "surface" || mode === "implicit")
-      ? geometryExtent + Math.max(0, sample.radius) + 2 / (options.surfaceResolution || options.implicitResolution || 48)
-      : geometryExtent;
+    // Use one camera extent for both the skeleton and surface modes. If the
+    // surface-only branch gets extra radius padding, toggling the mesh makes
+    // the same geometry visibly zoom in/out. The shared extent keeps overlays
+    // and mode switches at a stable scale while still containing the surface.
+    const viewResolution = options.surfaceResolution || options.implicitResolution || 48;
+    const viewExtent = Math.max(
+      1,
+      geometryExtent + Math.max(0, sample.radius) + 2 / viewResolution,
+    );
     const viewWorld = [];
     for (const x of [-viewExtent, viewExtent]) for (const y of [-viewExtent, viewExtent]) for (const z of [-viewExtent, viewExtent]) viewWorld.push([x, y, z]);
     const viewCube = viewWorld.map(rotate);

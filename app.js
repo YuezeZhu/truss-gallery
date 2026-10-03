@@ -498,7 +498,10 @@ function renderTopologyCanvas() {
       mode: "surface",
       // Use a lighter preview while dragging, then restore a denser, sharper
       // mesh as soon as the pointer is released.
-      surfaceResolution: state.topologyDragging || state.topologyPreview ? 8 : 18,
+      // Thin rods need several samples across their diameter; 18³ left many
+      // small-radius members as disconnected-looking surface islands. Keep a
+      // light preview while dragging, then render a denser final mesh.
+      surfaceResolution: state.topologyDragging || state.topologyPreview ? 12 : 40,
       pixelRatio: state.topologyDragging || state.topologyPreview ? 1.1 : 1.7,
       meshWireframe: !(state.topologyDragging || state.topologyPreview),
       surfaceColor: { body: "#f08a24", light: "#fff0bd", shade: "#6b2f08" },
