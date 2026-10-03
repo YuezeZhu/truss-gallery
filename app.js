@@ -504,6 +504,7 @@ function renderTopologyCanvas() {
       surfaceResolution: state.topologyDragging || state.topologyPreview ? 12 : 40,
       pixelRatio: state.topologyDragging || state.topologyPreview ? 1.1 : 1.7,
       meshWireframe: !(state.topologyDragging || state.topologyPreview),
+      adaptiveResolution: !(state.topologyDragging || state.topologyPreview),
       surfaceColor: { body: "#f08a24", light: "#fff0bd", shade: "#6b2f08" },
       meshEdgeColor: "#ffe1a0", meshEdgeAlpha: 0.38, meshEdgeWidth: 0.0058,
       overlaySkeleton: true, overlaySkeletonColor: "#4cc7ff", overlaySkeletonWidth: 1.25,

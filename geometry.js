@@ -352,9 +352,11 @@
       // Keep at least three samples across the diameter of the thinnest rod.
       // Otherwise a small-radius member can disappear between grid points and
       // look disconnected even though the underlying capsule union is joined.
-      const radiusResolution = sample.radius > 0
+      const radiusResolution = options.adaptiveResolution === false
+        ? baseResolution
+        : (sample.radius > 0
         ? Math.ceil(3 / sample.radius)
-        : baseResolution;
+        : baseResolution);
       const resolution = Math.min(64, Math.max(baseResolution, radiusResolution));
       const mesh = extractSurface(geometry, sample.radius, resolution, options.paddingVoxels ?? 1);
       if (mode === "implicit") renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale);
