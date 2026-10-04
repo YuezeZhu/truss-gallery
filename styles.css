@@ -808,7 +808,9 @@ footer p { margin: 0; }
 .mesh-toggle { min-height: 32px; padding: 0 11px; border: 1px solid var(--line-strong); border-radius: 7px; color: var(--ink); background: rgba(76,199,255,.08); font: 11px/1 var(--font-mono); transition: border-color 150ms ease, background 150ms ease, color 150ms ease; }
 .mesh-toggle:hover, .mesh-toggle:focus-visible { border-color: var(--cyan); background: rgba(76,199,255,.15); }
 .mesh-toggle.is-active { border-color: rgba(255,209,102,.7); color: #ffe8a0; background: rgba(255,209,102,.12); }
-.topology-detail-visual canvas { display: block; width: 100%; height: 470px; border: 1px solid var(--line); border-radius: 12px; background: #091523; touch-action: none; }
+.topology-canvas-stack { position: relative; width: 100%; height: 470px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #091523; }
+.topology-canvas-stack canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; border-radius: 0; background: transparent; touch-action: none; }
+.topology-canvas-stack canvas:first-child { pointer-events: none; }
 .topology-detail-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; color: var(--muted); font-size: 11px; font-weight: 500; }
 .legend-node, .legend-line { display: inline-block; vertical-align: -1px; margin-right: 5px; }
 .legend-node { width: 8px; height: 8px; border-radius: 50%; background: #b7eaff; }
@@ -854,7 +856,7 @@ footer p { margin: 0; }
   .topology-source-tabs { width: 100%; }
   .topology-source-tab { flex: 1; }
   .topology-detail-layout { grid-template-columns: 1fr; }
-  .topology-detail-visual canvas { height: 370px; }
+  .topology-canvas-stack { height: 370px; }
 }
 
 @media (max-width: 560px) {
@@ -864,7 +866,7 @@ footer p { margin: 0; }
   .topology-dialog { width: calc(100vw - 20px); max-height: calc(100vh - 20px); }
   .topology-dialog-shell { padding: 20px 16px; }
   .topology-dialog-head { align-items: start; flex-direction: column; }
-  .topology-detail-visual canvas { height: 300px; }
+  .topology-canvas-stack { height: 300px; }
   .topology-property-bars { grid-template-columns: repeat(2, 1fr); }
 }
 

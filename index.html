@@ -94,7 +94,10 @@
         <div class="topology-detail-layout">
           <div class="topology-detail-visual">
             <div class="topology-visual-toolbar"><span class="visual-mode-label">Topology preview</span><div class="visual-toggle-group"><button id="topology-topology-toggle" class="mesh-toggle" type="button" aria-pressed="true">Hide topology</button><button id="topology-mesh-toggle" class="mesh-toggle" type="button" aria-pressed="false">Show mesh</button></div></div>
-            <canvas id="topology-detail-canvas" role="img" aria-label="Topology skeleton and nodes"></canvas>
+            <div class="topology-canvas-stack">
+              <canvas id="topology-detail-webgl" aria-hidden="true"></canvas>
+              <canvas id="topology-detail-canvas" role="img" aria-label="Topology skeleton and nodes"></canvas>
+            </div>
             <div class="topology-detail-legend"><span id="topology-legend-nodes"><i class="legend-node base"></i>Blue nodes</span><span id="topology-legend-skeleton"><i class="legend-line"></i>Blue skeleton</span><span><i class="legend-radius"></i>Orange mesh at actual radius</span></div>
           </div>
           <div class="topology-variant-panel">
@@ -144,7 +147,7 @@
     </template>
 
     <script src="geometry.js?v=40" defer></script>
-    <script src="app.js?v=44" defer></script>
+    <script src="app.js?v=45" defer></script>
   </body>
 </html>
 
