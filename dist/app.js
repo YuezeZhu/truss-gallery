@@ -1030,7 +1030,7 @@ async function initialize() {
     try {
       if (typeof DecompressionStream === "undefined") throw new Error("This browser cannot load compressed indexes");
       const loadIndexPart = async (partNumber) => {
-        const indexResponse = await fetch(`data/sample_index_${partNumber}.json.gz?v=3`);
+        const indexResponse = await fetch(`data/sample_index_${partNumber}.json.gz?v=4`);
         if (!indexResponse.ok || !indexResponse.body) throw new Error(`Index part ${partNumber} HTTP ${indexResponse.status}`);
         const decompressed = indexResponse.body.pipeThrough(new DecompressionStream("gzip"));
         return new Response(decompressed).json();
@@ -1049,6 +1049,18 @@ async function initialize() {
         });
         state.fullVariantsByTopology.set(row.topology_id, topologyVariants);
       }
+      // The compact browser starts with 301 curated groups for a fast first
+      // paint. Once all four index shards are available, promote the catalog
+      // to the complete base-topology directory.  Catalog entries already
+      // contain their node/edge skeleton; the index supplies every matching
+      // radius/displacement variant.
+      const fullTopologyGroups = catalog.topologies.map((topology) => ({
+        ...topology,
+        catalog_id: topology.id,
+        variants: state.fullVariantsByTopology.get(topology.id) || [],
+      }));
+      state.topologyPayload = { ...state.topologyPayload, topologies: fullTopologyGroups };
+      state.topologies = new Map(fullTopologyGroups.map((topology) => [topology.id, topology]));
       state.payload = {
         sampleCount: state.sampleIndex.counts.all,
         uniqueVoxelCount: 0,
