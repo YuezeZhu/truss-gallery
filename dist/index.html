@@ -12,7 +12,7 @@
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307101d'/%3E%3Cg fill='none' stroke='%234cc7ff' stroke-width='5'%3E%3Cpath d='M12 13h40v38H12zM12 13l40 38M52 13L12 51'/%3E%3C/g%3E%3C/svg%3E"
     />
-    <title>Truss Lattice Gallery</title>
+    <title>LatticeVerse</title>
     <link rel="stylesheet" href="styles.css?v=23" />
   </head>
   <body>
@@ -20,16 +20,10 @@
     <div class="ambient ambient-b" aria-hidden="true"></div>
 
     <header class="topbar">
-      <a class="brand" href="#top" aria-label="Truss Lattice Gallery home">
-        <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
-          <path d="M6 7h32v30H6zM6 7l32 30M38 7 6 37" />
-          <circle cx="6" cy="7" r="2.4" />
-          <circle cx="38" cy="7" r="2.4" />
-          <circle cx="6" cy="37" r="2.4" />
-          <circle cx="38" cy="37" r="2.4" />
-        </svg>
+      <a class="brand" href="#top" aria-label="LatticeVerse home">
+        <img class="brand-logo" src="assets/logo.png" alt="LatticeVerse logo" />
         <span>
-          <strong>TRUSS LATTICE GALLERY</strong>
+          <strong>LatticeVerse</strong>
           <small>32³ MATERIAL LIBRARY</small>
         </span>
       </a>
@@ -44,7 +38,7 @@
         <div class="topology-browser-head">
           <div>
             <p class="section-kicker">TOPOLOGY FIRST · NODE PERTURBATIONS</p>
-            <h2 id="topology-browser-title">Truss Lattice Gallery</h2>
+            <h2 id="topology-browser-title">LatticeVerse</h2>
           </div>
           <div class="topology-browser-stats" id="topology-browser-stats">Loading topologies…</div>
         </div>
@@ -67,12 +61,11 @@
           <div>
             <p class="section-kicker">VOLUME FRACTION × EFFECTIVE PROPERTIES</p>
             <h2 id="property-title">Volume Fraction and Effective Properties</h2>
-            <p>The plots cover all 120,894 records. Young's modulus is the mean of the three normal-direction engineering moduli.</p>
           </div>
         </div>
         <div class="chart-grid">
           <figure class="property-chart">
-            <figcaption><span>01</span><strong>Young's modulus Ē</strong><small>Mean of the three normal-direction engineering moduli from C<sub>H</sub></small></figcaption>
+            <figcaption><span>01</span><strong>Young's modulus Ē</strong></figcaption>
             <img class="property-plot-image" src="assets/truss100k_youngs_modulus.png" alt="Young's modulus against volume fraction for all records">
             <a class="plot-download" href="assets/truss100k_youngs_modulus.png" download>Download PNG</a>
           </figure>
@@ -101,7 +94,10 @@
         <div class="topology-detail-layout">
           <div class="topology-detail-visual">
             <div class="topology-visual-toolbar"><span class="visual-mode-label">Topology preview</span><div class="visual-toggle-group"><button id="topology-topology-toggle" class="mesh-toggle" type="button" aria-pressed="true">Hide topology</button><button id="topology-mesh-toggle" class="mesh-toggle" type="button" aria-pressed="false">Show mesh</button></div></div>
-            <canvas id="topology-detail-canvas" role="img" aria-label="Topology skeleton and nodes"></canvas>
+            <div class="topology-canvas-stack">
+              <canvas id="topology-detail-webgl" aria-hidden="true"></canvas>
+              <canvas id="topology-detail-canvas" role="img" aria-label="Topology skeleton and nodes"></canvas>
+            </div>
             <div class="topology-detail-legend"><span id="topology-legend-nodes"><i class="legend-node base"></i>Blue nodes</span><span id="topology-legend-skeleton"><i class="legend-line"></i>Blue skeleton</span><span><i class="legend-radius"></i>Orange mesh at actual radius</span></div>
           </div>
           <div class="topology-variant-panel">
@@ -118,7 +114,7 @@
               </div>
               <div id="topology-property-facts" class="topology-property-facts"></div>
               <div class="topology-property-group">
-                <div class="topology-property-label"><span>Mechanical stiffness C<sub>H</sub></span><em>Voigt diagonal</em></div>
+                <div class="topology-property-label"><span>Elastic Tensor C<sub>H</sub></span><em>Voigt diagonal</em></div>
                 <div id="topology-mechanical-bars" class="property-bars topology-property-bars"></div>
                 <div class="matrix-wrap"><table id="topology-mechanical-matrix" class="tensor-table"></table></div>
               </div>
@@ -154,3 +150,4 @@
     <script src="app.js?v=44" defer></script>
   </body>
 </html>
+

@@ -50,6 +50,12 @@
   }
 
   const surfaceCache = new Map();
+  // Node positions and ETH symmetry expansion are invariant during a drag.
+  // Keep the expanded centerline geometry by sample object so pointer moves
+  // only perform projection work instead of rebuilding all nodes and edges.
+  const geometryCache = new WeakMap();
+  const geometryIds = new WeakMap();
+  let nextGeometryId = 1;
   const cubeCorners = [
     [0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0],
     [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1],
@@ -66,12 +72,18 @@
     // the cell boundary. One voxel of padding is not enough for the larger
     // radii, otherwise MC keeps only the inner half of the capsule and the
     // blue centerline appears outside the yellow surface.
-    const radiusPadCount = Math.ceil(Math.max(0, radius) / step) + 1;
-    const padCount = Math.max(1, Math.floor(paddingVoxels), radiusPadCount);
-    const padding = padCount * step;
-    const cells = resolution + padCount * 2;
+    const geometryExtent = geometry.nodes.reduce(
+      (maximum, node) => Math.max(maximum, Math.abs(node[0]), Math.abs(node[1]), Math.abs(node[2])),
+      1,
+    );
+    const padding = Math.max(0, radius) + Math.max(1, Math.floor(paddingVoxels)) * step;
+    // Build the MC domain from the displaced centerline bounds, not only from
+    // the nominal unit cell. Otherwise a perturbed endpoint outside ±1 is
+    // clipped and the reconstructed mesh appears shorter than the skeleton.
+    const targetExtent = geometryExtent + padding;
+    const cells = Math.max(resolution, Math.ceil((2 * targetExtent) / step));
+    const origin = -(cells * step) / 2;
     const count = cells + 1;
-    const origin = -1 - padding;
     const values = new Float32Array(count * count * count);
     const index = (x, y, z) => (z * count + y) * count + x;
     const segmentDistanceSquared = (p, a, b) => {
@@ -84,9 +96,9 @@
       const dz = p[2] - (a[2] + t * abz);
       return dx * dx + dy * dy + dz * dz;
     };
-    // Padding extends the sampling domain so endpoint caps are fully
-    // reconstructed, while the visual mesh stays tied to the same finite
-    // centerline segments used by the blue skeleton overlay.
+    // The sampling domain now covers every finite centerline segment and a
+    // complete radius around it, so endpoint caps stay aligned with the blue
+    // skeleton overlay even after node-position perturbations.
     const segments = geometry.edges.map(([aIndex, bIndex]) => [geometry.nodes[aIndex], geometry.nodes[bIndex]]);
     for (let z = 0; z < count; z++) for (let y = 0; y < count; y++) for (let x = 0; x < count; x++) {
       const point = [origin + x * step, origin + y * step, origin + z * step];
@@ -100,7 +112,14 @@
   }
 
   function extractSurface(geometry, radius, resolution, paddingVoxels = 1) {
-    const cacheKey = `${geometry.nodes.length}:${geometry.edges.length}:${radius.toFixed(7)}:${resolution}:pad${paddingVoxels}:${geometry.nodes.flat().map((v) => v.toFixed(5)).join(",")}`;
+    let geometryId = geometryIds.get(geometry);
+    if (!geometryId) {
+      geometryId = nextGeometryId++;
+      geometryIds.set(geometry, geometryId);
+    }
+    // Geometry is immutable for a selected variant, so avoid flattening and
+    // stringifying every node on every pointer frame just to hit the cache.
+    const cacheKey = `${geometryId}:${radius.toFixed(7)}:${resolution}:pad${paddingVoxels}`;
     if (surfaceCache.has(cacheKey)) return surfaceCache.get(cacheKey);
     const field = sampleField(geometry, radius, resolution, paddingVoxels);
     const { values, cells, origin, step, index } = field;
@@ -162,14 +181,32 @@
   }
 
   function renderSurface(ctx, mesh, project, rotate, color, width, height, scale, options = {}) {
+    const fastSurface = options.fastSurface || options.skipSurfaceSort;
     const projected = mesh.triangles.map((triangle) => {
       const points = triangle.points.map(project);
+      if (fastSurface) return { points, depth: 0, fill: color.body };
       const rotatedNormal = rotate(triangle.normal);
       const brightness = Math.max(0.08, Math.min(1, 0.38 + Math.abs(rotatedNormal[2]) * 0.55 + rotatedNormal[1] * 0.12));
       const depth = points.reduce((total, point) => total + point[2], 0) / 3;
       return { points, depth, fill: shadeColor(color.body, brightness) };
     });
-    projected.sort((left, right) => left.depth - right.depth);
+    if (!options.skipSurfaceSort) projected.sort((left, right) => left.depth - right.depth);
+    if (fastSurface) {
+      // Batch the whole preview into one fill operation. Calling beginPath /
+      // fill once per triangle is the dominant cost while dragging a dense
+      // adaptive mesh and causes visible pointer lag.
+      ctx.beginPath();
+      for (const triangle of projected) {
+        ctx.moveTo(triangle.points[0][0], triangle.points[0][1]);
+        ctx.lineTo(triangle.points[1][0], triangle.points[1][1]);
+        ctx.lineTo(triangle.points[2][0], triangle.points[2][1]);
+        ctx.closePath();
+      }
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = color.body;
+      ctx.fill();
+      return;
+    }
     for (const triangle of projected) {
       ctx.beginPath();
       ctx.moveTo(triangle.points[0][0], triangle.points[0][1]);
@@ -178,13 +215,18 @@
       ctx.closePath();
       ctx.fillStyle = triangle.fill;
       ctx.fill();
-      ctx.strokeStyle = options.meshWireframe ? (options.meshEdgeColor || color.light) : color.shade;
-      ctx.globalAlpha = options.meshWireframe ? (options.meshEdgeAlpha || 0.5) : 0.055;
-      ctx.lineWidth = options.meshWireframe
-        ? Math.max(0.55, scale * (options.meshEdgeWidth || 0.0065))
-        : Math.max(0.25, scale * 0.003);
-      ctx.stroke();
-      ctx.globalAlpha = 1;
+      // During pointer interaction the surface is rendered without a
+      // wireframe. Avoid stroking every triangle in that mode: on a 64^3
+      // adaptive mesh this can be tens of thousands of extra canvas paths per
+      // frame and makes rotation feel sluggish, while the filled surface is
+      // already sufficient for a clear preview.
+      if (options.meshWireframe) {
+        ctx.strokeStyle = options.meshEdgeColor || color.light;
+        ctx.globalAlpha = options.meshEdgeAlpha || 0.5;
+        ctx.lineWidth = Math.max(0.55, scale * (options.meshEdgeWidth || 0.0065));
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
     }
   }
 
@@ -260,42 +302,104 @@
     return clamp((sample.radius - range[0]) / span, 0, 1);
   }
 
+  function quaternionToMatrix([x, y, z, w]) {
+    const xx = x * x, yy = y * y, zz = z * z;
+    const xy = x * y, xz = x * z, yz = y * z;
+    const wx = w * x, wy = w * y, wz = w * z;
+    // Column-major order matches GLSL mat3 uniforms and the vector transform
+    // used by the Canvas 2D overlay.
+    return [
+      1 - 2 * (yy + zz), 2 * (xy + wz), 2 * (xz - wy),
+      2 * (xy - wz), 1 - 2 * (xx + zz), 2 * (yz + wx),
+      2 * (xz + wy), 2 * (yz - wx), 1 - 2 * (xx + yy),
+    ];
+  }
+
+  function legacyRotationMatrix(yaw, pitch) {
+    const cy = Math.cos(yaw), sy = Math.sin(yaw);
+    const cp = Math.cos(pitch), sp = Math.sin(pitch);
+    return [
+      cy, -sp * sy, cp * sy,
+      -sy, -sp * cy, cp * cy,
+      0, cp, sp,
+    ];
+  }
+
+  function rotateByMatrix([x, y, z], matrix) {
+    return [
+      matrix[0] * x + matrix[3] * y + matrix[6] * z,
+      matrix[1] * x + matrix[4] * y + matrix[7] * z,
+      matrix[2] * x + matrix[5] * y + matrix[8] * z,
+    ];
+  }
+
+  function resolveRotationMatrix(rotation, yaw, pitch) {
+    // The interaction layer stores a normalized quaternion.  The projection
+    // and WebGL paths both consume a column-major 3x3 matrix, so convert here
+    // at the renderer boundary and keep both paths numerically identical.
+    return Array.isArray(rotation) && rotation.length === 4
+      ? quaternionToMatrix(rotation)
+      : (rotation || legacyRotationMatrix(yaw, pitch));
+  }
+
   function render(canvas, sample, topology, yaw = -0.68, options = {}) {
     const bounds = canvas.getBoundingClientRect();
     const width = Math.max(1, bounds.width);
     const height = Math.max(1, bounds.height);
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(width * pixelRatio);
-    canvas.height = Math.round(height * pixelRatio);
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, options.pixelRatio || 2);
+    const targetWidth = Math.round(width * pixelRatio);
+    const targetHeight = Math.round(height * pixelRatio);
+    // Assigning canvas.width/height clears and reallocates the backing store.
+    // Avoid doing that on every pointer frame; only resize when the CSS box or
+    // the requested quality level actually changes.
+    if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+    }
     const ctx = canvas.getContext("2d");
     ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     ctx.clearRect(0, 0, width, height);
 
-    const fill = ctx.createLinearGradient(0, 0, width, height);
-    fill.addColorStop(0, "#111f30");
-    fill.addColorStop(1, "#071321");
-    ctx.fillStyle = fill;
-    ctx.fillRect(0, 0, width, height);
+    if (!options.overlayOnly) {
+      const fill = ctx.createLinearGradient(0, 0, width, height);
+      fill.addColorStop(0, "#111f30");
+      fill.addColorStop(1, "#071321");
+      ctx.fillStyle = fill;
+      ctx.fillRect(0, 0, width, height);
+    }
 
     const mode = options.mode || "surface";
 
-    const pitch = 0.56;
-    const cy = Math.cos(yaw), sy = Math.sin(yaw);
-    const cp = Math.cos(pitch), sp = Math.sin(pitch);
-    const rotate = ([x, y, z]) => {
-      const horizontal = cy * x - sy * y;
-      const depth = sy * x + cy * y;
-      return [horizontal, cp * z - sp * depth, sp * z + cp * depth];
-    };
+    const rotationMatrix = resolveRotationMatrix(options.rotation, yaw, 0.56);
+    const rotate = (point) => rotateByMatrix(point, rotationMatrix);
 
     const cubeWorld = [];
     for (const x of [-1, 1]) for (const y of [-1, 1]) for (const z of [-1, 1]) cubeWorld.push([x, y, z]);
     const cube = cubeWorld.map(rotate);
     // Scale the view to include the full radius of boundary-centered members
     // while keeping the unit-cell frame at ±1 as a visual reference.
-    const viewExtent = (mode === "surface" || mode === "implicit")
-      ? 1 + Math.max(0, sample.radius) + 2 / (options.surfaceResolution || options.implicitResolution || 48)
-      : 1;
+    let geometry = geometryCache.get(sample);
+    if (!geometry) {
+      geometry = makeGeometry(sample, topology);
+      geometryCache.set(sample, geometry);
+    }
+    const geometryExtent = geometry.nodes.reduce(
+      (maximum, node) => Math.max(maximum, Math.abs(node[0]), Math.abs(node[1]), Math.abs(node[2])),
+      1,
+    );
+    // Use one camera extent for both the skeleton and surface modes. If the
+    // surface-only branch gets extra radius padding, toggling the mesh makes
+    // the same geometry visibly zoom in/out. The shared extent keeps overlays
+    // and mode switches at a stable scale while still containing the surface.
+    const viewResolution = options.surfaceResolution || options.implicitResolution || 48;
+    // Keep a common unit-cell camera for topology comparisons. Lattice 0007
+    // reaches the six face centers (±1, 0, 0), etc., but has no corner rods;
+    // a radius-dependent zoom can make that valid geometry look artificially
+    // shorter than corner-connected topologies.
+    const viewExtent = Math.max(
+      1.4,
+      geometryExtent + Math.max(0, sample.radius) + 2 / viewResolution,
+    );
     const viewWorld = [];
     for (const x of [-viewExtent, viewExtent]) for (const y of [-viewExtent, viewExtent]) for (const z of [-viewExtent, viewExtent]) viewWorld.push([x, y, z]);
     const viewCube = viewWorld.map(rotate);
@@ -321,14 +425,23 @@
     }
 
     const showTopology = options.showTopology !== false;
-    const geometry = makeGeometry(sample, topology);
     // Topology-browser variants are compact records and inherit their source
     // from the parent topology rather than duplicating it per variant.
     const color = palette[sample.source] || palette[topology.source] || palette.panetta;
     if (mode === "surface" || mode === "implicit") {
-      const resolution = mode === "implicit"
+      const baseResolution = mode === "implicit"
         ? (options.implicitResolution || 72)
         : (options.surfaceResolution || 48);
+      // Keep at least three samples across the diameter of the thinnest rod.
+      // Otherwise a small-radius member can disappear between grid points and
+      // look disconnected even though the underlying capsule union is joined.
+      const radiusResolution = options.adaptiveResolution === false
+        ? baseResolution
+        : (sample.radius > 0
+        ? Math.ceil(3 / sample.radius)
+        : baseResolution);
+      const maxResolution = options.maxSurfaceResolution || 64;
+      const resolution = Math.min(maxResolution, Math.max(baseResolution, radiusResolution));
       const mesh = extractSurface(geometry, sample.radius, resolution, options.paddingVoxels ?? 1);
       if (mode === "implicit") renderImplicitSurface(ctx, mesh, project, rotate, color, width, height, scale);
       else renderSurface(ctx, mesh, project, rotate, options.surfaceColor || color, width, height, scale, options);
@@ -463,5 +576,155 @@
     return geometry.edges.length;
   }
 
-  window.TrussGeometry = { render, makeGeometry };
+  const webglStates = new WeakMap();
+
+  function compileWebGLShader(gl, type, source) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      gl.deleteShader(shader);
+      return null;
+    }
+    return shader;
+  }
+
+  function createWebGLState(canvas) {
+    const gl = canvas.getContext("webgl", {
+      alpha: false,
+      antialias: true,
+      depth: true,
+      preserveDrawingBuffer: false,
+    });
+    if (!gl) return null;
+    const vertexShader = compileWebGLShader(gl, gl.VERTEX_SHADER, `
+      attribute vec3 aPosition;
+      attribute vec3 aNormal;
+      uniform mat3 uRotation;
+      uniform float uScaleX;
+      uniform float uScaleY;
+      uniform float uDepthScale;
+      varying vec3 vNormal;
+      void main() {
+        vec3 rotated = uRotation * aPosition;
+        vNormal = normalize(uRotation * aNormal);
+        gl_Position = vec4(rotated.x * uScaleX, rotated.y * uScaleY, clamp(-rotated.z * uDepthScale, -1.0, 1.0), 1.0);
+      }
+    `);
+    const fragmentShader = compileWebGLShader(gl, gl.FRAGMENT_SHADER, `
+      precision mediump float;
+      uniform vec3 uBaseColor;
+      varying vec3 vNormal;
+      void main() {
+        vec3 lightDirection = normalize(vec3(-0.42, 0.62, 0.82));
+        float diffuse = 0.36 + 0.64 * max(dot(normalize(vNormal), lightDirection), 0.0);
+        gl_FragColor = vec4(uBaseColor * diffuse, 1.0);
+      }
+    `);
+    if (!vertexShader || !fragmentShader) return null;
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return null;
+    const state = {
+      gl,
+      program,
+      buffer: gl.createBuffer(),
+      attributes: {
+        position: gl.getAttribLocation(program, "aPosition"),
+        normal: gl.getAttribLocation(program, "aNormal"),
+      },
+      uniforms: {
+        rotation: gl.getUniformLocation(program, "uRotation"),
+        scaleX: gl.getUniformLocation(program, "uScaleX"),
+        scaleY: gl.getUniformLocation(program, "uScaleY"),
+        depthScale: gl.getUniformLocation(program, "uDepthScale"),
+        baseColor: gl.getUniformLocation(program, "uBaseColor"),
+      },
+      mesh: null,
+      count: 0,
+    };
+    webglStates.set(canvas, state);
+    return state;
+  }
+
+  function hexColorFloat(hex) {
+    return hexToRgb(hex).map((value) => value / 255);
+  }
+
+  function renderWebGL(canvas, sample, topology, yaw = -0.68, options = {}) {
+    if (!canvas || !sample || !topology) return false;
+    let state = webglStates.get(canvas);
+    if (!state) state = createWebGLState(canvas);
+    if (!state) return false;
+    const bounds = canvas.getBoundingClientRect();
+    const width = Math.max(1, bounds.width);
+    const height = Math.max(1, bounds.height);
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, options.pixelRatio || 2);
+    const targetWidth = Math.round(width * pixelRatio);
+    const targetHeight = Math.round(height * pixelRatio);
+    if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+    }
+    const geometry = geometryCache.get(sample) || makeGeometry(sample, topology);
+    geometryCache.set(sample, geometry);
+    const viewResolution = options.surfaceResolution || 48;
+    const geometryExtent = geometry.nodes.reduce(
+      (maximum, node) => Math.max(maximum, Math.abs(node[0]), Math.abs(node[1]), Math.abs(node[2])),
+      1,
+    );
+    const viewExtent = Math.max(1.4, geometryExtent + Math.max(0, sample.radius) + 2 / viewResolution);
+    const rotationMatrix = resolveRotationMatrix(options.rotation, yaw, 0.56);
+    const viewWorld = [];
+    for (const x of [-viewExtent, viewExtent]) for (const y of [-viewExtent, viewExtent]) for (const z of [-viewExtent, viewExtent]) {
+      viewWorld.push(rotateByMatrix([x, y, z], rotationMatrix));
+    }
+    const maxX = Math.max(...viewWorld.map((point) => Math.abs(point[0])));
+    const maxY = Math.max(...viewWorld.map((point) => Math.abs(point[1])));
+    const scale = Math.min((width * 0.77) / (2 * maxX), (height * 0.77) / (2 * maxY));
+    const baseResolution = options.surfaceResolution || 48;
+    const radiusResolution = options.adaptiveResolution === false
+      ? baseResolution
+      : (sample.radius > 0 ? Math.ceil(3 / sample.radius) : baseResolution);
+    const resolution = Math.min(options.maxSurfaceResolution || 64, Math.max(baseResolution, radiusResolution));
+    const mesh = extractSurface(geometry, sample.radius, resolution, options.paddingVoxels ?? 1);
+    if (state.mesh !== mesh) {
+      const vertices = new Float32Array(mesh.triangles.length * 18);
+      let offset = 0;
+      for (const triangle of mesh.triangles) {
+        for (const point of triangle.points) {
+          vertices[offset++] = point[0]; vertices[offset++] = point[1]; vertices[offset++] = point[2];
+          vertices[offset++] = triangle.normal[0]; vertices[offset++] = triangle.normal[1]; vertices[offset++] = triangle.normal[2];
+        }
+      }
+      state.gl.bindBuffer(state.gl.ARRAY_BUFFER, state.buffer);
+      state.gl.bufferData(state.gl.ARRAY_BUFFER, vertices, state.gl.STATIC_DRAW);
+      state.mesh = mesh;
+      state.count = vertices.length / 6;
+    }
+    const gl = state.gl;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clearColor(0.027, 0.075, 0.13, 1);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST);
+    gl.depthFunc(gl.LEQUAL);
+    gl.disable(gl.CULL_FACE);
+    gl.useProgram(state.program);
+    gl.bindBuffer(gl.ARRAY_BUFFER, state.buffer);
+    gl.enableVertexAttribArray(state.attributes.position);
+    gl.enableVertexAttribArray(state.attributes.normal);
+    gl.vertexAttribPointer(state.attributes.position, 3, gl.FLOAT, false, 24, 0);
+    gl.vertexAttribPointer(state.attributes.normal, 3, gl.FLOAT, false, 24, 12);
+    gl.uniformMatrix3fv(state.uniforms.rotation, false, new Float32Array(rotationMatrix));
+    gl.uniform1f(state.uniforms.scaleX, scale / (width / 2));
+    gl.uniform1f(state.uniforms.scaleY, scale / (height / 2));
+    gl.uniform1f(state.uniforms.depthScale, 1 / (2 * viewExtent));
+    gl.uniform3fv(state.uniforms.baseColor, hexColorFloat(options.surfaceColor?.body || "#f08a24"));
+    gl.drawArrays(gl.TRIANGLES, 0, state.count);
+    return true;
+  }
+
+  window.TrussGeometry = { render, renderWebGL, makeGeometry };
 })();

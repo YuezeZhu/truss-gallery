@@ -1,4 +1,56 @@
 const initialView = new URLSearchParams(window.location.search).get("view");
+
+function normalizeQuaternion([x, y, z, w]) {
+  const length = Math.hypot(x, y, z, w) || 1;
+  return [x / length, y / length, z / length, w / length];
+}
+
+function multiplyQuaternion(a, b) {
+  return normalizeQuaternion([
+    a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1],
+    a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0],
+    a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3],
+    a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2],
+  ]);
+}
+
+function quaternionFromAxisAngle(axis, angle) {
+  const half = angle * 0.5;
+  const sine = Math.sin(half);
+  return [axis[0] * sine, axis[1] * sine, axis[2] * sine, Math.cos(half)];
+}
+
+function initialTopologyRotation() {
+  return multiplyQuaternion(
+    quaternionFromAxisAngle([1, 0, 0], 0.56),
+    quaternionFromAxisAngle([0, 0, 1], -0.68),
+  );
+}
+
+function arcballVector(event, canvas) {
+  const rect = canvas.getBoundingClientRect();
+  const x = (2 * (event.clientX - rect.left) - rect.width) / rect.width;
+  const y = (rect.height - 2 * (event.clientY - rect.top)) / rect.height;
+  const lengthSquared = x * x + y * y;
+  if (lengthSquared <= 1) return [x, y, Math.sqrt(1 - lengthSquared)];
+  const length = Math.sqrt(lengthSquared) || 1;
+  return [x / length, y / length, 0];
+}
+
+function quaternionBetweenVectors(from, to) {
+  const cross = [
+    from[1] * to[2] - from[2] * to[1],
+    from[2] * to[0] - from[0] * to[2],
+    from[0] * to[1] - from[1] * to[0],
+  ];
+  const dot = Math.max(-1, Math.min(1, from[0] * to[0] + from[1] * to[1] + from[2] * to[2]));
+  if (dot < -0.9999) {
+    const axis = Math.abs(from[0]) < 0.8 ? [1, 0, 0] : [0, 1, 0];
+    return quaternionFromAxisAngle(axis, Math.PI);
+  }
+  return normalizeQuaternion([cross[0], cross[1], cross[2], 1 + dot]);
+}
+
 const state = {
   payload: null,
   source: "all",
@@ -23,9 +75,14 @@ const state = {
   selectedTopologyVariant: 0,
   selectedTopologyVariantRecord: null,
   topologyYaw: -0.68,
+  topologyRotation: initialTopologyRotation(),
+  topologyArcballVector: null,
+  topologyDragging: false,
+  topologyPreview: false,
   showMesh: false,
   showTopology: true,
   topologyCanvasFrame: 0,
+  topologyQualityTimer: 0,
   samplesById: new Map(),
   samplesByTopology: new Map(),
   indexRowsById: new Map(),
@@ -78,6 +135,7 @@ const els = {
 function formatValue(value, digits = 3) {
   if (value === null || value === undefined || !Number.isFinite(value)) return "—";
   const absolute = Math.abs(value);
+  if (absolute < 1e-7) return "0";
   if ((absolute > 0 && absolute < 0.001) || absolute >= 1000) return value.toExponential(2);
   return value.toFixed(digits);
 }
@@ -439,13 +497,10 @@ function renderTopologyDialog() {
     facts.className = "topology-variant-facts";
     const radiusText = document.createElement("b");
     radiusText.textContent = `r=${item.radius.toFixed(5)}`;
-    const meter = document.createElement("i");
-    meter.className = "variant-radius-meter";
-    meter.style.setProperty("--radius-level", `${((item.radius - radiusMin) / radiusSpan) * 100}%`);
     const detailText = document.createElement("em");
     const propertyNote = state.selectedFullSample?.id === item.id || state.samplesById.has(item.id) || state.indexRowsById.has(item.id) ? " · Cₕ/Kₕ loaded" : "";
     detailText.textContent = `VF ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} moved nodes${propertyNote}`;
-    facts.append(radiusText, meter, detailText);
+    facts.append(radiusText, detailText);
     button.append(title, facts);
     list.append(button);
   });
@@ -454,10 +509,6 @@ function renderTopologyDialog() {
   const intro = document.createElement("p");
   intro.textContent = itemDisplacementText(variant);
   info.append(intro);
-  const radiusNote = document.createElement("p");
-  radiusNote.className = "radius-note";
-  radiusNote.textContent = `Blue lines are the topology. The orange mesh uses the actual diameter 2r; current r=${variant.radius.toFixed(5)}.`;
-  info.append(radiusNote);
   const variantProperties = state.selectedFullSample?.id === variant.id
     ? state.selectedFullSample
     : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
@@ -489,36 +540,61 @@ function updateMeshToggle() {
   }
   document.querySelector("#topology-legend-nodes")?.toggleAttribute("hidden", !state.showTopology);
   document.querySelector("#topology-legend-skeleton")?.toggleAttribute("hidden", !state.showTopology);
-  const radiusNote = document.querySelector("#topology-variant-info .radius-note");
-  if (radiusNote && state.selectedTopologyVariantRecord) {
-    radiusNote.textContent = state.showTopology
-      ? `Blue lines are the topology. The orange mesh uses the actual diameter 2r; current r=${state.selectedTopologyVariantRecord.radius.toFixed(5)}.`
-      : `Topology hidden. The orange mesh uses the actual diameter 2r; current r=${state.selectedTopologyVariantRecord.radius.toFixed(5)}.`;
-  }
 }
 
 function renderTopologyCanvas() {
   const topology = state.selectedTopology;
   const variant = state.selectedTopologyVariantRecord;
   const canvas = document.querySelector("#topology-detail-canvas");
+  const webglCanvas = document.querySelector("#topology-detail-webgl");
   if (!topology || !variant || !canvas) return;
+  const dragging = state.topologyDragging || state.topologyPreview;
   const meshOptions = state.showMesh
     ? {
-      mode: "surface", surfaceResolution: 36, meshWireframe: true,
-      surfaceColor: { body: "#ff9f1c", light: "#fff4c2", shade: "#6b2d08" },
-      meshEdgeColor: "#fff0a8", meshEdgeAlpha: 0.68, meshEdgeWidth: 0.0075,
+      mode: "surface",
+      rotation: state.topologyRotation,
+      // Keep a connected surface while dragging. The former 12³ preview was
+      // fast but undersampled thin rods, so the orange interaction preview
+      // appeared as broken islands. Caching avoids rebuilding this mesh on
+      // each pointer move; only depth sorting is skipped during the drag.
+      surfaceResolution: dragging ? 32 : 40,
+      maxSurfaceResolution: dragging ? 36 : 64,
+      pixelRatio: dragging ? 0.82 : 1.7,
+      meshWireframe: !dragging,
+      adaptiveResolution: true,
+      skipSurfaceSort: dragging,
+      fastSurface: dragging,
+      surfaceColor: { body: "#f08a24", light: "#fff0bd", shade: "#6b2f08" },
+      meshEdgeColor: "#ffe1a0", meshEdgeAlpha: 0.38, meshEdgeWidth: 0.0058,
       overlaySkeleton: true, overlaySkeletonColor: "#4cc7ff", overlaySkeletonWidth: 1.25,
       overlayNodeColor: "#4cc7ff", overlayNodeRadius: 2.5,
     }
     : {
       mode: "skeleton", skeletonLineWidth: 1.55,
     };
+  if (state.showMesh && webglCanvas && window.TrussGeometry.renderWebGL) {
+    webglCanvas.hidden = false;
+    const webglRendered = window.TrussGeometry.renderWebGL(webglCanvas, variant, topology, state.topologyYaw, meshOptions);
+    if (webglRendered) {
+      // Keep the 2D layer for the blue skeleton and nodes only. WebGL owns the
+      // orange surface, so pointer rotation updates a GPU buffer projection
+      // instead of repainting every mesh triangle in Canvas 2D.
+      window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
+        mode: "skeleton", overlayOnly: true, rotation: state.topologyRotation, pixelRatio: dragging ? 0.82 : 1.1,
+        showTopology: state.showTopology, showNodes: state.showTopology,
+        nodeColor: "#4cc7ff", skeletonLineWidth: 1.55,
+        highlightEntries: variant.node_displacements, showDisplacementGuides: false,
+      });
+      return;
+    }
+    webglCanvas.hidden = true;
+  } else if (webglCanvas) {
+    webglCanvas.hidden = true;
+  }
   window.TrussGeometry.render(canvas, variant, topology, state.topologyYaw, {
-    ...meshOptions,
-    showTopology: state.showTopology,
+    ...meshOptions, rotation: state.topologyRotation, showTopology: state.showTopology,
     showNodes: state.showTopology, nodeColor: "#4cc7ff", showDisplacementGuides: false,
-    nodeRadius: 2.7, highlightNodeRadius: 2.7,
-    highlightEntries: variant.node_displacements,
+    nodeRadius: 2.7, highlightNodeRadius: 2.7, highlightEntries: variant.node_displacements,
   });
 }
 
@@ -528,6 +604,15 @@ function scheduleTopologyCanvasRender() {
     state.topologyCanvasFrame = 0;
     renderTopologyCanvas();
   });
+}
+
+function queueTopologyMeshUpgrade(delay = 180) {
+  if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
+  state.topologyQualityTimer = window.setTimeout(() => {
+    state.topologyQualityTimer = 0;
+    state.topologyPreview = false;
+    if (state.showMesh && !state.topologyDragging) scheduleTopologyCanvasRender();
+  }, delay);
 }
 
 function renderTopologyProperties(sample, variant) {
@@ -587,6 +672,11 @@ function openTopology(topology) {
   state.selectedTopologyVariant = 0;
   state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
+  state.topologyRotation = initialTopologyRotation();
+  state.topologyArcballVector = null;
+  state.topologyDragging = false;
+  state.topologyPreview = false;
+  if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
   state.showMesh = false;
   state.showTopology = true;
   els.topologyDialog.showModal();
@@ -748,6 +838,11 @@ function openIndexedSample(row) {
   state.selectedTopologyVariant = 0;
   state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
+  state.topologyRotation = initialTopologyRotation();
+  state.topologyArcballVector = null;
+  state.topologyDragging = false;
+  state.topologyPreview = false;
+  if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
   state.showMesh = false;
   state.showTopology = true;
   els.topologyDialog.showModal();
@@ -829,6 +924,14 @@ function bindEvents() {
   document.querySelector("#topology-dialog-close").addEventListener("click", () => els.topologyDialog.close());
   document.querySelector("#topology-mesh-toggle").addEventListener("click", () => {
     state.showMesh = !state.showMesh;
+    // First show a very lightweight preview so the control responds quickly;
+    // the denser mesh is queued after the browser has painted the preview.
+    state.topologyPreview = state.showMesh;
+    if (!state.showMesh && state.topologyQualityTimer) {
+      window.clearTimeout(state.topologyQualityTimer);
+      state.topologyQualityTimer = 0;
+      state.topologyPreview = false;
+    }
     updateMeshToggle();
     scheduleTopologyCanvasRender();
   });
@@ -846,19 +949,52 @@ function bindEvents() {
   });
 
   const topologyCanvas = document.querySelector("#topology-detail-canvas");
-  let topologyDragX = null;
+  // Keep the last pointer position in screen pixels.  Using a direct
+  // screen-space delta here is more reliable than an arcball-only mapping:
+  // a vertical drag must always produce a visible pitch, even when the
+  // current view or lattice is symmetric around that axis.
+  let topologyDragPoint = null;
   topologyCanvas.addEventListener("pointerdown", (event) => {
-    topologyDragX = event.clientX;
+    topologyDragPoint = { x: event.clientX, y: event.clientY };
+    state.topologyArcballVector = arcballVector(event, topologyCanvas);
+    if (state.topologyQualityTimer) window.clearTimeout(state.topologyQualityTimer);
+    state.topologyPreview = false;
+    state.topologyDragging = true;
     topologyCanvas.setPointerCapture(event.pointerId);
-  });
-  topologyCanvas.addEventListener("pointermove", (event) => {
-    if (topologyDragX === null || !state.selectedTopology) return;
-    state.topologyYaw += (event.clientX - topologyDragX) * 0.012;
-    topologyDragX = event.clientX;
     scheduleTopologyCanvasRender();
   });
-  topologyCanvas.addEventListener("pointerup", () => { topologyDragX = null; });
-  topologyCanvas.addEventListener("pointercancel", () => { topologyDragX = null; });
+  topologyCanvas.addEventListener("pointermove", (event) => {
+    if (topologyDragPoint === null || !state.selectedTopology) return;
+    const dx = event.clientX - topologyDragPoint.x;
+    const dy = event.clientY - topologyDragPoint.y;
+    if (dx === 0 && dy === 0) return;
+    const canvasRect = topologyCanvas.getBoundingClientRect();
+    const scale = 2.35 / Math.max(1, Math.min(canvasRect.width, canvasRect.height));
+    // Horizontal motion yaws around the world Y axis; vertical motion pitches
+    // around the world X axis.  Combining both quaternions gives unrestricted
+    // free rotation without reintroducing the old yaw/pitch lock.
+    const yawDelta = quaternionFromAxisAngle([0, 1, 0], dx * scale);
+    const pitchDelta = quaternionFromAxisAngle([1, 0, 0], dy * scale);
+    const delta = multiplyQuaternion(yawDelta, pitchDelta);
+    state.topologyRotation = multiplyQuaternion(delta, state.topologyRotation);
+    topologyDragPoint = { x: event.clientX, y: event.clientY };
+    state.topologyArcballVector = arcballVector(event, topologyCanvas);
+    scheduleTopologyCanvasRender();
+  });
+  topologyCanvas.addEventListener("pointerup", () => {
+    topologyDragPoint = null;
+    state.topologyArcballVector = null;
+    state.topologyDragging = false;
+    if (state.showMesh) queueTopologyMeshUpgrade(260);
+    else scheduleTopologyCanvasRender();
+  });
+  topologyCanvas.addEventListener("pointercancel", () => {
+    topologyDragPoint = null;
+    state.topologyArcballVector = null;
+    state.topologyDragging = false;
+    if (state.showMesh) queueTopologyMeshUpgrade(260);
+    else scheduleTopologyCanvasRender();
+  });
 
   window.addEventListener("resize", () => {
     if (state.topologyPayload) drawTopologyCanvases();
@@ -934,3 +1070,4 @@ async function initialize() {
 }
 
 initialize();
+
