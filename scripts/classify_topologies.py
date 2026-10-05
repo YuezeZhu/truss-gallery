@@ -220,7 +220,7 @@ def classify(catalog: dict) -> list[dict]:
         bucket = (item["symmetry_code"], item["complexity_level"])
         bucket_counts[bucket] = bucket_counts.get(bucket, 0) + 1
         item["taxonomy_code"] = f"{item['symmetry_code']}-C{item['complexity_level']}"
-        item["display_name"] = f"{item['symmetry_name']} · Complexity {item['complexity_level']} · {bucket_counts[bucket]:04d}"
+        item["display_name"] = f"{item['symmetry_name']} ({item['symmetry_code']}) · Complexity {item['complexity_level']} · {bucket_counts[bucket]:04d}"
         item["taxonomy_description"] = (
             f"{item['symmetry_name']} symmetry ({item['symmetry_code']}) · complexity C{item['complexity_level']} "
             f"({item['complexity_label']}) · {item['full_cell_node_count']} nodes · "
