@@ -459,7 +459,7 @@ function topologyCardFor(topology, position) {
   card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.full_cell_edge_count ?? topology.edges.length} members`;
   card.querySelector('[data-topology-fact="radius"]').textContent = variant ? `r ${variant.radius.toFixed(4)}` : "No variants";
   const classification = card.querySelector('[data-topology-fact="classification"]');
-  if (classification) classification.textContent = `${topology.symmetry_name || topology.symmetry_code || "—"} · C${topology.complexity_level || "—"}`;
+  if (classification) classification.textContent = `${topology.symmetry_name || topology.symmetry_code || "—"} · Complexity ${topology.complexity_level || "—"}`;
   return card;
 }
 
