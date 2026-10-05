@@ -401,6 +401,14 @@ function topologyVariantLabel(variant, topology, index = 0) {
   return `${variantDisplayName(topology, index)} · r=${variant.radius.toFixed(4)} · VF=${(variant.density * 100).toFixed(2)}% · ${moved} moved${displacementText}`;
 }
 
+function topologySortKey(topology) {
+  return [
+    Number.isFinite(Number(topology.complexity_rank)) ? Number(topology.complexity_rank) : Number.MAX_SAFE_INTEGER,
+    topology.symmetry_code || "",
+    topology.display_name || topology.id || "",
+  ];
+}
+
 function filteredTopologies() {
   if (!state.topologyPayload) return [];
   const query = state.topologyQuery.trim().toLowerCase();
@@ -411,6 +419,10 @@ function filteredTopologies() {
     ].filter(Boolean).join(" ").toLowerCase();
     const searchMatch = !query || searchText.includes(query);
     return searchMatch;
+  }).sort((left, right) => {
+    const a = topologySortKey(left);
+    const b = topologySortKey(right);
+    return a[0] - b[0] || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2]);
   });
 }
 
