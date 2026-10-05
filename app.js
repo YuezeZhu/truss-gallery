@@ -415,7 +415,7 @@ function filteredTopologies() {
   return state.topologyPayload.topologies.filter((topology) => {
     const searchText = [
       topology.id, topology.catalog_id, topology.display_name, topology.taxonomy_code,
-      topology.symmetry_code, topology.complexity_label,
+      topology.symmetry_code, topology.symmetry_name, topology.complexity_label,
     ].filter(Boolean).join(" ").toLowerCase();
     const searchMatch = !query || searchText.includes(query);
     return searchMatch;
@@ -459,7 +459,7 @@ function topologyCardFor(topology, position) {
   card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.full_cell_edge_count ?? topology.edges.length} members`;
   card.querySelector('[data-topology-fact="radius"]').textContent = variant ? `r ${variant.radius.toFixed(4)}` : "No variants";
   const classification = card.querySelector('[data-topology-fact="classification"]');
-  if (classification) classification.textContent = `${topology.symmetry_code || "—"} · C${topology.complexity_level || "—"}`;
+  if (classification) classification.textContent = `${topology.symmetry_name || topology.symmetry_code || "—"} · C${topology.complexity_level || "—"}`;
   return card;
 }
 
@@ -500,7 +500,7 @@ function renderTopologyDialog() {
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
   document.querySelector("#topology-dialog-title").textContent = topologyDisplayName(topology);
   const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
-  const graphDescription = `${topology.full_cell_node_count ?? topology.nodes.length} full-cell nodes · ${topology.full_cell_edge_count ?? topology.edges.length} members · ${topology.symmetry_code || "unknown"} symmetry · complexity C${topology.complexity_level || "—"}`;
+  const graphDescription = `${topology.full_cell_node_count ?? topology.nodes.length} full-cell nodes · ${topology.full_cell_edge_count ?? topology.edges.length} members · ${topology.symmetry_name || topology.symmetry_code || "unknown"} symmetry (${topology.symmetry_code || "—"}) · complexity C${topology.complexity_level || "—"}`;
   document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
     ? `${graphDescription} · connectivity fixed; node positions and radius vary by record`
     : `${graphDescription} · node positions fixed; variants change radius only`;

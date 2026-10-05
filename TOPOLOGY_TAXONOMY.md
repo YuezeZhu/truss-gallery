@@ -6,11 +6,19 @@ change the sample index or the reproducibility path.
 
 ## Name format
 
-`Lattice <symmetry>-C<level>-<ordinal>`
+`<Readable symmetry> · Complexity <level> · <ordinal>`
 
-- `symmetry` is computed from the expanded full-cell graph under all 48 signed
+Examples:
+
+- `Cubic · Complexity 1 · 0001 (Oh)`
+- `Tetragonal · Complexity 3 · 0012 (D4h)`
+- `Orthorhombic · Complexity 5 · 0420 (D2h)`
+
+- The readable symmetry name is computed from the expanded full-cell graph under all 48 signed
   permutations of the cubic cell.  The current catalog contains `D2h` (8
   operations), `D4h` (16 operations), and `Oh` (48 operations).
+- The technical point-group code remains in parentheses so that the name is
+  understandable to non-specialists without losing crystallographic precision.
 - `C1`–`C5` is a graph-complexity band.  The primary key is full-cell member
   count, followed by full-cell node count and cycle rank.  Bands are quintiles
   of the complete catalog, so a variant count never affects the topology rank.

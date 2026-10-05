@@ -121,6 +121,19 @@ def symmetry_label(order: int) -> str:
     }.get(order, f"G{order}")
 
 
+def symmetry_name(order: int) -> str:
+    return {
+        48: "Cubic",
+        24: "Cubic rotational",
+        16: "Tetragonal",
+        12: "Trigonal",
+        8: "Orthorhombic",
+        4: "Monoclinic",
+        2: "Centrosymmetric",
+        1: "Asymmetric",
+    }.get(order, f"{symmetry_label(order)} group")
+
+
 def connected_components(node_count: int, edges: set[tuple[int, int]]) -> int:
     adjacency = [[] for _ in range(node_count)]
     for first, second in edges:
@@ -162,6 +175,7 @@ def classify(catalog: dict) -> list[dict]:
             "symmetry_order": order,
             "proper_symmetry_order": proper_order,
             "symmetry_code": symmetry_label(order),
+            "symmetry_name": symmetry_name(order),
             "symmetry_method": (
                 "three coordinate-plane reflections"
                 if topology.get("source") == "eth"
@@ -206,9 +220,9 @@ def classify(catalog: dict) -> list[dict]:
         bucket = (item["symmetry_code"], item["complexity_level"])
         bucket_counts[bucket] = bucket_counts.get(bucket, 0) + 1
         item["taxonomy_code"] = f"{item['symmetry_code']}-C{item['complexity_level']}"
-        item["display_name"] = f"Lattice {item['symmetry_code']}-C{item['complexity_level']}-{bucket_counts[bucket]:04d}"
+        item["display_name"] = f"{item['symmetry_name']} · Complexity {item['complexity_level']} · {bucket_counts[bucket]:04d}"
         item["taxonomy_description"] = (
-            f"{item['symmetry_code']} symmetry · complexity C{item['complexity_level']} "
+            f"{item['symmetry_name']} symmetry ({item['symmetry_code']}) · complexity C{item['complexity_level']} "
             f"({item['complexity_label']}) · {item['full_cell_node_count']} nodes · "
             f"{item['full_cell_edge_count']} members"
         )
@@ -230,6 +244,7 @@ def patch_topology_list(path: Path, classified: dict[str, dict]) -> None:
             for key in (
                 "display_name", "taxonomy_code", "taxonomy_description",
                 "symmetry_code", "symmetry_order", "symmetry_method",
+                "symmetry_name",
                 "complexity_rank", "complexity_level", "complexity_label",
                 "full_cell_node_count", "full_cell_edge_count", "average_degree",
                 "cycle_rank", "connected_components",
@@ -255,6 +270,7 @@ def main() -> None:
                     for key in (
                         "id", "display_name", "taxonomy_code", "taxonomy_description",
                         "symmetry_code", "symmetry_order", "symmetry_method",
+                        "symmetry_name",
                         "complexity_rank", "complexity_level", "complexity_label",
                         "full_cell_node_count", "full_cell_edge_count", "average_degree",
                         "cycle_rank", "connected_components",
