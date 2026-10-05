@@ -62,6 +62,10 @@ def index_row(record: dict, dataset: str, row_number: int, topology_id: str, den
         [int(index), round(float(dx), 4), round(float(dy), 4), round(float(dz), 4)]
         for index, dx, dy, dz in record.get("node_displacements", [])
     ]
+    displacement_norms = [
+        (float(dx) ** 2 + float(dy) ** 2 + float(dz) ** 2) ** 0.5
+        for _index, dx, dy, dz in displacements
+    ]
     return {
         "n": row_number,
         "id": record["id"],
@@ -73,6 +77,13 @@ def index_row(record: dict, dataset: str, row_number: int, topology_id: str, den
         "radius": round(float(record["radius"]), 7),
         "node_displacements": displacements,
         "node_count": len(displacements),
+        "perturbation_type": "node-position + radius" if displacements else "radius-only",
+        "perturbation_max_norm": round(max(displacement_norms, default=0.0), 7),
+        "perturbation_rms_norm": round(
+            (sum(value * value for value in displacement_norms) / len(displacement_norms)) ** 0.5
+            if displacement_norms else 0.0,
+            7,
+        ),
         # Keep the constitutive data in upper-triangle form: this is enough to
         # reconstruct the same matrices used by the topology detail viewer,
         # without storing any 32^3 occupancy array.

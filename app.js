@@ -384,6 +384,7 @@ function drawCardCanvases() {
 }
 
 function topologyDisplayName(topology) {
+  if (topology?.display_name) return topology.display_name;
   const topologies = state.topologyPayload?.topologies || [];
   const index = topologies.findIndex((item) => item.id === topology?.id || item.catalog_id === topology?.catalog_id);
   return `Lattice ${String(Math.max(0, index) + 1).padStart(4, "0")}`;
@@ -395,14 +396,20 @@ function variantDisplayName(topology, index) {
 
 function topologyVariantLabel(variant, topology, index = 0) {
   const moved = variant.node_displacements?.length || 0;
-  return `${variantDisplayName(topology, index)} · r=${variant.radius.toFixed(4)} · ${moved} moved`;
+  const maxDisplacement = Number(variant.perturbation_max_norm ?? 0);
+  const displacementText = maxDisplacement > 0 ? ` · max |Δ|=${maxDisplacement.toFixed(4)}` : "";
+  return `${variantDisplayName(topology, index)} · r=${variant.radius.toFixed(4)} · VF=${(variant.density * 100).toFixed(2)}% · ${moved} moved${displacementText}`;
 }
 
 function filteredTopologies() {
   if (!state.topologyPayload) return [];
   const query = state.topologyQuery.trim().toLowerCase();
   return state.topologyPayload.topologies.filter((topology) => {
-    const searchMatch = !query || topology.id.toLowerCase().includes(query) || topology.catalog_id.toLowerCase().includes(query);
+    const searchText = [
+      topology.id, topology.catalog_id, topology.display_name, topology.taxonomy_code,
+      topology.symmetry_code, topology.complexity_label,
+    ].filter(Boolean).join(" ").toLowerCase();
+    const searchMatch = !query || searchText.includes(query);
     return searchMatch;
   });
 }
@@ -432,13 +439,15 @@ function topologyCardFor(topology, position) {
   card.style.setProperty("--card-accent", accent[topology.source]);
   card.querySelector(".topology-card-index").textContent = String(position + 1).padStart(3, "0");
   card.querySelector("h3").textContent = topologyDisplayName(topology);
-  const hasNodePerturbations = topology.variants.some((item) => item.node_displacements?.length);
+  const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
   card.querySelector(".topology-card-variant-pill").textContent = hasNodePerturbations
     ? `${variants.length} variants`
     : `${variants.length} radius variants`;
-  card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.nodes.length} nodes`;
-  card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.edges.length} members`;
+  card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.full_cell_node_count ?? topology.nodes.length} nodes`;
+  card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.full_cell_edge_count ?? topology.edges.length} members`;
   card.querySelector('[data-topology-fact="radius"]').textContent = variant ? `r ${variant.radius.toFixed(4)}` : "No variants";
+  const classification = card.querySelector('[data-topology-fact="classification"]');
+  if (classification) classification.textContent = `${topology.symmetry_code || "—"} · C${topology.complexity_level || "—"}`;
   return card;
 }
 
@@ -479,9 +488,10 @@ function renderTopologyDialog() {
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
   document.querySelector("#topology-dialog-title").textContent = topologyDisplayName(topology);
   const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
+  const graphDescription = `${topology.full_cell_node_count ?? topology.nodes.length} full-cell nodes · ${topology.full_cell_edge_count ?? topology.edges.length} members · ${topology.symmetry_code || "unknown"} symmetry · complexity C${topology.complexity_level || "—"}`;
   document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
-    ? `${topology.nodes.length} nodes · ${topology.edges.length} members · connectivity fixed; node positions and radius vary by record`
-    : `${topology.nodes.length} nodes · ${topology.edges.length} members · node positions fixed; variants change radius only`;
+    ? `${graphDescription} · connectivity fixed; node positions and radius vary by record`
+    : `${graphDescription} · node positions fixed; variants change radius only`;
   document.querySelector("#topology-dialog-variant-count").textContent = `${browserVariants.length} geometry variants · ${propertySample ? "1 property record loaded" : "no property record loaded"}`;
   document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant, topology, state.selectedTopologyVariant);
   const list = document.querySelector("#topology-variant-list");
@@ -499,7 +509,10 @@ function renderTopologyDialog() {
     radiusText.textContent = `r=${item.radius.toFixed(5)}`;
     const detailText = document.createElement("em");
     const propertyNote = state.selectedFullSample?.id === item.id || state.samplesById.has(item.id) || state.indexRowsById.has(item.id) ? " · Cₕ/Kₕ loaded" : "";
-    detailText.textContent = `VF ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} moved nodes${propertyNote}`;
+    const maxDisplacement = Number(item.perturbation_max_norm ?? 0);
+    const displacementText = maxDisplacement > 0 ? ` · max |Δ| ${maxDisplacement.toFixed(4)}` : "";
+    const perturbationType = item.perturbation_type || (item.node_displacements.length ? "node-position + radius" : "radius-only");
+    detailText.textContent = `${perturbationType} · VF ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} moved nodes${displacementText}${propertyNote}`;
     facts.append(radiusText, detailText);
     button.append(title, facts);
     list.append(button);
