@@ -384,26 +384,46 @@ function drawCardCanvases() {
 }
 
 function topologyDisplayName(topology) {
+  if (topology?.display_name) return topology.display_name;
   const topologies = state.topologyPayload?.topologies || [];
   const index = topologies.findIndex((item) => item.id === topology?.id || item.catalog_id === topology?.catalog_id);
   return `Lattice ${String(Math.max(0, index) + 1).padStart(4, "0")}`;
 }
 
-function variantDisplayName(topology, index) {
-  return `${topologyDisplayName(topology)} · Variant ${String(index + 1).padStart(3, "0")}`;
+function variantDisplayName(topology, variant, index = 0) {
+  const name = variant?.variant_name || `V${String(Number(variant?.variant_index ?? index + 1)).padStart(4, "0")}`;
+  return `${topologyDisplayName(topology)} · ${name}`;
 }
 
 function topologyVariantLabel(variant, topology, index = 0) {
   const moved = variant.node_displacements?.length || 0;
-  return `${variantDisplayName(topology, index)} · r=${variant.radius.toFixed(4)} · ${moved} moved`;
+  const maxDisplacement = Number(variant.perturbation_max_norm ?? 0);
+  const displacementText = maxDisplacement > 0 ? ` · max |Δ|=${maxDisplacement.toFixed(4)}` : "";
+  return `${variantDisplayName(topology, variant, index)} · r=${variant.radius.toFixed(4)} · VF=${(variant.density * 100).toFixed(2)}% · ${moved} moved${displacementText}`;
+}
+
+function topologySortKey(topology) {
+  return [
+    Number.isFinite(Number(topology.complexity_rank)) ? Number(topology.complexity_rank) : Number.MAX_SAFE_INTEGER,
+    topology.symmetry_code || "",
+    topology.display_name || topology.id || "",
+  ];
 }
 
 function filteredTopologies() {
   if (!state.topologyPayload) return [];
   const query = state.topologyQuery.trim().toLowerCase();
   return state.topologyPayload.topologies.filter((topology) => {
-    const searchMatch = !query || topology.id.toLowerCase().includes(query) || topology.catalog_id.toLowerCase().includes(query);
+    const searchText = [
+      topology.id, topology.catalog_id, topology.display_name, topology.topology_code, topology.taxonomy_code,
+      topology.symmetry_code, topology.symmetry_name, topology.complexity_label,
+    ].filter(Boolean).join(" ").toLowerCase();
+    const searchMatch = !query || searchText.includes(query);
     return searchMatch;
+  }).sort((left, right) => {
+    const a = topologySortKey(left);
+    const b = topologySortKey(right);
+    return a[0] - b[0] || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2]);
   });
 }
 
@@ -432,13 +452,15 @@ function topologyCardFor(topology, position) {
   card.style.setProperty("--card-accent", accent[topology.source]);
   card.querySelector(".topology-card-index").textContent = String(position + 1).padStart(3, "0");
   card.querySelector("h3").textContent = topologyDisplayName(topology);
-  const hasNodePerturbations = topology.variants.some((item) => item.node_displacements?.length);
+  const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
   card.querySelector(".topology-card-variant-pill").textContent = hasNodePerturbations
     ? `${variants.length} variants`
     : `${variants.length} radius variants`;
-  card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.nodes.length} nodes`;
-  card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.edges.length} members`;
+  card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.full_cell_node_count ?? topology.nodes.length} nodes`;
+  card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.full_cell_edge_count ?? topology.edges.length} members`;
   card.querySelector('[data-topology-fact="radius"]').textContent = variant ? `r ${variant.radius.toFixed(4)}` : "No variants";
+  const classification = card.querySelector('[data-topology-fact="classification"]');
+  if (classification) classification.textContent = `${topology.symmetry_name || topology.symmetry_code || "—"} · Complexity ${topology.complexity_level || "—"}`;
   return card;
 }
 
@@ -463,9 +485,12 @@ function renderTopologyDialog() {
     ? state.selectedFullSample
     : state.samplesByTopology.get(topology.id);
   const browserVariants = state.fullVariantsByTopology.get(topology.catalog_id) || topology.variants || [];
-  const variants = propertySample
-    ? [propertySample, ...browserVariants.filter((item) => item.id !== propertySample.id)]
-    : browserVariants;
+  // Keep the deterministic per-topology V-names stable. A compact reference
+  // sample is only used before the full index is loaded, never prepended to a
+  // sorted full list.
+  const variants = browserVariants.length
+    ? browserVariants
+    : (propertySample ? [propertySample] : []);
   const variant = variants[state.selectedTopologyVariant] || variants[0];
   if (!variant) return;
   state.selectedTopologyVariantRecord = variant;
@@ -479,9 +504,10 @@ function renderTopologyDialog() {
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
   document.querySelector("#topology-dialog-title").textContent = topologyDisplayName(topology);
   const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
+  const graphDescription = `${topology.full_cell_node_count ?? topology.nodes.length} full-cell nodes · ${topology.full_cell_edge_count ?? topology.edges.length} members · ${topology.symmetry_name || topology.symmetry_code || "unknown"} symmetry (${topology.symmetry_code || "—"}) · complexity C${topology.complexity_level || "—"}`;
   document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
-    ? `${topology.nodes.length} nodes · ${topology.edges.length} members · connectivity fixed; node positions and radius vary by record`
-    : `${topology.nodes.length} nodes · ${topology.edges.length} members · node positions fixed; variants change radius only`;
+    ? `${graphDescription} · connectivity fixed; node positions and radius vary by record`
+    : `${graphDescription} · node positions fixed; variants change radius only`;
   document.querySelector("#topology-dialog-variant-count").textContent = `${browserVariants.length} geometry variants · ${propertySample ? "1 property record loaded" : "no property record loaded"}`;
   document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant, topology, state.selectedTopologyVariant);
   const list = document.querySelector("#topology-variant-list");
@@ -492,14 +518,17 @@ function renderTopologyDialog() {
     button.className = `topology-variant-button${index === state.selectedTopologyVariant ? " is-active" : ""}`;
     button.dataset.variantIndex = String(index);
     const title = document.createElement("strong");
-    title.textContent = variantDisplayName(topology, index);
+    title.textContent = variantDisplayName(topology, item, index);
     const facts = document.createElement("span");
     facts.className = "topology-variant-facts";
     const radiusText = document.createElement("b");
     radiusText.textContent = `r=${item.radius.toFixed(5)}`;
     const detailText = document.createElement("em");
     const propertyNote = state.selectedFullSample?.id === item.id || state.samplesById.has(item.id) || state.indexRowsById.has(item.id) ? " · Cₕ/Kₕ loaded" : "";
-    detailText.textContent = `VF ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} moved nodes${propertyNote}`;
+    const maxDisplacement = Number(item.perturbation_max_norm ?? 0);
+    const displacementText = maxDisplacement > 0 ? ` · max |Δ| ${maxDisplacement.toFixed(4)}` : "";
+    const perturbationType = item.perturbation_type || (item.node_displacements.length ? "node-position + radius" : "radius-only");
+    detailText.textContent = `${perturbationType} · VF ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} moved nodes${displacementText}${propertyNote}`;
     facts.append(radiusText, detailText);
     button.append(title, facts);
     list.append(button);
@@ -514,7 +543,7 @@ function renderTopologyDialog() {
     : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
   renderTopologyProperties(variantProperties, variant);
   const canvas = document.querySelector("#topology-detail-canvas");
-  canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, state.selectedTopologyVariant)}`);
+  canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, variant, state.selectedTopologyVariant)}`);
   updateMeshToggle();
   scheduleTopologyCanvasRender();
 }
@@ -1030,7 +1059,7 @@ async function initialize() {
     try {
       if (typeof DecompressionStream === "undefined") throw new Error("This browser cannot load compressed indexes");
       const loadIndexPart = async (partNumber) => {
-        const indexResponse = await fetch(`data/sample_index_${partNumber}.json.gz?v=4`);
+        const indexResponse = await fetch(`data/sample_index_${partNumber}.json.gz?v=5`);
         if (!indexResponse.ok || !indexResponse.body) throw new Error(`Index part ${partNumber} HTTP ${indexResponse.status}`);
         const decompressed = indexResponse.body.pipeThrough(new DecompressionStream("gzip"));
         return new Response(decompressed).json();
@@ -1046,8 +1075,20 @@ async function initialize() {
           radius: Number(row.radius),
           density: Number(row.density),
           node_displacements: row.node_displacements || [],
+          variant_index: Number(row.variant_index || 0),
+          variant_name: row.variant_name || "",
+          perturbation_type: row.perturbation_type || "",
+          perturbation_max_norm: Number(row.perturbation_max_norm || 0),
+          perturbation_rms_norm: Number(row.perturbation_rms_norm || 0),
         });
         state.fullVariantsByTopology.set(row.topology_id, topologyVariants);
+      }
+      for (const variants of state.fullVariantsByTopology.values()) {
+        variants.sort((left, right) => {
+          const a = left.variant_index || Number.MAX_SAFE_INTEGER;
+          const b = right.variant_index || Number.MAX_SAFE_INTEGER;
+          return a - b || left.density - right.density || left.id.localeCompare(right.id);
+        });
       }
       // The compact browser starts with 301 curated groups for a fast first
       // paint. Once all four index shards are available, promote the catalog

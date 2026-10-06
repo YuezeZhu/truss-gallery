@@ -4,15 +4,17 @@ The gallery keeps the original `topology_id` values as immutable provenance
 keys.  The public `display_name` is a separate taxonomy name and does not
 change the sample index or the reproducibility path.
 
-## Name format
+## Two-level names
 
-`<Readable symmetry> · Complexity <level> · <ordinal>`
+Topology names use the simple-to-complex order:
+
+`T-C<level>-<ordinal> · <Readable symmetry> (<point-group>)`
 
 Examples:
 
-- `Cubic · Complexity 1 · 0001 (Oh)`
-- `Tetragonal · Complexity 3 · 0012 (D4h)`
-- `Orthorhombic · Complexity 5 · 0420 (D2h)`
+- `T-C1-0001 · Cubic symmetry (Oh)`
+- `T-C3-0012 · Tetragonal symmetry (D4h)`
+- `T-C5-0420 · Orthorhombic symmetry (D2h)`
 
 - The readable symmetry name is computed from the expanded full-cell graph under all 48 signed
   permutations of the cubic cell.  The current catalog contains `D2h` (8
@@ -22,8 +24,9 @@ Examples:
 - `C1`–`C5` is a graph-complexity band.  The primary key is full-cell member
   count, followed by full-cell node count and cycle rank.  Bands are quintiles
   of the complete catalog, so a variant count never affects the topology rank.
-- The final ordinal only disambiguates names inside one symmetry/complexity
-  bucket; it is not a complexity score.
+- The topology ordinal is counted within the complexity level, so `T-C1-*`
+  always appears before `T-C2-*`. It is not a substitute for the underlying
+  complexity metrics.
 
 The catalog also stores `full_cell_node_count`, `full_cell_edge_count`,
 `average_degree`, `cycle_rank`, `symmetry_order`, and `symmetry_method` so the
@@ -41,5 +44,10 @@ and now also exposes compact summaries:
 - `density`: the accepted 32³ volume fraction (shown as VF in the UI).
 
 The original ids remain available for audit and for joining to the property
-records.  The UI uses the taxonomy name for topology cards and variant labels,
-while the original id is not used as a complexity rank.
+records. Within each topology, variants are sorted by accepted VF ascending.
+Records with equal VF use their original record id as a stable tie-breaker;
+node displacement and radius are displayed as attributes, not sorting keys.
+They receive deterministic per-topology names `V0001`, `V0002`, …; the
+original record id remains available for audit and joins. The UI therefore
+shows `T-C1-0001 · ... · V0001` without using a variant id as a complexity
+rank.

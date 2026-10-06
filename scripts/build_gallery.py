@@ -7,7 +7,7 @@ import sqlite3
 import shutil
 from pathlib import Path
 
-from build_full_index import main as build_full_index
+from build_full_index import assign_variant_names, main as build_full_index, variant_sort_key
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -52,19 +52,29 @@ def build_topology_browser(dataset: dict) -> None:
         )
         for sample_id, source, topology_id, density, record_json in rows:
             record = json.loads(record_json)
+            displacements = record.get("node_displacements", [])
+            norms = [
+                (float(dx) ** 2 + float(dy) ** 2 + float(dz) ** 2) ** 0.5
+                for _index, dx, dy, dz in displacements
+            ]
             variants_by_catalog_id[topology_id].append({
                 "id": f"{source}_{int(sample_id):06d}",
                 "radius": float(record["radius"]),
                 "density": float(density),
-                "node_displacements": record.get("node_displacements", []),
+                "node_displacements": displacements,
+                "perturbation_type": "node-position + radius" if displacements else "radius-only",
+                "perturbation_max_norm": max(norms, default=0.0),
+                "perturbation_rms_norm": (
+                    sum(value * value for value in norms) / len(norms)
+                ) ** 0.5 if norms else 0.0,
+                "topology_id": topology_id,
             })
 
     topologies = []
     for topology, match in pairs:
-        variants = sorted(
-            variants_by_catalog_id[match["id"]],
-            key=lambda item: (item["radius"], item["id"]),
-        )
+        all_variants = variants_by_catalog_id[match["id"]]
+        assign_variant_names(all_variants)
+        variants = sorted(all_variants, key=variant_sort_key)
         if len(variants) > 8:
             variants = [variants[round(index * (len(variants) - 1) / 7)] for index in range(8)]
         topologies.append({

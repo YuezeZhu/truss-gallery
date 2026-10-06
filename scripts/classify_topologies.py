@@ -204,23 +204,23 @@ def classify(catalog: dict) -> list[dict]:
         item["complexity_level"] = level
         item["complexity_label"] = ["Sparse", "Light", "Medium", "Dense", "Highly connected"][level - 1]
 
-    # A name contains symmetry and complexity, while the trailing rank only
-    # disambiguates structures sharing the same taxonomy bucket.
+    # Public topology names follow the same simple-to-complex order as the
+    # ranking. The source ids remain hidden implementation keys.
     naming_order = sorted(
         enriched,
         key=lambda item: (
-            item["symmetry_code"],
             item["complexity_level"],
             item["complexity_rank"],
             item["id"],
         ),
     )
-    bucket_counts: dict[tuple[str, int], int] = {}
+    bucket_counts: dict[int, int] = {}
     for item in naming_order:
-        bucket = (item["symmetry_code"], item["complexity_level"])
-        bucket_counts[bucket] = bucket_counts.get(bucket, 0) + 1
+        level = item["complexity_level"]
+        bucket_counts[level] = bucket_counts.get(level, 0) + 1
         item["taxonomy_code"] = f"{item['symmetry_code']}-C{item['complexity_level']}"
-        item["display_name"] = f"{item['symmetry_name']} ({item['symmetry_code']}) · Complexity {item['complexity_level']} · {bucket_counts[bucket]:04d}"
+        item["topology_code"] = f"T-C{level}-{bucket_counts[level]:04d}"
+        item["display_name"] = f"{item['topology_code']} · {item['symmetry_name']} symmetry ({item['symmetry_code']})"
         item["taxonomy_description"] = (
             f"{item['symmetry_name']} symmetry ({item['symmetry_code']}) · complexity C{item['complexity_level']} "
             f"({item['complexity_label']}) · {item['full_cell_node_count']} nodes · "
@@ -242,7 +242,7 @@ def patch_topology_list(path: Path, classified: dict[str, dict]) -> None:
         source = classified.get(topology.get("catalog_id", topology.get("id")))
         if source:
             for key in (
-                "display_name", "taxonomy_code", "taxonomy_description",
+                "display_name", "topology_code", "taxonomy_code", "taxonomy_description",
                 "symmetry_code", "symmetry_order", "symmetry_method",
                 "symmetry_name",
                 "complexity_rank", "complexity_level", "complexity_label",
@@ -268,7 +268,7 @@ def main() -> None:
                 {
                     key: topology[key]
                     for key in (
-                        "id", "display_name", "taxonomy_code", "taxonomy_description",
+                        "id", "display_name", "topology_code", "taxonomy_code", "taxonomy_description",
                         "symmetry_code", "symmetry_order", "symmetry_method",
                         "symmetry_name",
                         "complexity_rank", "complexity_level", "complexity_label",

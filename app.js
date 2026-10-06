@@ -390,15 +390,16 @@ function topologyDisplayName(topology) {
   return `Lattice ${String(Math.max(0, index) + 1).padStart(4, "0")}`;
 }
 
-function variantDisplayName(topology, index) {
-  return `${topologyDisplayName(topology)} · Variant ${String(index + 1).padStart(3, "0")}`;
+function variantDisplayName(topology, variant, index = 0) {
+  const name = variant?.variant_name || `V${String(Number(variant?.variant_index ?? index + 1)).padStart(4, "0")}`;
+  return `${topologyDisplayName(topology)} · ${name}`;
 }
 
 function topologyVariantLabel(variant, topology, index = 0) {
   const moved = variant.node_displacements?.length || 0;
   const maxDisplacement = Number(variant.perturbation_max_norm ?? 0);
   const displacementText = maxDisplacement > 0 ? ` · max |Δ|=${maxDisplacement.toFixed(4)}` : "";
-  return `${variantDisplayName(topology, index)} · r=${variant.radius.toFixed(4)} · VF=${(variant.density * 100).toFixed(2)}% · ${moved} moved${displacementText}`;
+  return `${variantDisplayName(topology, variant, index)} · r=${variant.radius.toFixed(4)} · VF=${(variant.density * 100).toFixed(2)}% · ${moved} moved${displacementText}`;
 }
 
 function topologySortKey(topology) {
@@ -414,7 +415,7 @@ function filteredTopologies() {
   const query = state.topologyQuery.trim().toLowerCase();
   return state.topologyPayload.topologies.filter((topology) => {
     const searchText = [
-      topology.id, topology.catalog_id, topology.display_name, topology.taxonomy_code,
+      topology.id, topology.catalog_id, topology.display_name, topology.topology_code, topology.taxonomy_code,
       topology.symmetry_code, topology.symmetry_name, topology.complexity_label,
     ].filter(Boolean).join(" ").toLowerCase();
     const searchMatch = !query || searchText.includes(query);
@@ -484,9 +485,12 @@ function renderTopologyDialog() {
     ? state.selectedFullSample
     : state.samplesByTopology.get(topology.id);
   const browserVariants = state.fullVariantsByTopology.get(topology.catalog_id) || topology.variants || [];
-  const variants = propertySample
-    ? [propertySample, ...browserVariants.filter((item) => item.id !== propertySample.id)]
-    : browserVariants;
+  // Keep the deterministic per-topology V-names stable. A compact reference
+  // sample is only used before the full index is loaded, never prepended to a
+  // sorted full list.
+  const variants = browserVariants.length
+    ? browserVariants
+    : (propertySample ? [propertySample] : []);
   const variant = variants[state.selectedTopologyVariant] || variants[0];
   if (!variant) return;
   state.selectedTopologyVariantRecord = variant;
@@ -514,7 +518,7 @@ function renderTopologyDialog() {
     button.className = `topology-variant-button${index === state.selectedTopologyVariant ? " is-active" : ""}`;
     button.dataset.variantIndex = String(index);
     const title = document.createElement("strong");
-    title.textContent = variantDisplayName(topology, index);
+    title.textContent = variantDisplayName(topology, item, index);
     const facts = document.createElement("span");
     facts.className = "topology-variant-facts";
     const radiusText = document.createElement("b");
@@ -539,7 +543,7 @@ function renderTopologyDialog() {
     : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
   renderTopologyProperties(variantProperties, variant);
   const canvas = document.querySelector("#topology-detail-canvas");
-  canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, state.selectedTopologyVariant)}`);
+  canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, variant, state.selectedTopologyVariant)}`);
   updateMeshToggle();
   scheduleTopologyCanvasRender();
 }
@@ -1055,7 +1059,7 @@ async function initialize() {
     try {
       if (typeof DecompressionStream === "undefined") throw new Error("This browser cannot load compressed indexes");
       const loadIndexPart = async (partNumber) => {
-        const indexResponse = await fetch(`sample_index_${partNumber}.json.gz?v=4`);
+        const indexResponse = await fetch(`sample_index_${partNumber}.json.gz?v=5`);
         if (!indexResponse.ok || !indexResponse.body) throw new Error(`Index part ${partNumber} HTTP ${indexResponse.status}`);
         const decompressed = indexResponse.body.pipeThrough(new DecompressionStream("gzip"));
         return new Response(decompressed).json();
@@ -1071,8 +1075,20 @@ async function initialize() {
           radius: Number(row.radius),
           density: Number(row.density),
           node_displacements: row.node_displacements || [],
+          variant_index: Number(row.variant_index || 0),
+          variant_name: row.variant_name || "",
+          perturbation_type: row.perturbation_type || "",
+          perturbation_max_norm: Number(row.perturbation_max_norm || 0),
+          perturbation_rms_norm: Number(row.perturbation_rms_norm || 0),
         });
         state.fullVariantsByTopology.set(row.topology_id, topologyVariants);
+      }
+      for (const variants of state.fullVariantsByTopology.values()) {
+        variants.sort((left, right) => {
+          const a = left.variant_index || Number.MAX_SAFE_INTEGER;
+          const b = right.variant_index || Number.MAX_SAFE_INTEGER;
+          return a - b || left.density - right.density || left.id.localeCompare(right.id);
+        });
       }
       // The compact browser starts with 301 curated groups for a fast first
       // paint. Once all four index shards are available, promote the catalog

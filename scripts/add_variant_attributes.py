@@ -6,6 +6,8 @@ import gzip
 import json
 from pathlib import Path
 
+from build_full_index import assign_variant_names, variant_sort_key
+
 
 ROOT = Path(__file__).resolve().parents[2]
 TARGET_DIRS = [ROOT / "truss-gallery", ROOT / "github-upload"]
@@ -37,8 +39,14 @@ def update_json(path: Path) -> None:
     for row in payload.get("samples", []):
         update_row(row)
     for topology in payload.get("topologies", []):
-        for variant in topology.get("variants", []):
+        variants = topology.get("variants", [])
+        for variant in variants:
             update_row(variant)
+            variant["topology_id"] = topology.get("catalog_id", topology.get("id", ""))
+        assign_variant_names(variants)
+        variants.sort(key=variant_sort_key)
+        for variant in variants:
+            variant.pop("topology_id", None)
     path.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 

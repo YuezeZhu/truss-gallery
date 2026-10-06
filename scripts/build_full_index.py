@@ -16,8 +16,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DATABASE = ROOT / "truss100k" / "records.sqlite"
 TARGET_DIRS = [
+    ROOT / "truss-gallery",
     ROOT / "truss-gallery" / "dist" / "data",
     ROOT / "truss-gallery" / "github-pages" / "data",
+    ROOT / "github-upload",
 ]
 
 
@@ -103,6 +105,30 @@ def index_row(record: dict, dataset: str, row_number: int, topology_id: str, den
     }
 
 
+def variant_sort_key(row: dict) -> tuple:
+    """Order variants in a topology by VF, then stable source record id.
+
+    The original record id remains the reproducibility key.  The public
+    ``V0001`` name is only the human-facing position in this deterministic
+    order.
+    """
+    return (
+        round(float(row.get("density", 0.0)), 7),
+        str(row.get("id", "")),
+    )
+
+
+def assign_variant_names(rows: list[dict]) -> None:
+    """Assign deterministic per-topology names such as ``V0001``."""
+    grouped: dict[str, list[dict]] = {}
+    for row in rows:
+        grouped.setdefault(str(row["topology_id"]), []).append(row)
+    for group in grouped.values():
+        for index, row in enumerate(sorted(group, key=variant_sort_key), start=1):
+            row["variant_index"] = index
+            row["variant_name"] = f"V{index:04d}"
+
+
 def load_rows() -> list[dict]:
     rows: list[dict] = []
     with sqlite3.connect(DATABASE) as connection:
@@ -120,6 +146,7 @@ def load_rows() -> list[dict]:
 def main() -> None:
     rows = load_rows()
     rows.sort(key=lambda row: (row["density"], row["source"], row["id"]))
+    assign_variant_names(rows)
     for index, row in enumerate(rows, start=1):
         row["n"] = index
     counts = {
