@@ -819,7 +819,10 @@ footer p { margin: 0; }
 .topology-variant-panel { min-width: 0; }
 .topology-variant-panel-head { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); color: var(--faint); font-size: 12px; }
 .topology-variant-panel-head strong { color: var(--ink); font: 10px/1.3 var(--font-mono); text-align: right; }
+.topology-group-label { margin-top: 15px; color: var(--cyan); font: 10px/1.35 var(--font-mono); letter-spacing: .02em; }
 .topology-variant-list { display: grid; gap: 7px; max-height: 315px; margin-top: 12px; overflow: auto; padding-right: 4px; }
+.topology-geometry-list { max-height: 210px; }
+.topology-radius-list { max-height: 160px; }
 .topology-variant-button { display: grid; gap: 4px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); background: rgba(9, 20, 34, .75); text-align: left; }
 .topology-variant-button:hover, .topology-variant-button:focus-visible { border-color: var(--line-strong); color: var(--ink); }
 .topology-variant-button.is-active { border-color: color-mix(in srgb, var(--detail-accent, var(--cyan)) 65%, var(--line)); background: color-mix(in srgb, var(--detail-accent, var(--cyan)) 9%, var(--surface-raised)); }

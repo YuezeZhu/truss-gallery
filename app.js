@@ -73,6 +73,9 @@ const state = {
   topologyVisible: 24,
   selectedTopology: null,
   selectedTopologyVariant: 0,
+  selectedGeometryKey: null,
+  selectedVariantId: null,
+  activeGeometryGroups: [],
   selectedTopologyVariantRecord: null,
   topologyYaw: -0.68,
   topologyRotation: initialTopologyRotation(),
@@ -391,15 +394,50 @@ function topologyDisplayName(topology) {
 }
 
 function variantDisplayName(topology, variant, index = 0) {
-  const name = variant?.variant_name || `V${String(Number(variant?.variant_index ?? index + 1)).padStart(4, "0")}`;
-  return `${topologyDisplayName(topology)} · ${name}`;
+  const geometry = variant?.geometry_name || "G0001";
+  const radius = variant?.radius_name || `R${String(index + 1).padStart(4, "0")}`;
+  return `${topology.topology_code || topologyDisplayName(topology)} · ${geometry} · ${radius}`;
+}
+
+function geometryKey(variant) {
+  return JSON.stringify((variant.node_displacements || []).map(([node, dx, dy, dz]) => [
+    Number(node), ...[dx, dy, dz].map((value) => Number(Number(value).toFixed(4))),
+  ]));
+}
+
+function geometryGroups(variants) {
+  const groupsByKey = new Map();
+  for (const variant of variants) {
+    const key = geometryKey(variant);
+    if (!groupsByKey.has(key)) groupsByKey.set(key, { key, variants: [] });
+    groupsByKey.get(key).variants.push(variant);
+  }
+  const groups = Array.from(groupsByKey.values()).sort((left, right) => {
+    const a = left.variants[0], b = right.variants[0];
+    if (a.geometry_index && b.geometry_index) return a.geometry_index - b.geometry_index;
+    return Number(a.perturbation_rms_norm || 0) - Number(b.perturbation_rms_norm || 0)
+      || Number(a.perturbation_max_norm || 0) - Number(b.perturbation_max_norm || 0)
+      || (a.node_displacements?.length || 0) - (b.node_displacements?.length || 0)
+      || left.key.localeCompare(right.key);
+  });
+  groups.forEach((group, geometryIndex) => {
+    group.name = group.variants[0].geometry_name || `G${String(geometryIndex + 1).padStart(4, "0")}`;
+    group.variants.sort((left, right) =>
+      (left.radius_index && right.radius_index ? left.radius_index - right.radius_index : 0)
+      || Number(left.density) - Number(right.density) || left.id.localeCompare(right.id));
+    group.variants.forEach((variant, radiusIndex) => {
+      variant.geometry_name = group.name;
+      variant.radius_name ||= `R${String(radiusIndex + 1).padStart(4, "0")}`;
+    });
+  });
+  return groups;
 }
 
 function topologyVariantLabel(variant, topology, index = 0) {
   const moved = variant.node_displacements?.length || 0;
   const maxDisplacement = Number(variant.perturbation_max_norm ?? 0);
   const displacementText = maxDisplacement > 0 ? ` · max |Δ|=${maxDisplacement.toFixed(4)}` : "";
-  return `${variantDisplayName(topology, variant, index)} · r=${variant.radius.toFixed(4)} · VF=${(variant.density * 100).toFixed(2)}% · ${moved} moved${displacementText}`;
+  return `${variant.geometry_name || "G0001"} · ${variant.radius_name || "R0001"} · VF ${(variant.density * 100).toFixed(2)}% · ${moved} moved${displacementText}`;
 }
 
 function topologySortKey(topology) {
@@ -433,7 +471,7 @@ function drawTopologyCanvases() {
     const topology = state.topologyPayload.topologies.find((item) => item.id === canvas.dataset.topologyId);
     const variant = topology?.variants?.[0];
     if (topology && variant) {
-      window.TrussGeometry.render(canvas, variant, topology, -0.68, {
+      window.TrussGeometry.render(canvas, { ...variant, node_displacements: [] }, topology, -0.68, {
         mode: "skeleton", showNodes: true, nodeRadius: 4.4, skeletonLineWidth: 1.45,
       });
     }
@@ -443,7 +481,6 @@ function drawTopologyCanvases() {
 function topologyCardFor(topology, position) {
   const card = document.querySelector("#topology-card-template").content.firstElementChild.cloneNode(true);
   const variants = state.fullVariantsByTopology.get(topology.catalog_id) || topology.variants;
-  const variant = variants[0];
   const button = card.querySelector(".topology-card-open");
   const canvas = card.querySelector(".topology-card-image");
   button.dataset.topologyId = topology.id;
@@ -452,13 +489,10 @@ function topologyCardFor(topology, position) {
   card.style.setProperty("--card-accent", accent[topology.source]);
   card.querySelector(".topology-card-index").textContent = String(position + 1).padStart(3, "0");
   card.querySelector("h3").textContent = topologyDisplayName(topology);
-  const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
-  card.querySelector(".topology-card-variant-pill").textContent = hasNodePerturbations
-    ? `${variants.length} variants`
-    : `${variants.length} radius variants`;
+  const geometryCount = new Set(variants.map(geometryKey)).size;
+  card.querySelector(".topology-card-variant-pill").textContent = `${geometryCount} ${geometryCount === 1 ? "geometry" : "geometries"} · ${variants.length} ${variants.length === 1 ? "result" : "results"}`;
   card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.full_cell_node_count ?? topology.nodes.length} nodes`;
   card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.full_cell_edge_count ?? topology.edges.length} members`;
-  card.querySelector('[data-topology-fact="radius"]').textContent = variant ? `r ${variant.radius.toFixed(4)}` : "No variants";
   const classification = card.querySelector('[data-topology-fact="classification"]');
   if (classification) classification.textContent = `${topology.symmetry_name || topology.symmetry_code || "—"} · Complexity ${topology.complexity_level || "—"}`;
   return card;
@@ -491,8 +525,16 @@ function renderTopologyDialog() {
   const variants = browserVariants.length
     ? browserVariants
     : (propertySample ? [propertySample] : []);
-  const variant = variants[state.selectedTopologyVariant] || variants[0];
+  const groups = geometryGroups(variants);
+  state.activeGeometryGroups = groups;
+  const selectedGroup = groups.find((group) => group.key === state.selectedGeometryKey)
+    || groups.find((group) => group.variants.some((item) => item.id === state.selectedVariantId))
+    || groups[0];
+  const variant = selectedGroup?.variants.find((item) => item.id === state.selectedVariantId)
+    || selectedGroup?.variants[0];
   if (!variant) return;
+  state.selectedGeometryKey = selectedGroup.key;
+  state.selectedVariantId = variant.id;
   state.selectedTopologyVariantRecord = variant;
   const radii = variants.map((item) => item.radius).filter(Number.isFinite);
   const actualMin = radii.length ? Math.min(...radii) : 0;
@@ -508,27 +550,39 @@ function renderTopologyDialog() {
   document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
     ? `${graphDescription} · connectivity fixed; node positions and radius vary by record`
     : `${graphDescription} · node positions fixed; variants change radius only`;
-  document.querySelector("#topology-dialog-variant-count").textContent = `${browserVariants.length} geometry variants · ${propertySample ? "1 property record loaded" : "no property record loaded"}`;
-  document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant, topology, state.selectedTopologyVariant);
-  const list = document.querySelector("#topology-variant-list");
-  list.replaceChildren();
-  variants.forEach((item, index) => {
+  document.querySelector("#topology-dialog-variant-count").textContent = `${groups.length} node ${groups.length === 1 ? "geometry" : "geometries"} · ${variants.length} radius ${variants.length === 1 ? "result" : "results"}`;
+  document.querySelector("#topology-selected-variant").textContent = topologyVariantLabel(variant, topology);
+  const geometryList = document.querySelector("#topology-geometry-list");
+  geometryList.replaceChildren();
+  groups.forEach((group, index) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `topology-variant-button${index === state.selectedTopologyVariant ? " is-active" : ""}`;
-    button.dataset.variantIndex = String(index);
+    button.className = `topology-variant-button${group.key === selectedGroup.key ? " is-active" : ""}`;
+    button.dataset.geometryIndex = String(index);
     const title = document.createElement("strong");
-    title.textContent = variantDisplayName(topology, item, index);
+    title.textContent = group.name + (group.key === "[]" ? " · fixed nodes" : " · moved nodes");
+    const facts = document.createElement("span");
+    const first = group.variants[0];
+    facts.textContent = `${first.node_displacements.length} moved · RMS |Δ| ${Number(first.perturbation_rms_norm || 0).toFixed(4)} · ${group.variants.length} radius result${group.variants.length === 1 ? "" : "s"}`;
+    button.append(title, facts);
+    geometryList.append(button);
+  });
+  const list = document.querySelector("#topology-variant-list");
+  list.replaceChildren();
+  selectedGroup.variants.forEach((item, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `topology-variant-button${item.id === variant.id ? " is-active" : ""}`;
+    button.dataset.radiusIndex = String(index);
+    const title = document.createElement("strong");
+    title.textContent = `${item.radius_name} · VF ${(item.density * 100).toFixed(2)}%`;
     const facts = document.createElement("span");
     facts.className = "topology-variant-facts";
     const radiusText = document.createElement("b");
     radiusText.textContent = `r=${item.radius.toFixed(5)}`;
     const detailText = document.createElement("em");
     const propertyNote = state.selectedFullSample?.id === item.id || state.samplesById.has(item.id) || state.indexRowsById.has(item.id) ? " · Cₕ/Kₕ loaded" : "";
-    const maxDisplacement = Number(item.perturbation_max_norm ?? 0);
-    const displacementText = maxDisplacement > 0 ? ` · max |Δ| ${maxDisplacement.toFixed(4)}` : "";
-    const perturbationType = item.perturbation_type || (item.node_displacements.length ? "node-position + radius" : "radius-only");
-    detailText.textContent = `${perturbationType} · VF ${(item.density * 100).toFixed(2)}% · ${item.node_displacements.length} moved nodes${displacementText}${propertyNote}`;
+    detailText.textContent = propertyNote ? "Elastic + thermal properties available" : "Properties loading";
     facts.append(radiusText, detailText);
     button.append(title, facts);
     list.append(button);
@@ -543,7 +597,7 @@ function renderTopologyDialog() {
     : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
   renderTopologyProperties(variantProperties, variant);
   const canvas = document.querySelector("#topology-detail-canvas");
-  canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, variant, state.selectedTopologyVariant)}`);
+  canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, variant)}`);
   updateMeshToggle();
   scheduleTopologyCanvasRender();
 }
@@ -699,6 +753,8 @@ function openTopology(topology) {
   state.selectedFullSample = null;
   state.selectedTopology = topology;
   state.selectedTopologyVariant = 0;
+  state.selectedGeometryKey = null;
+  state.selectedVariantId = null;
   state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
   state.topologyRotation = initialTopologyRotation();
@@ -865,6 +921,8 @@ function openIndexedSample(row) {
   state.selectedFullSample = sample;
   state.selectedTopology = { ...topology, variants: [sample] };
   state.selectedTopologyVariant = 0;
+  state.selectedGeometryKey = null;
+  state.selectedVariantId = sample.id;
   state.selectedTopologyVariantRecord = null;
   state.topologyYaw = -0.68;
   state.topologyRotation = initialTopologyRotation();
@@ -971,10 +1029,23 @@ function bindEvents() {
   });
   els.topologyDialog.addEventListener("click", (event) => {
     if (event.target === els.topologyDialog) els.topologyDialog.close();
-    const button = event.target.closest(".topology-variant-button");
-    if (!button || !state.selectedTopology) return;
-    state.selectedTopologyVariant = Number(button.dataset.variantIndex);
-    renderTopologyDialog();
+    const geometryButton = event.target.closest("[data-geometry-index]");
+    if (geometryButton && state.selectedTopology) {
+      const group = state.activeGeometryGroups[Number(geometryButton.dataset.geometryIndex)];
+      if (!group) return;
+      state.selectedGeometryKey = group.key;
+      state.selectedVariantId = group.variants[0]?.id || null;
+      renderTopologyDialog();
+      return;
+    }
+    const radiusButton = event.target.closest("[data-radius-index]");
+    if (radiusButton && state.selectedTopology) {
+      const group = state.activeGeometryGroups.find((item) => item.key === state.selectedGeometryKey);
+      const variant = group?.variants[Number(radiusButton.dataset.radiusIndex)];
+      if (!variant) return;
+      state.selectedVariantId = variant.id;
+      renderTopologyDialog();
+    }
   });
 
   const topologyCanvas = document.querySelector("#topology-detail-canvas");
@@ -1059,7 +1130,7 @@ async function initialize() {
     try {
       if (typeof DecompressionStream === "undefined") throw new Error("This browser cannot load compressed indexes");
       const loadIndexPart = async (partNumber) => {
-        const indexResponse = await fetch(`sample_index_${partNumber}.json.gz?v=5`);
+        const indexResponse = await fetch(`sample_index_${partNumber}.json.gz?v=6`);
         if (!indexResponse.ok || !indexResponse.body) throw new Error(`Index part ${partNumber} HTTP ${indexResponse.status}`);
         const decompressed = indexResponse.body.pipeThrough(new DecompressionStream("gzip"));
         return new Response(decompressed).json();
@@ -1077,6 +1148,10 @@ async function initialize() {
           node_displacements: row.node_displacements || [],
           variant_index: Number(row.variant_index || 0),
           variant_name: row.variant_name || "",
+          geometry_index: Number(row.geometry_index || 0),
+          geometry_name: row.geometry_name || "",
+          radius_index: Number(row.radius_index || 0),
+          radius_name: row.radius_name || "",
           perturbation_type: row.perturbation_type || "",
           perturbation_max_norm: Number(row.perturbation_max_norm || 0),
           perturbation_rms_norm: Number(row.perturbation_rms_norm || 0),

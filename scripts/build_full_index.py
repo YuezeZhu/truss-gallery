@@ -119,7 +119,7 @@ def variant_sort_key(row: dict) -> tuple:
 
 
 def assign_variant_names(rows: list[dict]) -> None:
-    """Assign deterministic per-topology names such as ``V0001``."""
+    """Assign deterministic topology-local VF order and geometry/radius names."""
     grouped: dict[str, list[dict]] = {}
     for row in rows:
         grouped.setdefault(str(row["topology_id"]), []).append(row)
@@ -127,6 +127,29 @@ def assign_variant_names(rows: list[dict]) -> None:
         for index, row in enumerate(sorted(group, key=variant_sort_key), start=1):
             row["variant_index"] = index
             row["variant_name"] = f"V{index:04d}"
+
+        geometries: dict[tuple, list[dict]] = {}
+        for row in group:
+            displacement_key = tuple(
+                (int(node), round(float(dx), 4), round(float(dy), 4), round(float(dz), 4))
+                for node, dx, dy, dz in row.get("node_displacements", [])
+            )
+            geometries.setdefault(displacement_key, []).append(row)
+        ordered_geometries = sorted(
+            geometries.items(),
+            key=lambda pair: (
+                float(pair[1][0].get("perturbation_rms_norm", 0.0)),
+                float(pair[1][0].get("perturbation_max_norm", 0.0)),
+                len(pair[0]),
+                pair[0],
+            ),
+        )
+        for geometry_index, (_key, geometry_rows) in enumerate(ordered_geometries, start=1):
+            for radius_index, row in enumerate(sorted(geometry_rows, key=variant_sort_key), start=1):
+                row["geometry_index"] = geometry_index
+                row["geometry_name"] = f"G{geometry_index:04d}"
+                row["radius_index"] = radius_index
+                row["radius_name"] = f"R{radius_index:04d}"
 
 
 def load_rows() -> list[dict]:

@@ -44,10 +44,11 @@ and now also exposes compact summaries:
 - `density`: the accepted 32³ volume fraction (shown as VF in the UI).
 
 The original ids remain available for audit and for joining to the property
-records. Within each topology, variants are sorted by accepted VF ascending.
-Records with equal VF use their original record id as a stable tie-breaker;
-node displacement and radius are displayed as attributes, not sorting keys.
-They receive deterministic per-topology names `V0001`, `V0002`, …; the
-original record id remains available for audit and joins. The UI therefore
-shows `T-C1-0001 · ... · V0001` without using a variant id as a complexity
-rank.
+records. Within a topology, identical node-displacement arrays form one node
+geometry. Node geometries are sorted by RMS displacement, then maximum
+displacement, moved-node count, and displacement coordinates. They are named
+`G0001`, `G0002`, … . Within each geometry, radius results are sorted by
+accepted VF (using record id to break ties) and named `R0001`, `R0002`, … .
+The UI displays names such as `T-C1-0001 · G0001 · R0001` while the original
+record id remains available for audit and property joins. Moving nodes does
+not change the topology-complexity rank.
