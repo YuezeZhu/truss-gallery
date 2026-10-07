@@ -196,34 +196,20 @@ def classify(catalog: dict) -> list[dict]:
             item["id"],
         ),
     )
-    total = len(ordered)
     for rank, item in enumerate(ordered, start=1):
-        percentile = (rank - 1) / max(total - 1, 1)
-        level = min(5, int(percentile * 5) + 1)
         item["complexity_rank"] = rank
-        item["complexity_level"] = level
-        item["complexity_label"] = ["Sparse", "Light", "Medium", "Dense", "Highly connected"][level - 1]
+        item.pop("complexity_level", None)
+        item.pop("complexity_label", None)
 
-    # Public topology names follow the same simple-to-complex order as the
-    # ranking. The source ids remain hidden implementation keys.
-    naming_order = sorted(
-        enriched,
-        key=lambda item: (
-            item["complexity_level"],
-            item["complexity_rank"],
-            item["id"],
-        ),
-    )
-    bucket_counts: dict[int, int] = {}
-    for item in naming_order:
-        level = item["complexity_level"]
-        bucket_counts[level] = bucket_counts.get(level, 0) + 1
-        item["taxonomy_code"] = f"{item['symmetry_code']}-C{item['complexity_level']}"
-        item["topology_code"] = f"T-C{level}-{bucket_counts[level]:04d}"
+    # Public names use one continuous simple-to-complex rank, not bands.
+    # Source ids remain immutable provenance keys.
+    for item in ordered:
+        item["taxonomy_code"] = item["symmetry_code"]
+        item["topology_code"] = f"T-{item['complexity_rank']:05d}"
         item["display_name"] = f"{item['topology_code']} · {item['symmetry_name']} symmetry ({item['symmetry_code']})"
         item["taxonomy_description"] = (
-            f"{item['symmetry_name']} symmetry ({item['symmetry_code']}) · complexity C{item['complexity_level']} "
-            f"({item['complexity_label']}) · {item['full_cell_node_count']} nodes · "
+            f"{item['symmetry_name']} symmetry ({item['symmetry_code']}) · "
+            f"complexity rank {item['complexity_rank']} · {item['full_cell_node_count']} nodes · "
             f"{item['full_cell_edge_count']} members"
         )
     return enriched
@@ -245,11 +231,13 @@ def patch_topology_list(path: Path, classified: dict[str, dict]) -> None:
                 "display_name", "topology_code", "taxonomy_code", "taxonomy_description",
                 "symmetry_code", "symmetry_order", "symmetry_method",
                 "symmetry_name",
-                "complexity_rank", "complexity_level", "complexity_label",
+                "complexity_rank",
                 "full_cell_node_count", "full_cell_edge_count", "average_degree",
                 "cycle_rank", "connected_components",
             ):
                 topology[key] = source[key]
+            topology.pop("complexity_level", None)
+            topology.pop("complexity_label", None)
     write_json(path, payload)
 
 
@@ -271,7 +259,7 @@ def main() -> None:
                         "id", "display_name", "topology_code", "taxonomy_code", "taxonomy_description",
                         "symmetry_code", "symmetry_order", "symmetry_method",
                         "symmetry_name",
-                        "complexity_rank", "complexity_level", "complexity_label",
+                        "complexity_rank",
                         "full_cell_node_count", "full_cell_edge_count", "average_degree",
                         "cycle_rank", "connected_components",
                     )
@@ -293,10 +281,7 @@ def main() -> None:
             code: sum(item["symmetry_code"] == code for item in topologies)
             for code in sorted({item["symmetry_code"] for item in topologies})
         },
-        "complexity": {
-            str(level): sum(item["complexity_level"] == level for item in topologies)
-            for level in range(1, 6)
-        },
+        "complexity_rank_range": [1, len(topologies)],
     }, ensure_ascii=False))
 
 
