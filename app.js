@@ -385,7 +385,7 @@ function drawCardCanvases() {
     if (sample) window.TrussGeometry.render(canvas, sample, state.catalogById.get(sample.topology_id) || state.topologies.get(sample.topology_id), -0.68, {
       // Keep full-gallery previews identical to the topology gallery: blue
       // skeleton and nodes only. The yellow mesh is shown after opening.
-      mode: "skeleton", showNodes: true, nodeRadius: 4.4, skeletonLineWidth: 1.45,
+      mode: "skeleton", showNodes: true, previewStyle: true, skeletonLineWidth: 1.25,
     });
     requestAnimationFrame(drawNext);
   };
@@ -493,7 +493,7 @@ function drawTopologyCanvases() {
     const variant = topology?.variants?.[0];
     if (topology && variant) {
       window.TrussGeometry.render(canvas, { ...variant, node_displacements: [] }, topology, -0.68, {
-        mode: "skeleton", showNodes: true, nodeRadius: 4.4, skeletonLineWidth: 1.45,
+        mode: "skeleton", showNodes: true, previewStyle: true, skeletonLineWidth: 1.25,
       });
     }
   });

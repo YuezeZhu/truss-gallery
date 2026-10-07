@@ -342,6 +342,40 @@
       : (rotation || legacyRotationMatrix(yaw, pitch));
   }
 
+  function previewRotation(geometry, width, height) {
+    // A fixed isometric view makes distinct nodes overlap in dense skeletons.
+    // Pick a repeatable view with the fewest near-coincident projected nodes.
+    const extent = Math.max(1.06, ...geometry.nodes.flatMap((node) => node.map((value) => Math.abs(value) + 0.05)));
+    let best = null;
+    for (const yaw of [-0.88, -0.57, -0.29, 0.29, 0.57, 0.88]) {
+      for (const pitch of [0.34, 0.55, 0.78]) {
+        const matrix = legacyRotationMatrix(yaw, pitch);
+        const corners = [];
+        for (const x of [-extent, extent]) for (const y of [-extent, extent]) for (const z of [-extent, extent]) {
+          corners.push(rotateByMatrix([x, y, z], matrix));
+        }
+        const maxX = Math.max(...corners.map((point) => Math.abs(point[0])));
+        const maxY = Math.max(...corners.map((point) => Math.abs(point[1])));
+        const scale = Math.min(width * 0.88 / (2 * maxX), height * 0.88 / (2 * maxY));
+        const points = geometry.nodes.map((node) => {
+          const point = rotateByMatrix(node, matrix);
+          return [point[0] * scale, point[1] * scale];
+        });
+        let score = 0;
+        for (let i = 0; i < points.length; i++) {
+          let nearest = Infinity;
+          for (let j = 0; j < points.length; j++) {
+            if (i === j) continue;
+            nearest = Math.min(nearest, Math.hypot(points[i][0] - points[j][0], points[i][1] - points[j][1]));
+          }
+          score += Math.min(nearest, 12) - 2 * Math.max(0, 6 - nearest);
+        }
+        if (!best || score > best.score) best = { score, matrix };
+      }
+    }
+    return best?.matrix || legacyRotationMatrix(-0.68, 0.56);
+  }
+
   function render(canvas, sample, topology, yaw = -0.68, options = {}) {
     const bounds = canvas.getBoundingClientRect();
     const width = Math.max(1, bounds.width);
@@ -370,7 +404,14 @@
 
     const mode = options.mode || "surface";
 
-    const rotationMatrix = resolveRotationMatrix(options.rotation, yaw, 0.56);
+    let geometry = geometryCache.get(sample);
+    if (!geometry) {
+      geometry = makeGeometry(sample, topology);
+      geometryCache.set(sample, geometry);
+    }
+    const rotationMatrix = options.previewStyle
+      ? previewRotation(geometry, width, height)
+      : resolveRotationMatrix(options.rotation, yaw, 0.56);
     const rotate = (point) => rotateByMatrix(point, rotationMatrix);
 
     const cubeWorld = [];
@@ -378,11 +419,6 @@
     const cube = cubeWorld.map(rotate);
     // Scale the view to include the full radius of boundary-centered members
     // while keeping the unit-cell frame at ±1 as a visual reference.
-    let geometry = geometryCache.get(sample);
-    if (!geometry) {
-      geometry = makeGeometry(sample, topology);
-      geometryCache.set(sample, geometry);
-    }
     const geometryExtent = geometry.nodes.reduce(
       (maximum, node) => Math.max(maximum, Math.abs(node[0]), Math.abs(node[1]), Math.abs(node[2])),
       1,
@@ -396,16 +432,16 @@
     // reaches the six face centers (±1, 0, 0), etc., but has no corner rods;
     // a radius-dependent zoom can make that valid geometry look artificially
     // shorter than corner-connected topologies.
-    const viewExtent = Math.max(
-      1.4,
-      geometryExtent + Math.max(0, sample.radius) + 2 / viewResolution,
-    );
+    const viewExtent = options.previewStyle
+      ? Math.max(1.06, geometryExtent + 0.05)
+      : Math.max(1.4, geometryExtent + Math.max(0, sample.radius) + 2 / viewResolution);
     const viewWorld = [];
     for (const x of [-viewExtent, viewExtent]) for (const y of [-viewExtent, viewExtent]) for (const z of [-viewExtent, viewExtent]) viewWorld.push([x, y, z]);
     const viewCube = viewWorld.map(rotate);
     const maxX = Math.max(...viewCube.map((point) => Math.abs(point[0])));
     const maxY = Math.max(...viewCube.map((point) => Math.abs(point[1])));
-    const scale = Math.min((width * 0.77) / (2 * maxX), (height * 0.77) / (2 * maxY));
+    const framing = options.previewStyle ? 0.88 : 0.77;
+    const scale = Math.min((width * framing) / (2 * maxX), (height * framing) / (2 * maxY));
     const project = (point) => {
       const [x, y, depth] = rotate(point);
       return [width / 2 + x * scale, height / 2 - y * scale, depth];
@@ -504,8 +540,12 @@
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     for (const { a, b } of edges) {
+      if (options.previewStyle) {
+        const depth = (a[2] + b[2]) / (4 * viewExtent) + 0.5;
+        ctx.globalAlpha = 0.35 + 0.6 * Math.max(0, Math.min(1, depth));
+      }
       ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
-      ctx.lineWidth = thickness + (mode === "skeleton" ? 2.2 : 2);
+      ctx.lineWidth = thickness + (options.previewStyle ? 0.8 : (mode === "skeleton" ? 2.2 : 2));
       ctx.strokeStyle = color.shade;
       ctx.stroke();
       ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
@@ -522,10 +562,17 @@
     }
 
     if (options.showNodes) {
-      const nodeRadius = options.nodeRadius || Math.max(2.6, thickness * 0.74);
-      for (const node of projected) {
+      const nodeRadius = options.previewStyle
+        ? Math.max(1.7, Math.min(3, 5.6 / Math.sqrt(geometry.nodes.length / 12)))
+        : (options.nodeRadius || Math.max(2.6, thickness * 0.74));
+      const nodes = options.previewStyle ? projected.slice().sort((a, b) => a[2] - b[2]) : projected;
+      for (const node of nodes) {
+        if (options.previewStyle) {
+          const depth = node[2] / (2 * viewExtent) + 0.5;
+          ctx.globalAlpha = 0.48 + 0.52 * Math.max(0, Math.min(1, depth));
+        }
         ctx.beginPath();
-        ctx.arc(node[0], node[1], nodeRadius + 1.2, 0, Math.PI * 2);
+        ctx.arc(node[0], node[1], nodeRadius + (options.previewStyle ? 0.55 : 1.2), 0, Math.PI * 2);
         ctx.fillStyle = "rgba(3, 12, 23, .82)";
         ctx.fill();
         ctx.beginPath();
@@ -536,6 +583,7 @@
         ctx.lineWidth = mode === "skeleton" ? 1.2 : 0.8;
         ctx.stroke();
       }
+      ctx.globalAlpha = 1;
     }
 
     if (options.highlightEntries && options.showDisplacementGuides !== false) {
