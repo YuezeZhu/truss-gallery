@@ -202,11 +202,13 @@ def classify(catalog: dict) -> list[dict]:
         item.pop("complexity_label", None)
 
     # Public names use one continuous simple-to-complex rank, not bands.
+    # Append the readable symmetry without changing the global rank.
     # Source ids remain immutable provenance keys.
     for item in ordered:
         item["taxonomy_code"] = item["symmetry_code"]
-        item["topology_code"] = f"T-{item['complexity_rank']:05d}"
-        item["display_name"] = f"{item['topology_code']} · {item['symmetry_name']} symmetry ({item['symmetry_code']})"
+        symmetry_slug = item["symmetry_name"].replace(" ", "-")
+        item["topology_code"] = f"T-{item['complexity_rank']:05d}-{symmetry_slug}"
+        item["display_name"] = f"{item['topology_code']} ({item['symmetry_code']})"
         item["taxonomy_description"] = (
             f"{item['symmetry_name']} symmetry ({item['symmetry_code']}) · "
             f"complexity rank {item['complexity_rank']} · {item['full_cell_node_count']} nodes · "

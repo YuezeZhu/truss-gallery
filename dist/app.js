@@ -494,7 +494,7 @@ function topologyCardFor(topology, position) {
   card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.full_cell_node_count ?? topology.nodes.length} nodes`;
   card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.full_cell_edge_count ?? topology.edges.length} members`;
   const classification = card.querySelector('[data-topology-fact="classification"]');
-  if (classification) classification.textContent = `${topology.symmetry_name || topology.symmetry_code || "—"} · Rank ${topology.complexity_rank || "—"}`;
+  if (classification) classification.textContent = `Base ${topology.symmetry_name || topology.symmetry_code || "—"} (${topology.symmetry_code || "—"}) · Rank ${topology.complexity_rank || "—"}`;
   return card;
 }
 
@@ -546,7 +546,7 @@ function renderTopologyDialog() {
   dialog.style.setProperty("--detail-accent", accent[topology.source]);
   document.querySelector("#topology-dialog-title").textContent = topologyDisplayName(topology);
   const hasNodePerturbations = variants.some((item) => item.node_displacements?.length);
-  const graphDescription = `${topology.full_cell_node_count ?? topology.nodes.length} full-cell nodes · ${topology.full_cell_edge_count ?? topology.edges.length} members · ${topology.symmetry_name || topology.symmetry_code || "unknown"} symmetry (${topology.symmetry_code || "—"}) · complexity rank ${topology.complexity_rank || "—"}`;
+  const graphDescription = `${topology.full_cell_node_count ?? topology.nodes.length} full-cell nodes · ${topology.full_cell_edge_count ?? topology.edges.length} members · base-skeleton symmetry ${topology.symmetry_name || topology.symmetry_code || "unknown"} (${topology.symmetry_code || "—"}) · complexity rank ${topology.complexity_rank || "—"}`;
   document.querySelector("#topology-dialog-meta").textContent = hasNodePerturbations
     ? `${graphDescription} · connectivity fixed; node positions and radius vary by record`
     : `${graphDescription} · node positions fixed; variants change radius only`;
@@ -1106,7 +1106,7 @@ async function initialize() {
   bindEvents();
   try {
     const [response, topologyResponse, catalogResponse] = await Promise.all([
-      fetch("data/samples.json"), fetch("data/topology_browser.json"), fetch("data/catalog.json"),
+      fetch("data/samples.json?v=7"), fetch("data/topology_browser.json?v=7"), fetch("data/catalog.json?v=7"),
     ]);
     const failed = [response, topologyResponse, catalogResponse].find((item) => !item.ok);
     if (failed) throw new Error(`HTTP ${failed.status}`);
