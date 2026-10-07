@@ -8,19 +8,19 @@ change the sample index or the reproducibility path.
 
 Topology names use the simple-to-complex order:
 
-`T-<global-rank>-<Readable symmetry> (<point-group>)`
+`T-<global-rank>-<Readable symmetry>`
 
 Examples:
 
-- `T-00001-Cubic (Oh)`
-- `T-00002-Cubic (Oh)`
-- `T-10362-Orthorhombic (D2h)`
+- `T-00001-Cubic`
+- `T-00002-Cubic`
+- `T-10362-Orthorhombic`
 
 - The readable symmetry name is computed from the expanded full-cell graph under all 48 signed
   permutations of the cubic cell.  The current catalog contains `D2h` (8
   operations), `D4h` (16 operations), and `Oh` (48 operations).
-- The technical point-group code remains in parentheses so that the name is
-  understandable to non-specialists without losing crystallographic precision.
+- Technical point-group codes remain in metadata for analysis but are omitted
+  from public names.
 - The number is a single rank across the complete catalog, with no complexity
   bands. The primary key is full-cell member count, followed by full-cell node
   count and cycle rank. Variant count never affects the topology rank.

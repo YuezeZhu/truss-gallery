@@ -208,7 +208,7 @@ def classify(catalog: dict) -> list[dict]:
         item["taxonomy_code"] = item["symmetry_code"]
         symmetry_slug = item["symmetry_name"].replace(" ", "-")
         item["topology_code"] = f"T-{item['complexity_rank']:05d}-{symmetry_slug}"
-        item["display_name"] = f"{item['topology_code']} ({item['symmetry_code']})"
+        item["display_name"] = item["topology_code"]
         item["taxonomy_description"] = (
             f"{item['symmetry_name']} symmetry ({item['symmetry_code']}) · "
             f"complexity rank {item['complexity_rank']} · {item['full_cell_node_count']} nodes · "
