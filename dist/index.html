@@ -13,7 +13,7 @@
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307101d'/%3E%3Cg fill='none' stroke='%234cc7ff' stroke-width='5'%3E%3Cpath d='M12 13h40v38H12zM12 13l40 38M52 13L12 51'/%3E%3C/g%3E%3C/svg%3E"
     />
     <title>LatticeVerse</title>
-    <link rel="stylesheet" href="styles.css?v=24" />
+    <link rel="stylesheet" href="styles.css?v=25" />
   </head>
   <body>
     <div class="ambient ambient-a" aria-hidden="true"></div>
@@ -48,6 +48,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.4"></circle><path d="m16 16 4 4"></path></svg>
             <input id="topology-search" type="search" placeholder="Search topology number or symmetry" autocomplete="off" />
           </label>
+          <button id="topology-complexity-sort" class="hierarchy-sort-button" type="button" aria-pressed="false">Complexity ↑</button>
         </div>
         <div id="topology-loading" class="loading-state" role="status"><span class="loader"></span><span>Loading topology skeletons…</span></div>
         <div id="topology-grid" class="topology-grid" aria-live="polite"></div>
@@ -102,9 +103,9 @@
           </div>
           <div class="topology-variant-panel">
             <div class="topology-variant-panel-head"><span>Node geometry → radius</span><strong id="topology-selected-variant"></strong></div>
-            <div class="topology-group-label">Node geometries · ordered by displacement</div>
+            <div class="topology-group-head"><div class="topology-group-label">Node geometries</div><button id="topology-displacement-sort" class="hierarchy-sort-button" type="button" aria-pressed="false">Displacement ↑</button></div>
             <div id="topology-geometry-list" class="topology-variant-list topology-geometry-list"></div>
-            <div class="topology-group-label">Radius results · ordered by VF</div>
+            <div class="topology-group-head"><div class="topology-group-label">Radius results</div><button id="topology-vf-sort" class="hierarchy-sort-button" type="button" aria-pressed="false">VF ↑</button></div>
             <div id="topology-variant-list" class="topology-variant-list topology-radius-list"></div>
             <div id="topology-variant-info" class="topology-variant-info"></div>
             <section class="topology-properties" aria-labelledby="topology-properties-title">
@@ -150,7 +151,7 @@
     </template>
 
     <script src="geometry.js?v=40" defer></script>
-    <script src="app.js?v=52" defer></script>
+    <script src="app.js?v=53" defer></script>
   </body>
 </html>
 

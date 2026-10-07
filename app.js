@@ -71,6 +71,9 @@ const state = {
   topologySource: "all",
   topologyQuery: "",
   topologyVisible: 24,
+  topologySortDirection: "asc",
+  geometrySortDirection: "asc",
+  radiusSortDirection: "asc",
   selectedTopology: null,
   selectedTopologyVariant: 0,
   selectedGeometryKey: null,
@@ -121,6 +124,9 @@ const els = {
   topologyEmpty: document.querySelector("#topology-empty"),
   topologyLoadMore: document.querySelector("#topology-load-more"),
   topologySearch: document.querySelector("#topology-search"),
+  topologyComplexitySort: document.querySelector("#topology-complexity-sort"),
+  topologyDisplacementSort: document.querySelector("#topology-displacement-sort"),
+  topologyVfSort: document.querySelector("#topology-vf-sort"),
   topologyStats: document.querySelector("#topology-browser-stats"),
   topologyDialog: document.querySelector("#topology-dialog"),
   sampleIndexLoading: document.querySelector("#sample-index-loading"),
@@ -429,8 +435,22 @@ function geometryGroups(variants) {
       variant.geometry_name = group.name;
       variant.radius_name ||= `R${String(radiusIndex + 1).padStart(4, "0")}`;
     });
+    if (state.radiusSortDirection === "desc") group.variants.reverse();
   });
+  if (state.geometrySortDirection === "desc") groups.reverse();
   return groups;
+}
+
+function updateHierarchySortButtons() {
+  for (const [button, label, direction] of [
+    [els.topologyComplexitySort, "Complexity", state.topologySortDirection],
+    [els.topologyDisplacementSort, "Displacement", state.geometrySortDirection],
+    [els.topologyVfSort, "VF", state.radiusSortDirection],
+  ]) {
+    button.textContent = `${label} ${direction === "asc" ? "↑" : "↓"}`;
+    button.setAttribute("aria-label", `${label}: ${direction === "asc" ? "ascending" : "descending"}. Click to reverse order`);
+    button.setAttribute("aria-pressed", String(direction === "desc"));
+  }
 }
 
 function topologyVariantLabel(variant, topology, index = 0) {
@@ -451,7 +471,7 @@ function topologySortKey(topology) {
 function filteredTopologies() {
   if (!state.topologyPayload) return [];
   const query = state.topologyQuery.trim().toLowerCase();
-  return state.topologyPayload.topologies.filter((topology) => {
+  const matches = state.topologyPayload.topologies.filter((topology) => {
     const searchText = [
       topology.id, topology.catalog_id, topology.display_name, topology.topology_code, topology.taxonomy_code,
       topology.symmetry_code, topology.symmetry_name, topology.complexity_rank,
@@ -463,6 +483,7 @@ function filteredTopologies() {
     const b = topologySortKey(right);
     return a[0] - b[0] || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2]);
   });
+  return state.topologySortDirection === "desc" ? matches.reverse() : matches;
 }
 
 function drawTopologyCanvases() {
@@ -487,7 +508,7 @@ function topologyCardFor(topology, position) {
   button.setAttribute("aria-label", `Open ${topologyDisplayName(topology)} node-position and radius variants`);
   canvas.dataset.topologyId = topology.id;
   card.style.setProperty("--card-accent", accent[topology.source]);
-  card.querySelector(".topology-card-index").textContent = String(position + 1).padStart(3, "0");
+  card.querySelector(".topology-card-index").textContent = String(topology.complexity_rank ?? position + 1).padStart(5, "0");
   card.querySelector("h3").textContent = topologyDisplayName(topology);
   const geometryCount = new Set(variants.map(geometryKey)).size;
   card.querySelector(".topology-card-variant-pill").textContent = `${geometryCount} ${geometryCount === 1 ? "geometry" : "geometries"} · ${variants.length} ${variants.length === 1 ? "result" : "results"}`;
@@ -512,7 +533,7 @@ function renderTopologies() {
   els.topologyLoadMore.textContent = `Load more topologies · ${topologies.length - shown.length} remaining`;
 }
 
-function renderTopologyDialog() {
+function renderTopologyDialog({ sortOnly = false } = {}) {
   const topology = state.selectedTopology;
   if (!topology) return;
   const propertySample = state.selectedFullSample?.topology_id === topology.id
@@ -533,6 +554,7 @@ function renderTopologyDialog() {
   const variant = selectedGroup?.variants.find((item) => item.id === state.selectedVariantId)
     || selectedGroup?.variants[0];
   if (!variant) return;
+  const previousVariantId = state.selectedTopologyVariantRecord?.id;
   state.selectedGeometryKey = selectedGroup.key;
   state.selectedVariantId = variant.id;
   state.selectedTopologyVariantRecord = variant;
@@ -592,14 +614,16 @@ function renderTopologyDialog() {
   const intro = document.createElement("p");
   intro.textContent = itemDisplacementText(variant);
   info.append(intro);
-  const variantProperties = state.selectedFullSample?.id === variant.id
-    ? state.selectedFullSample
-    : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
-  renderTopologyProperties(variantProperties, variant);
+  if (!sortOnly || previousVariantId !== variant.id) {
+    const variantProperties = state.selectedFullSample?.id === variant.id
+      ? state.selectedFullSample
+      : state.samplesById.get(variant.id) || (state.indexRowsById.has(variant.id) ? normalizeIndexRow(state.indexRowsById.get(variant.id)) : null);
+    renderTopologyProperties(variantProperties, variant);
+  }
   const canvas = document.querySelector("#topology-detail-canvas");
   canvas.setAttribute("aria-label", `${topologyDisplayName(topology)} skeleton and ${variantDisplayName(topology, variant)}`);
   updateMeshToggle();
-  scheduleTopologyCanvasRender();
+  if (!sortOnly || previousVariantId !== variant.id) scheduleTopologyCanvasRender();
 }
 
 function updateMeshToggle() {
@@ -990,6 +1014,7 @@ function openDetail(sample) {
 }
 
 function bindEvents() {
+  updateHierarchySortButtons();
   els.topologySearch.addEventListener("input", () => {
     state.topologyQuery = els.topologySearch.value;
     state.topologyVisible = 24;
@@ -999,6 +1024,22 @@ function bindEvents() {
   els.topologyLoadMore.addEventListener("click", () => {
     state.topologyVisible += 24;
     renderTopologies();
+  });
+
+  els.topologyComplexitySort.addEventListener("click", () => {
+    state.topologySortDirection = state.topologySortDirection === "asc" ? "desc" : "asc";
+    updateHierarchySortButtons();
+    renderTopologies();
+  });
+  els.topologyDisplacementSort.addEventListener("click", () => {
+    state.geometrySortDirection = state.geometrySortDirection === "asc" ? "desc" : "asc";
+    updateHierarchySortButtons();
+    if (state.selectedTopology) renderTopologyDialog({ sortOnly: true });
+  });
+  els.topologyVfSort.addEventListener("click", () => {
+    state.radiusSortDirection = state.radiusSortDirection === "asc" ? "desc" : "asc";
+    updateHierarchySortButtons();
+    if (state.selectedTopology) renderTopologyDialog({ sortOnly: true });
   });
 
   els.topologyGrid.addEventListener("click", (event) => {
