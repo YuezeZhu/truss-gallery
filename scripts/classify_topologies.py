@@ -134,6 +134,10 @@ def symmetry_name(order: int) -> str:
     }.get(order, f"{symmetry_label(order)} group")
 
 
+def construction_symmetry_name(source: str) -> str:
+    return {"eth": "1/8 Reflection", "panetta": "1/48 Symmetry"}[source]
+
+
 def connected_components(node_count: int, edges: set[tuple[int, int]]) -> int:
     adjacency = [[] for _ in range(node_count)]
     for first, second in edges:
@@ -176,6 +180,7 @@ def classify(catalog: dict) -> list[dict]:
             "proper_symmetry_order": proper_order,
             "symmetry_code": symmetry_label(order),
             "symmetry_name": symmetry_name(order),
+            "construction_symmetry_name": construction_symmetry_name(topology["source"]),
             "symmetry_method": (
                 "three coordinate-plane reflections"
                 if topology.get("source") == "eth"
@@ -202,15 +207,17 @@ def classify(catalog: dict) -> list[dict]:
         item.pop("complexity_label", None)
 
     # Public names use one continuous simple-to-complex rank, not bands.
-    # Append the readable symmetry without changing the global rank.
+    # The public suffix describes the symmetry enforced by construction, not
+    # additional symmetry that an unperturbed graph happens to possess.
     # Source ids remain immutable provenance keys.
     for item in ordered:
         item["taxonomy_code"] = item["symmetry_code"]
-        symmetry_slug = item["symmetry_name"].replace(" ", "-")
+        symmetry_slug = item["construction_symmetry_name"].replace(" ", "-")
         item["topology_code"] = f"T-{item['complexity_rank']:05d}-{symmetry_slug}"
         item["display_name"] = item["topology_code"]
         item["taxonomy_description"] = (
-            f"{item['symmetry_name']} ({item['symmetry_code']}) · "
+            f"{item['construction_symmetry_name']} construction · "
+            f"detected base group {item['symmetry_code']} · "
             f"complexity rank {item['complexity_rank']} · {item['full_cell_node_count']} nodes · "
             f"{item['full_cell_edge_count']} members"
         )
@@ -232,7 +239,7 @@ def patch_topology_list(path: Path, classified: dict[str, dict]) -> None:
             for key in (
                 "display_name", "topology_code", "taxonomy_code", "taxonomy_description",
                 "symmetry_code", "symmetry_order", "symmetry_method",
-                "symmetry_name",
+                "symmetry_name", "construction_symmetry_name",
                 "complexity_rank",
                 "full_cell_node_count", "full_cell_edge_count", "average_degree",
                 "cycle_rank", "connected_components",
@@ -258,9 +265,9 @@ def main() -> None:
                 {
                     key: topology[key]
                     for key in (
-                        "id", "display_name", "topology_code", "taxonomy_code", "taxonomy_description",
+                        "id", "source", "display_name", "topology_code", "taxonomy_code", "taxonomy_description",
                         "symmetry_code", "symmetry_order", "symmetry_method",
-                        "symmetry_name",
+                        "symmetry_name", "construction_symmetry_name",
                         "complexity_rank",
                         "full_cell_node_count", "full_cell_edge_count", "average_degree",
                         "cycle_rank", "connected_components",

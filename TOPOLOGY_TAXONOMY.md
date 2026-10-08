@@ -8,7 +8,7 @@ change the sample index or the reproducibility path.
 
 Topology names use the simple-to-complex order:
 
-`T-<global-rank>-<symmetry fraction>`
+`T-<global-rank>-<construction symmetry>`
 
 Examples:
 
@@ -16,19 +16,18 @@ Examples:
 - `T-00002-1/48-Symmetry`
 - `T-10362-1/8-Reflection`
 
-- The symmetry fraction is computed from the expanded full-cell graph under all 48 signed
-  permutations of the cubic cell. The current catalog contains `D2h` (8
-  operations, displayed as `1/8 Reflection`), `D4h` (16 operations,
-  `1/16 Symmetry`), and `Oh` (48 operations, `1/48 Symmetry`). The latter
-  two include axis permutations/rotations, not just reflections.
-- Technical point-group codes remain in metadata for analysis but are omitted
-  from public names.
+- ETH graphs are defined in one octant and mirrored across three coordinate
+  planes, so every ETH name uses `1/8 Reflection`. Panetta patterns use the
+  cube's 48-element `Oh` symmetry and every Panetta name uses `1/48 Symmetry`.
+- The detected symmetry of an unperturbed full-cell graph remains in
+  `symmetry_order`, `symmetry_code`, and `symmetry_name`. Some ETH base graphs
+  happen to admit 16 or 48 operations, but node perturbations do not guarantee
+  those additional symmetries, so they do not affect the public name.
 - The number is a single rank across the complete catalog, with no complexity
   bands. The primary key is full-cell member count, followed by full-cell node
   count and cycle rank. Variant count never affects the topology rank.
-- The symmetry suffix describes the full-cell graph but does not restart or
-  affect the global complexity numbering. It belongs to the unperturbed base
-  skeleton; moving nodes can lower the symmetry of an individual variant.
+- The symmetry suffix describes the construction rule and does not restart or
+  affect the global complexity numbering.
 
 The catalog also stores `full_cell_node_count`, `full_cell_edge_count`,
 `average_degree`, `cycle_rank`, `symmetry_order`, and `symmetry_method` so the
