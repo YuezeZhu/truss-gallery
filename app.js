@@ -1,4 +1,6 @@
 const initialView = new URLSearchParams(window.location.search).get("view");
+const dataPrefix = document.body.dataset.dataPrefix || "dist/data/";
+const topologyShardPromises = new Map();
 
 function normalizeQuaternion([x, y, z, w]) {
   const length = Math.hypot(x, y, z, w) || 1;
@@ -60,6 +62,7 @@ const state = {
   visible: initialView === "coarse" ? 12 : 36,
   topologies: null,
   topologyPayload: null,
+  topologyCounts: null,
   catalogById: new Map(),
   sampleIndex: null,
   sampleIndexSource: "all",
@@ -490,9 +493,8 @@ function drawTopologyCanvases() {
   if (!state.topologyPayload) return;
   els.topologyGrid.querySelectorAll("canvas[data-topology-id]").forEach((canvas) => {
     const topology = state.topologyPayload.topologies.find((item) => item.id === canvas.dataset.topologyId);
-    const variant = topology?.variants?.[0];
-    if (topology && variant) {
-      window.TrussGeometry.render(canvas, { ...variant, node_displacements: [] }, topology, -0.68, {
+    if (topology) {
+      window.TrussGeometry.render(canvas, { radius: 0, node_displacements: [] }, topology, -0.68, {
         mode: "skeleton", showNodes: true, previewStyle: true, skeletonLineWidth: 1.25,
       });
     }
@@ -501,7 +503,7 @@ function drawTopologyCanvases() {
 
 function topologyCardFor(topology, position) {
   const card = document.querySelector("#topology-card-template").content.firstElementChild.cloneNode(true);
-  const variants = state.fullVariantsByTopology.get(topology.catalog_id) || topology.variants;
+  const counts = state.topologyCounts?.[topology.id] || { variants: 0, geometries: 0 };
   const button = card.querySelector(".topology-card-open");
   const canvas = card.querySelector(".topology-card-image");
   button.dataset.topologyId = topology.id;
@@ -510,8 +512,7 @@ function topologyCardFor(topology, position) {
   card.style.setProperty("--card-accent", accent[topology.source]);
   card.querySelector(".topology-card-index").textContent = String(topology.complexity_rank ?? position + 1).padStart(5, "0");
   card.querySelector("h3").textContent = topologyDisplayName(topology);
-  const geometryCount = new Set(variants.map(geometryKey)).size;
-  card.querySelector(".topology-card-variant-pill").textContent = `${geometryCount} ${geometryCount === 1 ? "geometry" : "geometries"} · ${variants.length} ${variants.length === 1 ? "result" : "results"}`;
+  card.querySelector(".topology-card-variant-pill").textContent = `${counts.geometries} ${counts.geometries === 1 ? "geometry" : "geometries"} · ${counts.variants} ${counts.variants === 1 ? "result" : "results"}`;
   card.querySelector('[data-topology-fact="nodes"]').textContent = `${topology.full_cell_node_count ?? topology.nodes.length} nodes`;
   card.querySelector('[data-topology-fact="edges"]').textContent = `${topology.full_cell_edge_count ?? topology.edges.length} members`;
   const classification = card.querySelector('[data-topology-fact="classification"]');
@@ -526,7 +527,7 @@ function renderTopologies() {
   shown.forEach((topology, index) => fragment.append(topologyCardFor(topology, index)));
   els.topologyGrid.replaceChildren(fragment);
   requestAnimationFrame(drawTopologyCanvases);
-  const variants = topologies.reduce((total, topology) => total + (state.fullVariantsByTopology.get(topology.catalog_id)?.length || topology.variants.length), 0);
+  const variants = topologies.reduce((total, topology) => total + (state.topologyCounts?.[topology.id]?.variants || 0), 0);
   els.topologyStats.textContent = `${topologies.length.toLocaleString("en-US")} topology groups · ${variants.toLocaleString("en-US")} variants`;
   els.topologyEmpty.hidden = topologies.length !== 0;
   els.topologyLoadMore.hidden = shown.length >= topologies.length;
@@ -773,6 +774,37 @@ function itemDisplacementText(variant) {
   return `Node displacements: ${parts.join("; ")}`;
 }
 
+async function loadTopologyShard(topology) {
+  const shard = state.topologyCounts?.[topology.id]?.shard;
+  if (!Number.isInteger(shard)) throw new Error(`No variant shard for ${topology.id}`);
+  if (!topologyShardPromises.has(shard)) {
+    const promise = (async () => {
+      if (typeof DecompressionStream === "undefined") throw new Error("This browser cannot read compressed variant data");
+      const response = await fetch(`${dataPrefix}topology_shards/shard_${String(shard).padStart(2, "0")}.json.gz?v=1`);
+      if (!response.ok || !response.body) throw new Error(`Variant shard HTTP ${response.status}`);
+      const payload = await new Response(response.body.pipeThrough(new DecompressionStream("gzip"))).json();
+      if (payload.schema !== "topology-shard-v1") throw new Error("Variant shard format mismatch");
+      const variantsByTopology = new Map();
+      for (const row of payload.rows) {
+        const variants = variantsByTopology.get(row.topology_id) || [];
+        variants.push(row);
+        variantsByTopology.set(row.topology_id, variants);
+        state.indexRowsById.set(row.id, row);
+      }
+      for (const [topologyId, variants] of variantsByTopology) {
+        variants.sort((left, right) =>
+          Number(left.variant_index || 0) - Number(right.variant_index || 0)
+          || Number(left.density) - Number(right.density)
+          || left.id.localeCompare(right.id));
+        state.fullVariantsByTopology.set(topologyId, variants);
+      }
+    })();
+    topologyShardPromises.set(shard, promise);
+    promise.catch(() => topologyShardPromises.delete(shard));
+  }
+  await topologyShardPromises.get(shard);
+}
+
 function openTopology(topology) {
   state.selectedFullSample = null;
   state.selectedTopology = topology;
@@ -789,7 +821,26 @@ function openTopology(topology) {
   state.showMesh = false;
   state.showTopology = true;
   els.topologyDialog.showModal();
-  renderTopologyDialog();
+  document.querySelector("#topology-dialog-title").textContent = topologyDisplayName(topology);
+  document.querySelector("#topology-dialog-meta").textContent = "Loading node geometries, radius results, and effective properties…";
+  document.querySelector("#topology-dialog-variant-count").textContent = `${state.topologyCounts?.[topology.id]?.variants || 0} results`;
+  document.querySelector("#topology-selected-variant").textContent = "Loading variants…";
+  document.querySelector("#topology-geometry-list").replaceChildren();
+  document.querySelector("#topology-variant-list").replaceChildren();
+  document.querySelector("#topology-variant-info").replaceChildren();
+  renderTopologyProperties(null, { id: "" });
+  state.selectedTopologyVariantRecord = { radius: 0, node_displacements: [] };
+  updateMeshToggle();
+  scheduleTopologyCanvasRender();
+  loadTopologyShard(topology).then(() => {
+    if (state.selectedTopology !== topology || !els.topologyDialog.open) return;
+    state.selectedTopologyVariantRecord = null;
+    renderTopologyDialog();
+  }).catch((error) => {
+    if (state.selectedTopology !== topology || !els.topologyDialog.open) return;
+    document.querySelector("#topology-selected-variant").textContent = `Variant data failed to load: ${error.message}. Reopen to retry.`;
+    console.warn("Topology variant data failed to load", error);
+  });
 }
 
 function normalizeIndexRow(row) {
@@ -1146,95 +1197,25 @@ function bindEvents() {
 async function initialize() {
   bindEvents();
   try {
-    const [response, topologyResponse, catalogResponse] = await Promise.all([
-      fetch("samples.json?v=10"), fetch("topology_browser.json?v=10"), fetch("catalog.json?v=10"),
+    const [catalogResponse, countsResponse] = await Promise.all([
+      fetch(`${dataPrefix}catalog.json?v=11`), fetch(`${dataPrefix}topology_counts.json?v=1`),
     ]);
-    const failed = [response, topologyResponse, catalogResponse].find((item) => !item.ok);
+    const failed = [catalogResponse, countsResponse].find((item) => !item.ok);
     if (failed) throw new Error(`HTTP ${failed.status}`);
-    const [compact, topologyPayload, catalog] = await Promise.all([response.json(), topologyResponse.json(), catalogResponse.json()]);
-    state.topologies = new Map(compact.topologies.map((topology) => [topology.id, topology]));
-    state.topologyPayload = topologyPayload;
-    state.catalogById = new Map(catalog.topologies.map((topology) => [topology.id, topology]));
-    // The compact records retain full C_H/K_H tensors for the topology detail
-    // panel. Full variant metadata is loaded in the background so each
-    // topology can expose every matching record without rendering an index.
-    state.samplesById = new Map(compact.samples.map((sample) => [sample.id, normalizeSample(sample)]));
-    state.samplesByTopology = new Map();
-    for (const sample of state.samplesById.values()) {
-      if (!state.samplesByTopology.has(sample.topology_id)) state.samplesByTopology.set(sample.topology_id, sample);
+    const [catalog, counts] = await Promise.all([catalogResponse.json(), countsResponse.json()]);
+    if (counts.topology_count !== catalog.topologies.length || counts.variant_count !== 120894) {
+      throw new Error("Topology and variant counts do not match the published dataset");
     }
+    state.topologyCounts = counts.topologies;
+    const topologies = catalog.topologies.map((topology) => ({ ...topology, catalog_id: topology.id, variants: [] }));
+    state.topologyPayload = { topologies };
+    state.topologies = new Map(topologies.map((topology) => [topology.id, topology]));
+    state.catalogById = new Map(catalog.topologies.map((topology) => [topology.id, topology]));
     els.topologyLoading.remove();
     renderTopologies();
-    // The compact topology view becomes interactive immediately. The 100k-row
-    // index is intentionally fetched afterwards so the first paint is not
-    // blocked by parsing a large metadata payload.
-    try {
-      if (typeof DecompressionStream === "undefined") throw new Error("This browser cannot load compressed indexes");
-      const loadIndexPart = async (partNumber) => {
-        const indexResponse = await fetch(`sample_index_${partNumber}.json.gz?v=6`);
-        if (!indexResponse.ok || !indexResponse.body) throw new Error(`Index part ${partNumber} HTTP ${indexResponse.status}`);
-        const decompressed = indexResponse.body.pipeThrough(new DecompressionStream("gzip"));
-        return new Response(decompressed).json();
-      };
-      const parts = await Promise.all([1, 2, 3, 4].map(loadIndexPart));
-      state.sampleIndex = { ...parts[0], rows: parts.flatMap((part) => part.rows) };
-      state.indexRowsById = new Map(state.sampleIndex.rows.map((row) => [row.id, row]));
-      state.fullVariantsByTopology = new Map();
-      for (const row of state.sampleIndex.rows) {
-        const topologyVariants = state.fullVariantsByTopology.get(row.topology_id) || [];
-        topologyVariants.push({
-          id: row.id,
-          radius: Number(row.radius),
-          density: Number(row.density),
-          node_displacements: row.node_displacements || [],
-          variant_index: Number(row.variant_index || 0),
-          variant_name: row.variant_name || "",
-          geometry_index: Number(row.geometry_index || 0),
-          geometry_name: row.geometry_name || "",
-          radius_index: Number(row.radius_index || 0),
-          radius_name: row.radius_name || "",
-          perturbation_type: row.perturbation_type || "",
-          perturbation_max_norm: Number(row.perturbation_max_norm || 0),
-          perturbation_rms_norm: Number(row.perturbation_rms_norm || 0),
-        });
-        state.fullVariantsByTopology.set(row.topology_id, topologyVariants);
-      }
-      for (const variants of state.fullVariantsByTopology.values()) {
-        variants.sort((left, right) => {
-          const a = left.variant_index || Number.MAX_SAFE_INTEGER;
-          const b = right.variant_index || Number.MAX_SAFE_INTEGER;
-          return a - b || left.density - right.density || left.id.localeCompare(right.id);
-        });
-      }
-      // The compact browser starts with 301 curated groups for a fast first
-      // paint. Once all four index shards are available, promote the catalog
-      // to the complete base-topology directory.  Catalog entries already
-      // contain their node/edge skeleton; the index supplies every matching
-      // radius/displacement variant.
-      const fullTopologyGroups = catalog.topologies.map((topology) => ({
-        ...topology,
-        catalog_id: topology.id,
-        variants: state.fullVariantsByTopology.get(topology.id) || [],
-      }));
-      state.topologyPayload = { ...state.topologyPayload, topologies: fullTopologyGroups };
-      state.topologies = new Map(fullTopologyGroups.map((topology) => [topology.id, topology]));
-      state.payload = {
-        sampleCount: state.sampleIndex.counts.all,
-        uniqueVoxelCount: 0,
-        samples: state.sampleIndex.rows,
-      };
-      if (els.sampleIndexLoading) els.sampleIndexLoading.remove();
-      // Replace the representative variant lists with all records available
-      // for each curated topology. The first paint still uses the compact
-      // topology payload, so parsing the full variant metadata never blocks the gallery.
-      renderTopologies();
-      if (els.topologyDialog.open && state.selectedTopology) renderTopologyDialog();
-    } catch (indexError) {
-      console.warn("Full variant metadata failed to load", indexError);
-    }
   } catch (error) {
     els.topologyLoading.innerHTML = `<strong>Data failed to load</strong><span>${error.message}</span>`;
-    console.warn("Full variant metadata failed to load", error);
+    console.warn("Topology catalog failed to load", error);
   }
 }
 
