@@ -123,11 +123,11 @@ def symmetry_label(order: int) -> str:
 
 def symmetry_name(order: int) -> str:
     return {
-        48: "Cubic",
+        48: "1/48 Symmetry",
         24: "Cubic rotational",
-        16: "Tetragonal",
+        16: "1/16 Symmetry",
         12: "Trigonal",
-        8: "Orthorhombic",
+        8: "1/8 Reflection",
         4: "Monoclinic",
         2: "Centrosymmetric",
         1: "Asymmetric",
@@ -210,7 +210,7 @@ def classify(catalog: dict) -> list[dict]:
         item["topology_code"] = f"T-{item['complexity_rank']:05d}-{symmetry_slug}"
         item["display_name"] = item["topology_code"]
         item["taxonomy_description"] = (
-            f"{item['symmetry_name']} symmetry ({item['symmetry_code']}) · "
+            f"{item['symmetry_name']} ({item['symmetry_code']}) · "
             f"complexity rank {item['complexity_rank']} · {item['full_cell_node_count']} nodes · "
             f"{item['full_cell_edge_count']} members"
         )

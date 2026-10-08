@@ -1147,7 +1147,7 @@ async function initialize() {
   bindEvents();
   try {
     const [response, topologyResponse, catalogResponse] = await Promise.all([
-      fetch("samples.json?v=8"), fetch("topology_browser.json?v=8"), fetch("catalog.json?v=8"),
+      fetch("samples.json?v=9"), fetch("topology_browser.json?v=9"), fetch("catalog.json?v=9"),
     ]);
     const failed = [response, topologyResponse, catalogResponse].find((item) => !item.ok);
     if (failed) throw new Error(`HTTP ${failed.status}`);

@@ -8,17 +8,19 @@ change the sample index or the reproducibility path.
 
 Topology names use the simple-to-complex order:
 
-`T-<global-rank>-<Readable symmetry>`
+`T-<global-rank>-<symmetry fraction>`
 
 Examples:
 
-- `T-00001-Cubic`
-- `T-00002-Cubic`
-- `T-10362-Orthorhombic`
+- `T-00001-1/48-Symmetry`
+- `T-00002-1/48-Symmetry`
+- `T-10362-1/8-Reflection`
 
-- The readable symmetry name is computed from the expanded full-cell graph under all 48 signed
-  permutations of the cubic cell.  The current catalog contains `D2h` (8
-  operations), `D4h` (16 operations), and `Oh` (48 operations).
+- The symmetry fraction is computed from the expanded full-cell graph under all 48 signed
+  permutations of the cubic cell. The current catalog contains `D2h` (8
+  operations, displayed as `1/8 Reflection`), `D4h` (16 operations,
+  `1/16 Symmetry`), and `Oh` (48 operations, `1/48 Symmetry`). The latter
+  two include axis permutations/rotations, not just reflections.
 - Technical point-group codes remain in metadata for analysis but are omitted
   from public names.
 - The number is a single rank across the complete catalog, with no complexity
@@ -49,6 +51,6 @@ geometry. Node geometries are sorted by RMS displacement, then maximum
 displacement, moved-node count, and displacement coordinates. They are named
 `G0001`, `G0002`, … . Within each geometry, radius results are sorted by
 accepted VF (using record id to break ties) and named `R0001`, `R0002`, … .
-The UI displays names such as `T-00001-Cubic · G0001 · R0001` while the original
+The UI displays names such as `T-00001-1/48-Symmetry · G0001 · R0001` while the original
 record id remains available for audit and property joins. Moving nodes does
 not change the topology-complexity rank.
