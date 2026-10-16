@@ -1,0 +1,78 @@
+.family-nav { display: flex; align-items: center; gap: 8px; }
+.family-nav a { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); text-decoration: none; font: 12px/1 var(--font-mono); }
+.family-nav a:hover, .family-nav a:focus-visible { color: var(--ink); border-color: var(--cyan); }
+
+.shell-gallery-section { padding: 38px 0 80px; border-top: 1px solid var(--line-strong); }
+.shell-gallery-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+.shell-gallery-head h2 { margin: 5px 0 0; font-size: clamp(25px, 3vw, 36px); letter-spacing: -.03em; }
+.shell-gallery-count { color: var(--cyan); font: 12px/1.4 var(--font-mono); white-space: nowrap; }
+.shell-gallery-note { max-width: 800px; margin: 12px 0 26px; color: var(--muted); font-size: 13px; }
+.shell-gallery-section .loading-state[hidden] { display: none; }
+.shell-group { margin-top: 28px; }
+.shell-group h3 { margin: 0 0 14px; font-size: 15px; font-weight: 650; }
+.shell-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.shell-card { overflow: hidden; padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); text-align: left; transition: border-color .15s, transform .15s; }
+.shell-card:hover, .shell-card:focus-visible { border-color: #45c8d4; transform: translateY(-2px); }
+.shell-card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #f7fafc; }
+.shell-card-body { display: grid; gap: 5px; padding: 13px 15px 15px; }
+.shell-card-title { color: var(--ink); font: 12px/1.35 var(--font-mono); word-break: break-word; }
+.shell-card-meta { color: var(--muted); font-size: 12px; }
+.shell-card-vf { color: #60dbd0; font: 12px/1.35 var(--font-mono); }
+.shell-card-boundary { color: #ffba75; font: 11px/1.35 var(--font-mono); }
+.shell-card[data-status="failed"] { opacity: .6; }
+.shell-card[data-quality="needs_review"] { border-color: rgba(255, 145, 59, .55); }
+.shell-card[data-boundary="partial"] { border-color: rgba(255, 145, 59, .55); }
+.shell-card[data-filter="needs_review"] { border-color: rgba(255, 145, 59, .78); }
+.shell-card[data-quality="needs_review"] .shell-card-vf { color: #ffba75; }
+
+/* Full 100k Shell browser: same card/detail language as the Truss gallery. */
+#shell-gallery { display: none; }
+.shell-100k-browser { margin-top: 64px; }
+.shell-100k-browser .topology-card-visual-wrap { background: radial-gradient(circle at 50% 45%, rgba(34, 196, 255, .12), rgba(5, 12, 25, .96)); }
+.shell-100k-browser .topology-card-index { color: #8eeaff; }
+.shell-100k-browser .topology-card-variant-pill { color: #a6f4e8; }
+.shell-100k-browser .topology-card-facts span:last-child { color: #ffbe7a; }
+.shell-property-plots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 22px 0 26px; }
+.shell-property-plots figure { margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: rgba(7, 17, 29, .7); }
+.shell-property-plots img { display: block; width: 100%; border-radius: 8px; background: #071321; }
+.shell-property-plots figcaption { display: flex; justify-content: space-between; gap: 12px; padding-top: 9px; color: var(--muted); font: 11px/1.4 var(--font-mono); }
+.shell-property-plots a { color: var(--cyan); }
+@media (max-width: 760px) { .shell-property-plots { grid-template-columns: 1fr; } }
+.shell-100k-dialog .topology-canvas-stack { position: relative; min-height: 420px; }
+.shell-100k-dialog #shell-100k-skeleton-canvas, .shell-100k-dialog #shell-100k-mesh-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.shell-100k-dialog #shell-100k-mesh-canvas { display: none; z-index: 1; }
+.shell-100k-dialog #shell-100k-skeleton-canvas { z-index: 2; pointer-events: none; }
+.shell-100k-dialog .topology-variant-list { max-height: 420px; overflow: auto; }
+.shell-100k-dialog .topology-property-facts { margin-top: 14px; }
+.shell-100k-dialog .topology-property-facts strong { color: #f8fbff; }
+.shell-property-heading { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); color: #a6f4e8; font: 11px/1.4 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
+.shell-100k-list-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 0 2px; color: var(--muted); font: 11px/1.4 var(--font-mono); }
+.shell-100k-list-footer button { padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); background: rgba(255,255,255,.04); cursor: pointer; }
+.shell-100k-list-footer button:disabled { opacity: .4; cursor: default; }
+
+.shell-dialog { width: min(1100px, calc(100vw - 24px)); max-height: calc(100vh - 24px); padding: 0; overflow: auto; border: 1px solid var(--line-strong); border-radius: 17px; color: var(--ink); background: var(--surface-solid); box-shadow: 0 30px 110px rgba(0,0,0,.5); }
+.shell-dialog::backdrop { background: rgba(2,7,13,.84); backdrop-filter: blur(9px); }
+.shell-dialog-layout { position: relative; padding: 28px; }
+.shell-dialog-layout > .dialog-close { position: absolute; top: 22px; right: 22px; }
+.shell-dialog-heading { padding-right: 45px; }
+.shell-dialog-heading h2 { margin: 7px 0 0; font: 22px/1.2 var(--font-mono); }
+.shell-dialog-heading p:last-child { margin: 8px 0 20px; color: var(--muted); font-size: 13px; }
+.shell-dialog-content { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(250px, .65fr); gap: 20px; }
+.shell-viewer-wrap { position: relative; min-height: 500px; overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: radial-gradient(circle at 50% 38%, #152d39, #081521 75%); }
+#shell-viewer { display: block; width: 100%; height: 100%; min-height: 500px; cursor: grab; touch-action: none; }
+#shell-viewer:active { cursor: grabbing; }
+#shell-viewer-status { position: absolute; left: 16px; bottom: 15px; color: #c3d8e4; font: 11px/1.4 var(--font-mono); }
+.shell-details { padding: 16px; border: 1px solid var(--line); border-radius: 13px; background: rgba(7, 17, 29, .7); }
+.shell-details h3 { margin: 0 0 16px; font-size: 15px; }
+.shell-details dl { display: grid; gap: 0; margin: 0; }
+.shell-details dl > div { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+.shell-details dt { color: var(--muted); }
+.shell-details dd { margin: 0; text-align: right; font-family: var(--font-mono); }
+.shell-details p { margin: 18px 0; color: var(--muted); font-size: 12px; }
+.shell-details .plot-download { display: inline-block; }
+@media (max-width: 760px) {
+  .shell-gallery-head { align-items: start; flex-direction: column; }
+  .shell-dialog-layout { padding: 18px; }
+  .shell-dialog-content { grid-template-columns: 1fr; }
+  .shell-viewer-wrap, #shell-viewer { min-height: 360px; }
+}

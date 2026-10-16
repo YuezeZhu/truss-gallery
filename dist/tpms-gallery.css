@@ -1,0 +1,22 @@
+#tpms-browser { margin-top:64px; }
+#tpms-progress { display:block; width:100%;height:12px;accent-color:#37bdf1;margin:16px 0 10px; }
+#tpms-vf-bins { font:11px/1.8 var(--font-mono);color:var(--muted);margin-bottom:24px; }
+#tpms-grid .topology-card-image { width:100%;height:235px;display:block; }
+#tpms-dialog .topology-canvas-stack { height:480px;position:relative;background:radial-gradient(circle at 50% 40%,#173541,#07111c);border-radius:12px; }
+#tpms-mesh-canvas { display:block;width:100%;height:100%;cursor:grab;touch-action:none; }
+#tpms-detail-status { color:var(--muted);font:11px/1.7 var(--font-mono);padding:12px 4px; }
+#tpms-dialog .topology-variant-list { max-height:210px;overflow:auto; }
+#tpms-quality { line-height:1.8; }
+#tpms-progress-label { font:12px/1.7 var(--font-mono);color:var(--cyan); }
+#tpms-shape-browser { margin: 18px 0 28px; }
+#tpms-shape-browser[hidden],#tpms-grid[hidden] { display:none !important; }
+.tpms-shape-tools { display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px; }
+.tpms-shape-tools input,.tpms-shape-tools select { min-height:38px;padding:0 12px;border:1px solid var(--line);border-radius:8px;color:var(--text);background:#0a1724; }
+.tpms-shape-tools input { flex:1 1 260px; }
+.tpms-shape-tools select { flex:0 1 240px; }
+#tpms-shape-count,.tpms-shape-list-count { color:var(--muted);font:11px/1.7 var(--font-mono); }
+.tpms-shape-card .topology-card-body { min-height:112px;display:flex;flex-direction:column;justify-content:center; }
+.tpms-shape-card .topology-card-title-row h3 { white-space:normal; }
+#tpms-shape-grid .topology-card-image { width:100%;height:190px;display:block; }
+.tpms-shape-pager { display:flex;justify-content:center;align-items:center;gap:14px;margin:18px auto 0; }
+#tpms-shape-page { min-width:110px;text-align:center;color:var(--muted);font:11px/1.5 var(--font-mono); }

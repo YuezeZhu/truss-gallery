@@ -14,6 +14,8 @@
     />
     <title>LatticeVerse</title>
     <link rel="stylesheet" href="styles.css?v=26" />
+    <link rel="stylesheet" href="shell-gallery.css?v=5" />
+    <link rel="stylesheet" href="tpms-gallery.css?v=4" />
   </head>
   <body data-data-prefix="data/">
     <div class="ambient ambient-a" aria-hidden="true"></div>
@@ -26,6 +28,11 @@
           <strong>LatticeVerse</strong>
         </span>
       </a>
+      <nav class="family-nav" aria-label="Lattice family">
+        <a href="#top">Truss</a>
+        <a href="#shell-100k-browser">Shell</a>
+        <a href="#tpms-browser">TPMS</a>
+      </nav>
     </header>
 
     <main id="top">
@@ -72,7 +79,141 @@
         </div>
       </section>
 
+      <section class="shell-gallery-section" id="shell-gallery" aria-labelledby="shell-gallery-title">
+        <div class="shell-gallery-head">
+          <div>
+            <p class="section-kicker">PARAMETRIC SHELL LATTICE</p>
+            <h2 id="shell-gallery-title">Shell Gallery</h2>
+          </div>
+          <span id="shell-gallery-count" class="shell-gallery-count">Loading shells…</span>
+        </div>
+        <p class="shell-gallery-note">One Shell geometry per selected Truss topology. PSL parameters (diameter, joint smoothness, and shell thickness) are tuned per skeleton toward VF ≈ 20%. Screening checks VF, 32³ boundary contact, solid/surface connectivity, skeleton coverage, and named symmetry. Shell elastic and thermal properties have not been computed.</p>
+        <div id="shell-gallery-loading" class="loading-state" role="status"><span class="loader"></span><span>Loading Shell results…</span></div>
+        <div class="shell-group">
+          <h3>20 simplest topologies</h3>
+          <div id="shell-simple-grid" class="shell-grid"></div>
+        </div>
+        <div class="shell-group">
+          <h3>20 most complex topologies</h3>
+          <div id="shell-complex-grid" class="shell-grid"></div>
+        </div>
+      </section>
+
+      <section class="topology-browser shell-100k-browser" id="shell-100k-browser" aria-labelledby="shell-100k-title">
+        <div class="topology-browser-head">
+          <div>
+            <h2 id="shell-100k-title">Shell Gallery</h2>
+          </div>
+          <div class="topology-browser-stats" id="shell-100k-stats">Loading Shell records…</div>
+        </div>
+        <div class="topology-controls">
+          <label class="search-box topology-search"><span class="sr-only">Search Shell topologies</span><input id="shell-100k-search" type="search" placeholder="Search Shell topology" autocomplete="off" /></label>
+          <button id="shell-100k-sort" class="hierarchy-sort-button" type="button" aria-pressed="false">Complexity ↑</button>
+        </div>
+        <div id="shell-completion-status" class="topology-variant-info" aria-live="polite"></div>
+        <div id="shell-100k-loading" class="loading-state" role="status"><span class="loader"></span><span>Loading Shell topology catalog…</span></div>
+        <div id="shell-100k-grid" class="topology-grid" aria-live="polite"></div>
+        <div class="load-more-wrap"><button id="shell-100k-more" class="load-more" type="button" hidden>Load more topologies</button></div>
+      </section>
+
+      <section class="property-charts" id="shell-property-charts" aria-labelledby="shell-property-title">
+        <div class="property-head"><div><p class="section-kicker">VOLUME FRACTION × EFFECTIVE PROPERTIES</p><h2 id="shell-property-title">Volume Fraction and Effective Properties</h2></div></div>
+        <div class="chart-grid">
+          <figure class="property-chart"><figcaption><span>01</span><strong>Young's modulus Ē</strong></figcaption><img class="property-plot-image" src="assets/shell_youngs_modulus.png?v=2" alt="Shell Young's modulus against volume fraction"><a class="plot-download" href="assets/shell_youngs_modulus.png" download>Download PNG</a></figure>
+          <figure class="property-chart"><figcaption><span>02</span><strong>Mean diagonal conductivity</strong><small>(K<sub>xx</sub> + K<sub>yy</sub> + K<sub>zz</sub>) / 3</small></figcaption><img class="property-plot-image" src="assets/shell_thermal_diagonal_mean.png?v=2" alt="Shell mean diagonal conductivity against volume fraction"><a class="plot-download" href="assets/shell_thermal_diagonal_mean.png" download>Download PNG</a></figure>
+        </div>
+      </section>
+
+      <section class="topology-browser" id="tpms-browser" aria-labelledby="tpms-title">
+        <div class="topology-browser-head"><h2 id="tpms-title">TPMS Gallery</h2><div class="topology-browser-stats" id="tpms-stats">Loading solved records…</div></div>
+        <div class="topology-controls"><button id="tpms-browse-shapes" class="hierarchy-sort-button" type="button">Browse all shapes</button><button id="tpms-refresh" class="hierarchy-sort-button" type="button">Refresh gallery and plots</button></div>
+        <progress id="tpms-progress" max="100000" value="0" aria-label="TPMS accepted records"></progress><div id="tpms-progress-label" aria-live="polite"></div><div id="tpms-vf-bins"></div>
+        <div id="tpms-shape-browser" hidden>
+          <div class="tpms-shape-tools"><input id="tpms-shape-search" type="search" placeholder="Search shape ID or formula family" aria-label="Search TPMS shapes"><select id="tpms-family-filter" aria-label="Filter TPMS formula family"><option value="">All formula families</option></select><span id="tpms-shape-count"></span></div>
+          <div id="tpms-shape-grid" class="topology-grid"></div>
+          <div class="tpms-shape-pager"><button id="tpms-shape-prev" class="hierarchy-sort-button" type="button">Previous shapes</button><span id="tpms-shape-page"></span><button id="tpms-shape-next" class="hierarchy-sort-button" type="button">Next shapes</button></div>
+        </div>
+        <div id="tpms-grid" class="topology-grid"></div>
+      </section>
+      <section class="property-charts" id="tpms-property-charts" aria-labelledby="tpms-property-title">
+        <div class="property-head"><h2 id="tpms-property-title">Volume Fraction and Effective Properties</h2></div>
+        <div class="chart-grid">
+          <figure class="property-chart"><figcaption><span>01</span><strong>Young's modulus Ē</strong></figcaption><img class="property-plot-image" src="tpms-data/youngs.png" alt="TPMS Young's modulus against volume fraction"><a class="plot-download" href="tpms-data/youngs.png" download>Download PNG</a></figure>
+          <figure class="property-chart"><figcaption><span>02</span><strong>Mean diagonal conductivity</strong><small>(K<sub>xx</sub> + K<sub>yy</sub> + K<sub>zz</sub>) / 3</small></figcaption><img class="property-plot-image" src="tpms-data/conductivity.png" alt="TPMS mean diagonal conductivity against volume fraction"><a class="plot-download" href="tpms-data/conductivity.png" download>Download PNG</a></figure>
+        </div>
+      </section>
     </main>
+
+    <dialog id="tpms-dialog" class="topology-dialog">
+      <div class="topology-dialog-shell">
+        <button id="tpms-close" class="dialog-close" type="button" aria-label="Close TPMS details">×</button>
+        <div class="topology-dialog-head"><div><h2 id="tpms-dialog-title"></h2><p id="tpms-selected"></p></div><span id="tpms-dialog-count" class="topology-variant-count"></span></div>
+        <div class="topology-detail-layout">
+          <div class="topology-detail-visual"><div class="topology-canvas-stack"><canvas id="tpms-mesh-canvas" aria-label="Interactive TPMS analytic mesh"></canvas></div><div id="tpms-detail-status" role="status"></div></div>
+          <div class="topology-variant-panel">
+            <div class="topology-group-head"><div class="topology-group-label">Shape Perturbation</div><button id="tpms-shape-sort" class="hierarchy-sort-button" type="button">Perturbation ↑</button></div><div id="tpms-shape-list-count" class="tpms-shape-list-count"></div><div id="tpms-geometry-list" class="topology-variant-list topology-geometry-list"></div>
+            <div class="topology-group-head"><div class="topology-group-label">VF / field threshold</div><button id="tpms-vf-sort" class="hierarchy-sort-button" type="button">VF ↑</button></div><div id="tpms-variant-list" class="topology-variant-list topology-radius-list"></div>
+            <section class="topology-properties" aria-labelledby="tpms-properties-title"><div class="topology-properties-head"><h3 id="tpms-properties-title">Effective properties</h3></div><div id="tpms-facts" class="topology-property-facts"></div>
+              <div class="topology-property-group"><div class="topology-property-label"><span>Elastic Tensor C<sub>H</sub></span><em>Voigt diagonal</em></div><div id="tpms-mechanical-bars" class="property-bars topology-property-bars"></div><div class="matrix-wrap"><table id="tpms-mechanical-matrix" class="tensor-table"></table></div></div>
+              <div class="topology-property-group"><div class="topology-property-label"><span>Effective conductivity K<sub>H</sub></span><em>x / y / z</em></div><div id="tpms-thermal-bars" class="property-bars topology-property-bars"></div><div class="matrix-wrap"><table id="tpms-thermal-matrix" class="tensor-table"></table></div></div><div id="tpms-quality" class="topology-property-quality"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="shell-dialog" class="shell-dialog">
+      <div class="shell-dialog-layout">
+        <button id="shell-dialog-close" class="dialog-close" type="button" aria-label="Close Shell details">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+        <div class="shell-dialog-heading">
+          <p class="section-kicker">PARAMETRIC SHELL LATTICE</p>
+          <h2 id="shell-dialog-title"></h2>
+          <p id="shell-dialog-subtitle"></p>
+        </div>
+        <div class="shell-dialog-content">
+          <div class="shell-viewer-wrap">
+            <canvas id="shell-viewer" aria-label="Interactive Shell mesh; drag to rotate, scroll to zoom"></canvas>
+            <span id="shell-viewer-status">Loading mesh…</span>
+          </div>
+          <div class="shell-details">
+            <h3>Geometry and parameters</h3>
+            <dl id="shell-facts"></dl>
+            <p>Shell elastic and thermal tensors have not been computed for this preview batch.</p>
+            <a id="shell-download" class="plot-download" download>Download OBJ</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="shell-100k-dialog" class="topology-dialog shell-100k-dialog">
+      <div class="topology-dialog-shell">
+        <button id="shell-100k-close" class="dialog-close" type="button" aria-label="Close Shell topology details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
+        <div class="topology-dialog-head"><div><h2 id="shell-100k-dialog-title"></h2><p id="shell-100k-dialog-meta"></p></div><span id="shell-100k-dialog-count" class="topology-variant-count"></span></div>
+        <div class="topology-detail-layout">
+          <div class="topology-detail-visual">
+            <div class="topology-visual-toolbar"><span class="visual-mode-label">Shell preview</span><div class="visual-toggle-group"><button id="shell-100k-topology-toggle" class="mesh-toggle" type="button" aria-pressed="true">Hide topology</button><button id="shell-100k-mesh-toggle" class="mesh-toggle" type="button" aria-pressed="false">Show mesh</button></div></div>
+            <div class="topology-canvas-stack"><canvas id="shell-100k-skeleton-canvas" role="img" aria-label="Shell skeleton and nodes"></canvas><canvas id="shell-100k-mesh-canvas" aria-hidden="true"></canvas></div>
+            <div class="topology-detail-legend"><span><i class="legend-node base"></i>Blue nodes</span><span><i class="legend-line"></i>Blue skeleton</span><span><i class="legend-radius"></i>Orange Shell mesh</span></div>
+          </div>
+          <div class="topology-variant-panel">
+            <div class="topology-variant-panel-head"><span>Node geometry → radius</span><strong id="shell-100k-selected"></strong></div>
+            <div class="topology-group-head"><div class="topology-group-label">Node Perturbation</div><button id="shell-100k-displacement-sort" class="hierarchy-sort-button" type="button" aria-pressed="false">Displacement ↑</button></div>
+            <div id="shell-100k-geometry-list" class="topology-variant-list topology-geometry-list"></div>
+            <div class="topology-group-head"><div class="topology-group-label">Radius results</div><button id="shell-100k-vf-sort" class="hierarchy-sort-button" type="button" aria-pressed="false">VF ↑</button></div>
+            <div id="shell-100k-variant-list" class="topology-variant-list topology-radius-list"></div><div id="shell-100k-variant-info" class="topology-variant-info"></div>
+            <section class="topology-properties" aria-labelledby="shell-100k-properties-title">
+              <div class="topology-properties-head"><div><span class="section-kicker">HOMOGENIZED PROPERTIES</span><h3 id="shell-100k-properties-title">Effective properties</h3></div><span id="shell-100k-property-source">Selected variant</span></div>
+              <div id="shell-100k-facts" class="topology-property-facts"></div>
+              <div class="topology-property-group"><div class="topology-property-label"><span>Elastic Tensor C<sub>H</sub></span><em>Voigt diagonal</em></div><div id="shell-100k-mechanical-bars" class="property-bars topology-property-bars"></div><div class="matrix-wrap"><table id="shell-100k-mechanical-matrix" class="tensor-table"></table></div></div>
+              <div class="topology-property-group"><div class="topology-property-label"><span>Effective conductivity K<sub>H</sub></span><em>x / y / z</em></div><div id="shell-100k-thermal-bars" class="property-bars topology-property-bars"></div><div class="matrix-wrap"><table id="shell-100k-thermal-matrix" class="tensor-table"></table></div></div>
+              <div id="shell-100k-property-quality" class="topology-property-quality"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </dialog>
 
     <dialog id="topology-dialog" class="topology-dialog">
       <div class="topology-dialog-shell">
@@ -146,6 +287,9 @@
 
     <script src="geometry.js?v=41" defer></script>
     <script src="app.js?v=57" defer></script>
+    <script src="shell-gallery.js?v=9" defer></script>
+    <script src="shell100k-gallery.js?v=8" defer></script>
+    <script src="tpms-gallery.js?v=7" defer></script>
   </body>
 </html>
 

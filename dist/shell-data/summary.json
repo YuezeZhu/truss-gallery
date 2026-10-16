@@ -1,0 +1,1 @@
+{"schema":"shell100k-summary-v1","count":91600,"unique_count":91600,"original_count":100000,"duplicate_count":37237,"topology_count":10139,"vf_min":0.050048828125,"vf_max":0.349853515625,"bins":[4954,6646,10000,10000,10000,10000,10000,10000,10000,10000]}
