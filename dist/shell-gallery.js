@@ -191,14 +191,26 @@
   }
 
   class ShellViewer {
-    constructor(canvas, obj, options = {}) {
+    constructor(canvas, source, options = {}) {
       this.canvas = canvas;
       this.onRotate = options.onRotate || (() => {});
       this.color = options.color || [0.94,0.54,0.14];
       this.gl = canvas.getContext("webgl", { antialias: true, alpha: true, preserveDrawingBuffer: false });
       if (!this.gl) throw new Error("WebGL is unavailable");
       const gl = this.gl;
-      const geometry = parseObj(obj);
+      const geometry = typeof source === "string"
+        ? parseObj(source)
+        : source;
+      if (!geometry?.positions || !geometry.count) throw new Error("Mesh contains no triangles");
+      if (options.normalizeCell) {
+        let extent = 0;
+        for (const value of geometry.positions) extent = Math.max(extent, Math.abs(value));
+        if (extent > 0) {
+          for (let index = 0; index < geometry.positions.length; index++) {
+            geometry.positions[index] /= extent;
+          }
+        }
+      }
       const vertex = shader(gl, gl.VERTEX_SHADER, `
         attribute vec3 aPosition;
         attribute vec3 aNormal;

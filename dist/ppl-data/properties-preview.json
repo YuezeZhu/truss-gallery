@@ -1,0 +1,5114 @@
+[
+  {
+    "id": "ppl_000001",
+    "part": 0,
+    "target": 0.05026071263478236,
+    "vf": 0.05224609375,
+    "E": 0.0023390204698476233,
+    "K": 0.01801112888174802,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 0,
+    "target": 0.09465639055189415,
+    "vf": 0.0947265625,
+    "E": 0.04254854471119299,
+    "K": 0.03487571428449051,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 0,
+    "target": 0.11200559636101108,
+    "vf": 0.112060546875,
+    "E": 0.08980798171526745,
+    "K": 0.065263532477357,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 0,
+    "target": 0.15709674226074288,
+    "vf": 0.157470703125,
+    "E": 0.03701443559727166,
+    "K": 0.0557291860633572,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 0,
+    "target": 0.1872255058839086,
+    "vf": 0.1878662109375,
+    "E": 0.05104266445309791,
+    "K": 0.07928336288686894,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 0,
+    "target": 0.21811443294938052,
+    "vf": 0.218017578125,
+    "E": 0.06815677832019708,
+    "K": 0.09806383216902508,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 0,
+    "target": 0.24731858404452137,
+    "vf": 0.247802734375,
+    "E": 0.11439927924410483,
+    "K": 0.12594302506469246,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_003980",
+    "part": 0,
+    "target": 0.32242007867917793,
+    "vf": 0.322998046875,
+    "E": 0.1319565143377205,
+    "K": 0.17429726800901113,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_003980.json"
+  },
+  {
+    "id": "ppl_003982",
+    "part": 0,
+    "target": 0.10122858222834595,
+    "vf": 0.10546875,
+    "E": 0.04905383516653425,
+    "K": 0.04192560815847779,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_003982.json"
+  },
+  {
+    "id": "ppl_003983",
+    "part": 0,
+    "target": 0.12656187749885198,
+    "vf": 0.12646484375,
+    "E": 0.13160835649360283,
+    "K": 0.08600867128331331,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_003983.json"
+  },
+  {
+    "id": "ppl_003984",
+    "part": 0,
+    "target": 0.15846649277674074,
+    "vf": 0.159423828125,
+    "E": 0.03986954239813321,
+    "K": 0.06487500724870118,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_003984.json"
+  },
+  {
+    "id": "ppl_003985",
+    "part": 0,
+    "target": 0.17323351975964169,
+    "vf": 0.173828125,
+    "E": 0.0073917752596295025,
+    "K": 0.04075508919986847,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_003985.json"
+  },
+  {
+    "id": "ppl_003986",
+    "part": 0,
+    "target": 0.2267614633926568,
+    "vf": 0.226806640625,
+    "E": 0.07633538015935003,
+    "K": 0.11201689215852716,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_003986.json"
+  },
+  {
+    "id": "ppl_003987",
+    "part": 0,
+    "target": 0.2598698931304491,
+    "vf": 0.25958251953125,
+    "E": 0.07979481169369958,
+    "K": 0.11573565330430917,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_003987.json"
+  },
+  {
+    "id": "ppl_003997",
+    "part": 0,
+    "target": 0.24648943473049084,
+    "vf": 0.24676513671875,
+    "E": 0.08691586086488119,
+    "K": 0.11461235024063826,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_003997.json"
+  },
+  {
+    "id": "ppl_004005",
+    "part": 0,
+    "target": 0.1766401264068809,
+    "vf": 0.176513671875,
+    "E": 0.06051828357002643,
+    "K": 0.07576583256681503,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004005.json"
+  },
+  {
+    "id": "ppl_004006",
+    "part": 0,
+    "target": 0.2174367046756134,
+    "vf": 0.2177734375,
+    "E": 0.08057703234057083,
+    "K": 0.10402942374745772,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004006.json"
+  },
+  {
+    "id": "ppl_004007",
+    "part": 0,
+    "target": 0.24411000057437987,
+    "vf": 0.24420166015625,
+    "E": 0.10143037647759146,
+    "K": 0.1279758032051106,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004007.json"
+  },
+  {
+    "id": "ppl_004008",
+    "part": 0,
+    "target": 0.2758835400270629,
+    "vf": 0.27587890625,
+    "E": 0.10615770232243286,
+    "K": 0.13580691932157526,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004008.json"
+  },
+  {
+    "id": "ppl_004009",
+    "part": 0,
+    "target": 0.3103047194407084,
+    "vf": 0.31005859375,
+    "E": 0.13826736120783026,
+    "K": 0.17489426474300532,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004009.json"
+  },
+  {
+    "id": "ppl_004010",
+    "part": 0,
+    "target": 0.3499838192579059,
+    "vf": 0.349853515625,
+    "E": 0.1641666468073766,
+    "K": 0.19273455015341642,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004010.json"
+  },
+  {
+    "id": "ppl_004011",
+    "part": 0,
+    "target": 0.07372074152417835,
+    "vf": 0.075439453125,
+    "E": 0.05579233447717135,
+    "K": 0.0370033661015004,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004011.json"
+  },
+  {
+    "id": "ppl_004012",
+    "part": 0,
+    "target": 0.08480135835663949,
+    "vf": 0.0849609375,
+    "E": 0.011823587614506427,
+    "K": 0.020391623784794966,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004012.json"
+  },
+  {
+    "id": "ppl_004013",
+    "part": 0,
+    "target": 0.11458256854720378,
+    "vf": 0.115478515625,
+    "E": 0.06493101093260459,
+    "K": 0.048841374767533176,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004013.json"
+  },
+  {
+    "id": "ppl_004014",
+    "part": 0,
+    "target": 0.14067810989518206,
+    "vf": 0.14251708984375,
+    "E": 0.0287893304821198,
+    "K": 0.039533991434454956,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004014.json"
+  },
+  {
+    "id": "ppl_004015",
+    "part": 0,
+    "target": 0.17091533075584803,
+    "vf": 0.17266845703125,
+    "E": 0.02734584182784861,
+    "K": 0.0320321726959705,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004015.json"
+  },
+  {
+    "id": "ppl_004016",
+    "part": 0,
+    "target": 0.20639389243784947,
+    "vf": 0.2066650390625,
+    "E": 0.07704853348828093,
+    "K": 0.09632243037801815,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004016.json"
+  },
+  {
+    "id": "ppl_004017",
+    "part": 0,
+    "target": 0.25381393529900076,
+    "vf": 0.254150390625,
+    "E": 0.08912814934006245,
+    "K": 0.12775754263128275,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004017.json"
+  },
+  {
+    "id": "ppl_004018",
+    "part": 0,
+    "target": 0.28428907681439297,
+    "vf": 0.2822265625,
+    "E": 0.14408078609490488,
+    "K": 0.15356448750342738,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_00\\samples\\ppl_004018.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 1,
+    "target": 0.07454770652521622,
+    "vf": 0.07965087890625,
+    "E": 0.0030432585636194797,
+    "K": 0.010140645315338518,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 1,
+    "target": 0.12220651501197888,
+    "vf": 0.1220703125,
+    "E": 0.017165014199352017,
+    "K": 0.041294221878495393,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 1,
+    "target": 0.1667815595168335,
+    "vf": 0.16650390625,
+    "E": 0.007744094318338074,
+    "K": 0.04490620604617555,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 1,
+    "target": 0.17180671584112917,
+    "vf": 0.17236328125,
+    "E": 0.052496197669763996,
+    "K": 0.07551355737116063,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 1,
+    "target": 0.22766906737158982,
+    "vf": 0.227783203125,
+    "E": 0.08892111122862469,
+    "K": 0.12112614687910846,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 1,
+    "target": 0.2331581869103488,
+    "vf": 0.233154296875,
+    "E": 0.07191885461023333,
+    "K": 0.09766194477155547,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_003845",
+    "part": 1,
+    "target": 0.1954298012492965,
+    "vf": 0.1953125,
+    "E": 0.0604949799517451,
+    "K": 0.08691739824029432,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003845.json"
+  },
+  {
+    "id": "ppl_003846",
+    "part": 1,
+    "target": 0.20795894114461017,
+    "vf": 0.20831298828125,
+    "E": 0.061687308674828946,
+    "K": 0.08736954778299205,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003846.json"
+  },
+  {
+    "id": "ppl_003847",
+    "part": 1,
+    "target": 0.23943022515886797,
+    "vf": 0.239990234375,
+    "E": 0.09157671450032351,
+    "K": 0.1188470197620572,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003847.json"
+  },
+  {
+    "id": "ppl_003861",
+    "part": 1,
+    "target": 0.07358580639906513,
+    "vf": 0.07373046875,
+    "E": 0.03922362033744706,
+    "K": 0.03331975663321251,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003861.json"
+  },
+  {
+    "id": "ppl_003862",
+    "part": 1,
+    "target": 0.08115317237469166,
+    "vf": 0.08203125,
+    "E": 0.030631911732331516,
+    "K": 0.025857212562786506,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003862.json"
+  },
+  {
+    "id": "ppl_003863",
+    "part": 1,
+    "target": 0.12003291673313551,
+    "vf": 0.1220703125,
+    "E": 0.03786672099913951,
+    "K": 0.02656354924274562,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003863.json"
+  },
+  {
+    "id": "ppl_003864",
+    "part": 1,
+    "target": 0.1577786631670551,
+    "vf": 0.157958984375,
+    "E": 0.034065317239138644,
+    "K": 0.06805940279896977,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003864.json"
+  },
+  {
+    "id": "ppl_003865",
+    "part": 1,
+    "target": 0.17747790102370575,
+    "vf": 0.17803955078125,
+    "E": 0.061066705943805,
+    "K": 0.07705436860256722,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003865.json"
+  },
+  {
+    "id": "ppl_003866",
+    "part": 1,
+    "target": 0.21799589457976354,
+    "vf": 0.218017578125,
+    "E": 0.07411224735870314,
+    "K": 0.10629002100226341,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003866.json"
+  },
+  {
+    "id": "ppl_003867",
+    "part": 1,
+    "target": 0.24032190532962167,
+    "vf": 0.240478515625,
+    "E": 0.06042685602420524,
+    "K": 0.08893214763584499,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003867.json"
+  },
+  {
+    "id": "ppl_003868",
+    "part": 1,
+    "target": 0.2830475745467755,
+    "vf": 0.28326416015625,
+    "E": 0.08912738106440339,
+    "K": 0.12647722229898348,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003868.json"
+  },
+  {
+    "id": "ppl_003869",
+    "part": 1,
+    "target": 0.29309578119266283,
+    "vf": 0.29217529296875,
+    "E": 0.14506706510031928,
+    "K": 0.15973419179407647,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003869.json"
+  },
+  {
+    "id": "ppl_003870",
+    "part": 1,
+    "target": 0.3313870591850711,
+    "vf": 0.331298828125,
+    "E": 0.13886102036456546,
+    "K": 0.1720041837146262,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003870.json"
+  },
+  {
+    "id": "ppl_003871",
+    "part": 1,
+    "target": 0.054671685886521354,
+    "vf": 0.0577392578125,
+    "E": 0.0102227410678869,
+    "K": 0.011123211866686113,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003871.json"
+  },
+  {
+    "id": "ppl_003872",
+    "part": 1,
+    "target": 0.08859153882324206,
+    "vf": 0.08880615234375,
+    "E": 0.030013449942662876,
+    "K": 0.023930921806598542,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003872.json"
+  },
+  {
+    "id": "ppl_003873",
+    "part": 1,
+    "target": 0.11341967003129579,
+    "vf": 0.11395263671875,
+    "E": 0.028581786613138007,
+    "K": 0.0374390704241822,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003873.json"
+  },
+  {
+    "id": "ppl_003874",
+    "part": 1,
+    "target": 0.1421304606523139,
+    "vf": 0.14227294921875,
+    "E": 0.02723112046173776,
+    "K": 0.05433999992085983,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003874.json"
+  },
+  {
+    "id": "ppl_003875",
+    "part": 1,
+    "target": 0.18930220710307802,
+    "vf": 0.18939208984375,
+    "E": 0.0721404093739035,
+    "K": 0.09707485956627615,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003875.json"
+  },
+  {
+    "id": "ppl_003876",
+    "part": 1,
+    "target": 0.20559840036805702,
+    "vf": 0.205810546875,
+    "E": 0.06715969295193533,
+    "K": 0.08535692781182312,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003876.json"
+  },
+  {
+    "id": "ppl_003877",
+    "part": 1,
+    "target": 0.24185331412285532,
+    "vf": 0.241943359375,
+    "E": 0.07133709934968478,
+    "K": 0.10993966951109814,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003877.json"
+  },
+  {
+    "id": "ppl_003878",
+    "part": 1,
+    "target": 0.2635116533228494,
+    "vf": 0.2625732421875,
+    "E": 0.10532090482585227,
+    "K": 0.1313342071636917,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003878.json"
+  },
+  {
+    "id": "ppl_003879",
+    "part": 1,
+    "target": 0.30898164454770005,
+    "vf": 0.309326171875,
+    "E": 0.12506282447090775,
+    "K": 0.16533798158041482,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003879.json"
+  },
+  {
+    "id": "ppl_003880",
+    "part": 1,
+    "target": 0.3257452072518633,
+    "vf": 0.32568359375,
+    "E": 0.13764757947413428,
+    "K": 0.17776374580549711,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003880.json"
+  },
+  {
+    "id": "ppl_003881",
+    "part": 1,
+    "target": 0.05917376567221987,
+    "vf": 0.0582275390625,
+    "E": 0.004495325419416929,
+    "K": 0.00915756612277693,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003881.json"
+  },
+  {
+    "id": "ppl_003883",
+    "part": 1,
+    "target": 0.12461495084018581,
+    "vf": 0.1285400390625,
+    "E": 0.04183961017420094,
+    "K": 0.04758087353484628,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003883.json"
+  },
+  {
+    "id": "ppl_003884",
+    "part": 1,
+    "target": 0.1482138460055173,
+    "vf": 0.1488037109375,
+    "E": 0.03249920556143286,
+    "K": 0.04409930227011625,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003884.json"
+  },
+  {
+    "id": "ppl_003885",
+    "part": 1,
+    "target": 0.19689199524122747,
+    "vf": 0.197021484375,
+    "E": 0.04976008195428317,
+    "K": 0.08124101406961139,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_01\\samples\\ppl_003885.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 2,
+    "target": 0.06795896138029063,
+    "vf": 0.0703125,
+    "E": 0.015841686221978218,
+    "K": 0.02687412829232007,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 2,
+    "target": 0.10537686879759763,
+    "vf": 0.1055908203125,
+    "E": 0.03589802038191563,
+    "K": 0.04580401630896056,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 2,
+    "target": 0.1250875249887753,
+    "vf": 0.1258544921875,
+    "E": 0.02984889801486867,
+    "K": 0.0408266886713281,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 2,
+    "target": 0.17441011702962023,
+    "vf": 0.1744384765625,
+    "E": 0.06634555144070353,
+    "K": 0.08167985125420808,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 2,
+    "target": 0.21423595085003896,
+    "vf": 0.2147216796875,
+    "E": 0.06475462439470385,
+    "K": 0.09505441150200605,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 2,
+    "target": 0.23641776743659537,
+    "vf": 0.2373046875,
+    "E": 0.08798973446422143,
+    "K": 0.11960067529309416,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_003848",
+    "part": 2,
+    "target": 0.2644151305782322,
+    "vf": 0.264404296875,
+    "E": 0.11690689374882744,
+    "K": 0.1526633070983131,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003848.json"
+  },
+  {
+    "id": "ppl_003864",
+    "part": 2,
+    "target": 0.1530069220061281,
+    "vf": 0.1534423828125,
+    "E": 0.030308160151013137,
+    "K": 0.04229307893836024,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003864.json"
+  },
+  {
+    "id": "ppl_003865",
+    "part": 2,
+    "target": 0.19712408007519375,
+    "vf": 0.1978759765625,
+    "E": 0.06478179037316242,
+    "K": 0.08564976345743325,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003865.json"
+  },
+  {
+    "id": "ppl_003866",
+    "part": 2,
+    "target": 0.21778669513666535,
+    "vf": 0.2177734375,
+    "E": 0.0772644331685892,
+    "K": 0.10113315130293969,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003866.json"
+  },
+  {
+    "id": "ppl_003867",
+    "part": 2,
+    "target": 0.24178637012662968,
+    "vf": 0.242431640625,
+    "E": 0.08502554169242126,
+    "K": 0.11202667859961557,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003867.json"
+  },
+  {
+    "id": "ppl_003868",
+    "part": 2,
+    "target": 0.283047128549345,
+    "vf": 0.282958984375,
+    "E": 0.13118300252318302,
+    "K": 0.1713311340403826,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003868.json"
+  },
+  {
+    "id": "ppl_003869",
+    "part": 2,
+    "target": 0.31555459039154954,
+    "vf": 0.3154296875,
+    "E": 0.12774951460184425,
+    "K": 0.1627392656649156,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003869.json"
+  },
+  {
+    "id": "ppl_003881",
+    "part": 2,
+    "target": 0.06642496906158582,
+    "vf": 0.06640625,
+    "E": 0.037051387358873755,
+    "K": 0.027975898583211412,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003881.json"
+  },
+  {
+    "id": "ppl_003882",
+    "part": 2,
+    "target": 0.09706226482617235,
+    "vf": 0.09661865234375,
+    "E": 0.04760026455235975,
+    "K": 0.04025454879721232,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003882.json"
+  },
+  {
+    "id": "ppl_003885",
+    "part": 2,
+    "target": 0.18608208451002636,
+    "vf": 0.18603515625,
+    "E": 0.04888978148777248,
+    "K": 0.08312141055047172,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003885.json"
+  },
+  {
+    "id": "ppl_003892",
+    "part": 2,
+    "target": 0.09530890454781009,
+    "vf": 0.09600830078125,
+    "E": 0.021251692344367686,
+    "K": 0.03808113332019185,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003892.json"
+  },
+  {
+    "id": "ppl_003893",
+    "part": 2,
+    "target": 0.11416275132036917,
+    "vf": 0.1142578125,
+    "E": 0.06282284253953914,
+    "K": 0.05097570124386882,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003893.json"
+  },
+  {
+    "id": "ppl_003894",
+    "part": 2,
+    "target": 0.14260069564298503,
+    "vf": 0.14312744140625,
+    "E": 0.027154707168461734,
+    "K": 0.037917008714231315,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003894.json"
+  },
+  {
+    "id": "ppl_003895",
+    "part": 2,
+    "target": 0.1853803429859516,
+    "vf": 0.185302734375,
+    "E": 0.04266593334211289,
+    "K": 0.07122111906709906,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003895.json"
+  },
+  {
+    "id": "ppl_003896",
+    "part": 2,
+    "target": 0.22090304424531987,
+    "vf": 0.220947265625,
+    "E": 0.07741592870545551,
+    "K": 0.11170856409106994,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003896.json"
+  },
+  {
+    "id": "ppl_003897",
+    "part": 2,
+    "target": 0.24344985020443335,
+    "vf": 0.244140625,
+    "E": 0.08582274403983935,
+    "K": 0.11683653092733244,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003897.json"
+  },
+  {
+    "id": "ppl_003898",
+    "part": 2,
+    "target": 0.2785825451092805,
+    "vf": 0.27923583984375,
+    "E": 0.09777089565395586,
+    "K": 0.13395041176658326,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003898.json"
+  },
+  {
+    "id": "ppl_003899",
+    "part": 2,
+    "target": 0.318908853239138,
+    "vf": 0.319091796875,
+    "E": 0.16782055838411347,
+    "K": 0.2037713988262325,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003899.json"
+  },
+  {
+    "id": "ppl_003900",
+    "part": 2,
+    "target": 0.32527232317810856,
+    "vf": 0.325439453125,
+    "E": 0.15232276199500153,
+    "K": 0.19649745171424182,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003900.json"
+  },
+  {
+    "id": "ppl_003902",
+    "part": 2,
+    "target": 0.08770922420560087,
+    "vf": 0.087646484375,
+    "E": 0.0658740848371127,
+    "K": 0.047858255593241805,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003902.json"
+  },
+  {
+    "id": "ppl_003903",
+    "part": 2,
+    "target": 0.11781356397942658,
+    "vf": 0.1234130859375,
+    "E": 0.015618018009556115,
+    "K": 0.02219665674419854,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003903.json"
+  },
+  {
+    "id": "ppl_003904",
+    "part": 2,
+    "target": 0.1538321801326399,
+    "vf": 0.15399169921875,
+    "E": 0.03924289663912112,
+    "K": 0.045851897013567476,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003904.json"
+  },
+  {
+    "id": "ppl_003905",
+    "part": 2,
+    "target": 0.1722179390792015,
+    "vf": 0.172119140625,
+    "E": 0.04736405082190961,
+    "K": 0.07221236259507574,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003905.json"
+  },
+  {
+    "id": "ppl_003906",
+    "part": 2,
+    "target": 0.20175436306939878,
+    "vf": 0.201416015625,
+    "E": 0.07208881470393694,
+    "K": 0.10837188074676686,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003906.json"
+  },
+  {
+    "id": "ppl_003907",
+    "part": 2,
+    "target": 0.2497678628255395,
+    "vf": 0.249755859375,
+    "E": 0.10072576370377904,
+    "K": 0.12546356265042458,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003907.json"
+  },
+  {
+    "id": "ppl_003908",
+    "part": 2,
+    "target": 0.27734976110089216,
+    "vf": 0.27734375,
+    "E": 0.09449502484677737,
+    "K": 0.1330850934712778,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_02\\samples\\ppl_003908.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 3,
+    "target": 0.0671197780999848,
+    "vf": 0.067596435546875,
+    "E": 0.009635345923743316,
+    "K": 0.024567186829151808,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 3,
+    "target": 0.09878116700960987,
+    "vf": 0.1005859375,
+    "E": 0.02295570598731562,
+    "K": 0.026508202170955158,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 3,
+    "target": 0.1256828693354634,
+    "vf": 0.1265869140625,
+    "E": 0.030645381195644767,
+    "K": 0.0469704014577402,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 3,
+    "target": 0.16134463182026618,
+    "vf": 0.16204833984375,
+    "E": 0.03212709069473412,
+    "K": 0.04913391662497382,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 3,
+    "target": 0.1844825088670826,
+    "vf": 0.1851806640625,
+    "E": 0.03133668117416764,
+    "K": 0.05978375906994019,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 3,
+    "target": 0.20500984564153046,
+    "vf": 0.20556640625,
+    "E": 0.06409722732410987,
+    "K": 0.09057535335154171,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 3,
+    "target": 0.23012536971609748,
+    "vf": 0.230712890625,
+    "E": 0.07992712946089782,
+    "K": 0.11086733189249658,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_003863",
+    "part": 3,
+    "target": 0.13764473185626477,
+    "vf": 0.1385498046875,
+    "E": 0.02441597175359653,
+    "K": 0.03655778001868092,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003863.json"
+  },
+  {
+    "id": "ppl_003864",
+    "part": 3,
+    "target": 0.1672243967343444,
+    "vf": 0.168212890625,
+    "E": 0.020761590333792237,
+    "K": 0.03251558420759895,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003864.json"
+  },
+  {
+    "id": "ppl_003865",
+    "part": 3,
+    "target": 0.18434719940622382,
+    "vf": 0.1845703125,
+    "E": 0.05343549224019761,
+    "K": 0.07812317962426703,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003865.json"
+  },
+  {
+    "id": "ppl_003866",
+    "part": 3,
+    "target": 0.2240543866182749,
+    "vf": 0.22491455078125,
+    "E": 0.056696698512992916,
+    "K": 0.08484728828141012,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003866.json"
+  },
+  {
+    "id": "ppl_003867",
+    "part": 3,
+    "target": 0.24957763838245753,
+    "vf": 0.24951171875,
+    "E": 0.11963196300468722,
+    "K": 0.1437751519041551,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003867.json"
+  },
+  {
+    "id": "ppl_003868",
+    "part": 3,
+    "target": 0.265112989631208,
+    "vf": 0.264892578125,
+    "E": 0.08614483041757744,
+    "K": 0.1161843016501548,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003868.json"
+  },
+  {
+    "id": "ppl_003869",
+    "part": 3,
+    "target": 0.3068352234000851,
+    "vf": 0.306884765625,
+    "E": 0.15174669968884955,
+    "K": 0.1668557880231115,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003869.json"
+  },
+  {
+    "id": "ppl_003885",
+    "part": 3,
+    "target": 0.18958414197275678,
+    "vf": 0.189453125,
+    "E": 0.06342279269774749,
+    "K": 0.08895816714137454,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003885.json"
+  },
+  {
+    "id": "ppl_003886",
+    "part": 3,
+    "target": 0.21125746521939767,
+    "vf": 0.211395263671875,
+    "E": 0.08691412657254467,
+    "K": 0.11738020359609606,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003886.json"
+  },
+  {
+    "id": "ppl_003892",
+    "part": 3,
+    "target": 0.08226124099319801,
+    "vf": 0.0850830078125,
+    "E": 0.06706349328142908,
+    "K": 0.048119610947649716,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003892.json"
+  },
+  {
+    "id": "ppl_003893",
+    "part": 3,
+    "target": 0.114524440222299,
+    "vf": 0.11712646484375,
+    "E": 0.02088598833321052,
+    "K": 0.03377597625061401,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003893.json"
+  },
+  {
+    "id": "ppl_003894",
+    "part": 3,
+    "target": 0.16944467284325382,
+    "vf": 0.16943359375,
+    "E": 0.049867178344795954,
+    "K": 0.08076861782700233,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003894.json"
+  },
+  {
+    "id": "ppl_003895",
+    "part": 3,
+    "target": 0.17269151184617704,
+    "vf": 0.172607421875,
+    "E": 0.05218645165904532,
+    "K": 0.08559197858442329,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003895.json"
+  },
+  {
+    "id": "ppl_003896",
+    "part": 3,
+    "target": 0.2120225721211017,
+    "vf": 0.2119140625,
+    "E": 0.06009895464035891,
+    "K": 0.10160285811985022,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003896.json"
+  },
+  {
+    "id": "ppl_003897",
+    "part": 3,
+    "target": 0.25320035810677527,
+    "vf": 0.25341796875,
+    "E": 0.09053183614101251,
+    "K": 0.12327157933031048,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003897.json"
+  },
+  {
+    "id": "ppl_003898",
+    "part": 3,
+    "target": 0.27878580632034294,
+    "vf": 0.27880859375,
+    "E": 0.116577451114742,
+    "K": 0.1504002297707916,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003898.json"
+  },
+  {
+    "id": "ppl_003899",
+    "part": 3,
+    "target": 0.3010361677271384,
+    "vf": 0.300537109375,
+    "E": 0.06162216264493819,
+    "K": 0.15689481059541308,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003899.json"
+  },
+  {
+    "id": "ppl_003900",
+    "part": 3,
+    "target": 0.3451674725980902,
+    "vf": 0.34521484375,
+    "E": 0.15382880831553034,
+    "K": 0.19163175732994486,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003900.json"
+  },
+  {
+    "id": "ppl_003903",
+    "part": 3,
+    "target": 0.1304820601380367,
+    "vf": 0.1314697265625,
+    "E": 0.0245597697546644,
+    "K": 0.03733543016127399,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003903.json"
+  },
+  {
+    "id": "ppl_003904",
+    "part": 3,
+    "target": 0.15660982340485557,
+    "vf": 0.15753173828125,
+    "E": 0.02941854131558948,
+    "K": 0.042537194005614835,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003904.json"
+  },
+  {
+    "id": "ppl_003905",
+    "part": 3,
+    "target": 0.1758443576155394,
+    "vf": 0.176513671875,
+    "E": 0.002163697033763566,
+    "K": 0.019849296528967778,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003905.json"
+  },
+  {
+    "id": "ppl_003906",
+    "part": 3,
+    "target": 0.22614008706670646,
+    "vf": 0.22662353515625,
+    "E": 0.07161544731306581,
+    "K": 0.10382002082638357,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003906.json"
+  },
+  {
+    "id": "ppl_003907",
+    "part": 3,
+    "target": 0.24376091070509906,
+    "vf": 0.24365234375,
+    "E": 0.09296115548264876,
+    "K": 0.11979015904557262,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003907.json"
+  },
+  {
+    "id": "ppl_003908",
+    "part": 3,
+    "target": 0.28865373539821243,
+    "vf": 0.288818359375,
+    "E": 0.12791510212342208,
+    "K": 0.14999315008288128,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003908.json"
+  },
+  {
+    "id": "ppl_003909",
+    "part": 3,
+    "target": 0.31294752660084,
+    "vf": 0.31298828125,
+    "E": 0.12655133124638765,
+    "K": 0.17352075816578175,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_03\\samples\\ppl_003909.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 4,
+    "target": 0.07046939627505185,
+    "vf": 0.0703125,
+    "E": 0.000648749477440954,
+    "K": 0.008074565285534617,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 4,
+    "target": 0.12118039985358109,
+    "vf": 0.1217041015625,
+    "E": 0.03271060481188293,
+    "K": 0.05103077311930108,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 4,
+    "target": 0.15844851196917623,
+    "vf": 0.1607666015625,
+    "E": 0.035974389363386615,
+    "K": 0.06795987130302127,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 4,
+    "target": 0.20568795716291466,
+    "vf": 0.20556640625,
+    "E": 0.07489291425671833,
+    "K": 0.09483787923535249,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 4,
+    "target": 0.23035566571911856,
+    "vf": 0.230224609375,
+    "E": 0.0744738757304783,
+    "K": 0.11931852847783121,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_000008",
+    "part": 4,
+    "target": 0.2776150090873701,
+    "vf": 0.277587890625,
+    "E": 0.11784172241683545,
+    "K": 0.13027168727394345,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_000008.json"
+  },
+  {
+    "id": "ppl_003844",
+    "part": 4,
+    "target": 0.143963978484798,
+    "vf": 0.148193359375,
+    "E": 0.05074011590146196,
+    "K": 0.058783805878610006,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003844.json"
+  },
+  {
+    "id": "ppl_003845",
+    "part": 4,
+    "target": 0.18856829529674632,
+    "vf": 0.1898193359375,
+    "E": 0.05561868248917218,
+    "K": 0.08974836232898471,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003845.json"
+  },
+  {
+    "id": "ppl_003846",
+    "part": 4,
+    "target": 0.21756161355728212,
+    "vf": 0.2178955078125,
+    "E": 0.0676072913163983,
+    "K": 0.10049085388360857,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003846.json"
+  },
+  {
+    "id": "ppl_003847",
+    "part": 4,
+    "target": 0.25584343809704313,
+    "vf": 0.2559814453125,
+    "E": 0.09442278640980405,
+    "K": 0.11946597130329029,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003847.json"
+  },
+  {
+    "id": "ppl_003848",
+    "part": 4,
+    "target": 0.26612245789083167,
+    "vf": 0.26611328125,
+    "E": 0.12401298716693283,
+    "K": 0.14724737373520982,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003848.json"
+  },
+  {
+    "id": "ppl_003849",
+    "part": 4,
+    "target": 0.3109639888349652,
+    "vf": 0.31103515625,
+    "E": 0.14503050894960218,
+    "K": 0.17754778220477188,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003849.json"
+  },
+  {
+    "id": "ppl_003863",
+    "part": 4,
+    "target": 0.12758219705209645,
+    "vf": 0.12835693359375,
+    "E": 0.042886520088238324,
+    "K": 0.05709452774724357,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003863.json"
+  },
+  {
+    "id": "ppl_003864",
+    "part": 4,
+    "target": 0.14699899942996691,
+    "vf": 0.14764404296875,
+    "E": 0.04016089192160011,
+    "K": 0.0741297116526535,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003864.json"
+  },
+  {
+    "id": "ppl_003865",
+    "part": 4,
+    "target": 0.17171236181638486,
+    "vf": 0.172119140625,
+    "E": 0.04829047957903395,
+    "K": 0.06504458422841676,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003865.json"
+  },
+  {
+    "id": "ppl_003866",
+    "part": 4,
+    "target": 0.206770093141329,
+    "vf": 0.20703125,
+    "E": 0.059344894623072214,
+    "K": 0.0921044336939058,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003866.json"
+  },
+  {
+    "id": "ppl_003872",
+    "part": 4,
+    "target": 0.10370477980822859,
+    "vf": 0.10467529296875,
+    "E": 0.01921954057671021,
+    "K": 0.03353568931910338,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003872.json"
+  },
+  {
+    "id": "ppl_003873",
+    "part": 4,
+    "target": 0.1310871424111832,
+    "vf": 0.13543701171875,
+    "E": 0.035324563729871986,
+    "K": 0.05782342979679896,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003873.json"
+  },
+  {
+    "id": "ppl_003874",
+    "part": 4,
+    "target": 0.150726747309063,
+    "vf": 0.15325927734375,
+    "E": 0.032515553693143406,
+    "K": 0.06457915966439694,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003874.json"
+  },
+  {
+    "id": "ppl_003875",
+    "part": 4,
+    "target": 0.1807805394755376,
+    "vf": 0.1817626953125,
+    "E": 0.044468548695243776,
+    "K": 0.06306772321310333,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003875.json"
+  },
+  {
+    "id": "ppl_003876",
+    "part": 4,
+    "target": 0.21214788566302908,
+    "vf": 0.212158203125,
+    "E": 0.08417064343282671,
+    "K": 0.1192281149612503,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003876.json"
+  },
+  {
+    "id": "ppl_003877",
+    "part": 4,
+    "target": 0.24969736522347327,
+    "vf": 0.24951171875,
+    "E": 0.08070391367252104,
+    "K": 0.104899489554983,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003877.json"
+  },
+  {
+    "id": "ppl_003878",
+    "part": 4,
+    "target": 0.2755770951842456,
+    "vf": 0.275146484375,
+    "E": 0.1139698131303342,
+    "K": 0.13674325528495315,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003878.json"
+  },
+  {
+    "id": "ppl_003879",
+    "part": 4,
+    "target": 0.30569677860953565,
+    "vf": 0.3056640625,
+    "E": 0.11294909736344638,
+    "K": 0.1534926516070615,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003879.json"
+  },
+  {
+    "id": "ppl_003880",
+    "part": 4,
+    "target": 0.3427500426497793,
+    "vf": 0.342041015625,
+    "E": 0.17970703010030675,
+    "K": 0.20422155460133107,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003880.json"
+  },
+  {
+    "id": "ppl_003881",
+    "part": 4,
+    "target": 0.07630644683004821,
+    "vf": 0.075439453125,
+    "E": 0.013539681581405399,
+    "K": 0.02543781145794327,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003881.json"
+  },
+  {
+    "id": "ppl_003883",
+    "part": 4,
+    "target": 0.11967884631259382,
+    "vf": 0.12060546875,
+    "E": 0.037717111449273276,
+    "K": 0.045363201924403566,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003883.json"
+  },
+  {
+    "id": "ppl_003884",
+    "part": 4,
+    "target": 0.16302236280504986,
+    "vf": 0.163818359375,
+    "E": 0.03046596468006597,
+    "K": 0.04536495307865835,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003884.json"
+  },
+  {
+    "id": "ppl_003885",
+    "part": 4,
+    "target": 0.1730552446517726,
+    "vf": 0.173583984375,
+    "E": 0.04566387224939724,
+    "K": 0.059686332734286834,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003885.json"
+  },
+  {
+    "id": "ppl_003886",
+    "part": 4,
+    "target": 0.22225725460624207,
+    "vf": 0.22283935546875,
+    "E": 0.0677904642296653,
+    "K": 0.08483471567823984,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003886.json"
+  },
+  {
+    "id": "ppl_003887",
+    "part": 4,
+    "target": 0.23966088178586287,
+    "vf": 0.23974609375,
+    "E": 0.09919193035907543,
+    "K": 0.12749213577169557,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003887.json"
+  },
+  {
+    "id": "ppl_003888",
+    "part": 4,
+    "target": 0.2810218197078105,
+    "vf": 0.281005859375,
+    "E": 0.10332296540072498,
+    "K": 0.1460897265659959,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003888.json"
+  },
+  {
+    "id": "ppl_003889",
+    "part": 4,
+    "target": 0.29497695790657297,
+    "vf": 0.296142578125,
+    "E": 0.05914810034467582,
+    "K": 0.13932596702958386,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003889.json"
+  },
+  {
+    "id": "ppl_003890",
+    "part": 4,
+    "target": 0.3307727307595615,
+    "vf": 0.330810546875,
+    "E": 0.1418604951163803,
+    "K": 0.18678265717676712,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003890.json"
+  },
+  {
+    "id": "ppl_003891",
+    "part": 4,
+    "target": 0.06172064809847716,
+    "vf": 0.0643310546875,
+    "E": 0.01860331686032548,
+    "K": 0.019757168442736246,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_04\\samples\\ppl_003891.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 5,
+    "target": 0.09185396489640728,
+    "vf": 0.09576416015625,
+    "E": 0.03232968017065427,
+    "K": 0.03493140786874854,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 5,
+    "target": 0.1351179663784292,
+    "vf": 0.1373291015625,
+    "E": 0.03340821144454425,
+    "K": 0.04679963815762639,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 5,
+    "target": 0.1648075580425943,
+    "vf": 0.1649169921875,
+    "E": 0.05169345831790927,
+    "K": 0.08361592919213888,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 5,
+    "target": 0.17884042717542786,
+    "vf": 0.17962646484375,
+    "E": 0.06114004627131119,
+    "K": 0.09876415894308549,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 5,
+    "target": 0.22601809388938934,
+    "vf": 0.22607421875,
+    "E": 0.09462659441472611,
+    "K": 0.11936330095224419,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_003938",
+    "part": 5,
+    "target": 0.28354853313961115,
+    "vf": 0.283447265625,
+    "E": 0.1269504223564731,
+    "K": 0.14507324180326983,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003938.json"
+  },
+  {
+    "id": "ppl_003946",
+    "part": 5,
+    "target": 0.21622543910072747,
+    "vf": 0.21630859375,
+    "E": 0.06544042225050577,
+    "K": 0.0929409904347075,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003946.json"
+  },
+  {
+    "id": "ppl_003947",
+    "part": 5,
+    "target": 0.23576008409774626,
+    "vf": 0.23583984375,
+    "E": 0.06998182312270164,
+    "K": 0.11104919326497027,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003947.json"
+  },
+  {
+    "id": "ppl_003948",
+    "part": 5,
+    "target": 0.28507458344627445,
+    "vf": 0.28515625,
+    "E": 0.11600167694065422,
+    "K": 0.14773832629101605,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003948.json"
+  },
+  {
+    "id": "ppl_003949",
+    "part": 5,
+    "target": 0.30860672594349664,
+    "vf": 0.30908203125,
+    "E": 0.14523571211239494,
+    "K": 0.1598766961559153,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003949.json"
+  },
+  {
+    "id": "ppl_003950",
+    "part": 5,
+    "target": 0.3415857495544417,
+    "vf": 0.341552734375,
+    "E": 0.19559735393252886,
+    "K": 0.2049094539785017,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003950.json"
+  },
+  {
+    "id": "ppl_003951",
+    "part": 5,
+    "target": 0.05099533806426166,
+    "vf": 0.0513916015625,
+    "E": 0.022737081230603445,
+    "K": 0.017466635596400066,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003951.json"
+  },
+  {
+    "id": "ppl_003952",
+    "part": 5,
+    "target": 0.09757466522723177,
+    "vf": 0.09814453125,
+    "E": 0.024137805209915566,
+    "K": 0.04250998425539218,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003952.json"
+  },
+  {
+    "id": "ppl_003953",
+    "part": 5,
+    "target": 0.11926684835048235,
+    "vf": 0.119384765625,
+    "E": 0.025059166971227315,
+    "K": 0.02998314204260484,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003953.json"
+  },
+  {
+    "id": "ppl_003970",
+    "part": 5,
+    "target": 0.33549144174844575,
+    "vf": 0.3360595703125,
+    "E": 0.1456519155244207,
+    "K": 0.18624809971954923,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003970.json"
+  },
+  {
+    "id": "ppl_003971",
+    "part": 5,
+    "target": 0.07145745821308559,
+    "vf": 0.071533203125,
+    "E": 0.041038714796229066,
+    "K": 0.02989544176084473,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003971.json"
+  },
+  {
+    "id": "ppl_003972",
+    "part": 5,
+    "target": 0.09563124420800728,
+    "vf": 0.0960693359375,
+    "E": 0.025931498352762206,
+    "K": 0.03440175809789705,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003972.json"
+  },
+  {
+    "id": "ppl_003973",
+    "part": 5,
+    "target": 0.12050230082568858,
+    "vf": 0.12109375,
+    "E": 0.03469264554759089,
+    "K": 0.0455423356746311,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003973.json"
+  },
+  {
+    "id": "ppl_003974",
+    "part": 5,
+    "target": 0.1428910589543116,
+    "vf": 0.1435546875,
+    "E": 0.04205105919984788,
+    "K": 0.06988945701072564,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003974.json"
+  },
+  {
+    "id": "ppl_003975",
+    "part": 5,
+    "target": 0.1740043472776351,
+    "vf": 0.1749267578125,
+    "E": 0.04620904412618974,
+    "K": 0.06231240180989186,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003975.json"
+  },
+  {
+    "id": "ppl_003976",
+    "part": 5,
+    "target": 0.22798647137797695,
+    "vf": 0.2281494140625,
+    "E": 0.06713459776222197,
+    "K": 0.10402740923323806,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003976.json"
+  },
+  {
+    "id": "ppl_003977",
+    "part": 5,
+    "target": 0.24439278279035545,
+    "vf": 0.244384765625,
+    "E": 0.08368626635734423,
+    "K": 0.1308945159468804,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003977.json"
+  },
+  {
+    "id": "ppl_003978",
+    "part": 5,
+    "target": 0.2896152553084159,
+    "vf": 0.28955078125,
+    "E": 0.1252375055733714,
+    "K": 0.1486836476303746,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003978.json"
+  },
+  {
+    "id": "ppl_003979",
+    "part": 5,
+    "target": 0.2929175857894216,
+    "vf": 0.29296875,
+    "E": 0.12505390232386648,
+    "K": 0.15408559425439483,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003979.json"
+  },
+  {
+    "id": "ppl_003980",
+    "part": 5,
+    "target": 0.33365225509682833,
+    "vf": 0.333740234375,
+    "E": 0.1596238614815192,
+    "K": 0.1984700292414879,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003980.json"
+  },
+  {
+    "id": "ppl_003981",
+    "part": 5,
+    "target": 0.06421339119563672,
+    "vf": 0.06829833984375,
+    "E": 0.007622602845083212,
+    "K": 0.009815135860555638,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003981.json"
+  },
+  {
+    "id": "ppl_003982",
+    "part": 5,
+    "target": 0.09083116713983025,
+    "vf": 0.09136962890625,
+    "E": 0.028149655389465327,
+    "K": 0.04369555289464707,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003982.json"
+  },
+  {
+    "id": "ppl_003983",
+    "part": 5,
+    "target": 0.12383373188497285,
+    "vf": 0.12738037109375,
+    "E": 0.048738430057000036,
+    "K": 0.04160861688399284,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003983.json"
+  },
+  {
+    "id": "ppl_003984",
+    "part": 5,
+    "target": 0.1418535478541613,
+    "vf": 0.14208984375,
+    "E": 0.04209294579389086,
+    "K": 0.06996423225848741,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003984.json"
+  },
+  {
+    "id": "ppl_003985",
+    "part": 5,
+    "target": 0.17113762053184373,
+    "vf": 0.171142578125,
+    "E": 0.05595802380301206,
+    "K": 0.06285125365811238,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003985.json"
+  },
+  {
+    "id": "ppl_003986",
+    "part": 5,
+    "target": 0.20847953531244742,
+    "vf": 0.208984375,
+    "E": 0.06803334311638169,
+    "K": 0.11258338568676433,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_05\\samples\\ppl_003986.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 6,
+    "target": 0.08603765477008563,
+    "vf": 0.08807373046875,
+    "E": 0.02066379540640856,
+    "K": 0.02579881145410549,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 6,
+    "target": 0.13535819415635678,
+    "vf": 0.13970947265625,
+    "E": 0.02646088575342236,
+    "K": 0.0385886937177197,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 6,
+    "target": 0.14092503014360755,
+    "vf": 0.14306640625,
+    "E": 0.026964413094208935,
+    "K": 0.05710065552360241,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 6,
+    "target": 0.1782991220472451,
+    "vf": 0.179107666015625,
+    "E": 0.05790017917963535,
+    "K": 0.07698744325288255,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 6,
+    "target": 0.20078412316439315,
+    "vf": 0.2012939453125,
+    "E": 0.06920514487508622,
+    "K": 0.08846054506212196,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_003876",
+    "part": 6,
+    "target": 0.21231998311623865,
+    "vf": 0.21502685546875,
+    "E": 0.06682775129857606,
+    "K": 0.1063933837962772,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003876.json"
+  },
+  {
+    "id": "ppl_003877",
+    "part": 6,
+    "target": 0.24874573139034484,
+    "vf": 0.248779296875,
+    "E": 0.09564730599290922,
+    "K": 0.11946376294256711,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003877.json"
+  },
+  {
+    "id": "ppl_003878",
+    "part": 6,
+    "target": 0.2716706572371495,
+    "vf": 0.27197265625,
+    "E": 0.10939997457870354,
+    "K": 0.13876837671812495,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003878.json"
+  },
+  {
+    "id": "ppl_003879",
+    "part": 6,
+    "target": 0.3084270705441704,
+    "vf": 0.308349609375,
+    "E": 0.12547361144403205,
+    "K": 0.1666776302374593,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003879.json"
+  },
+  {
+    "id": "ppl_003894",
+    "part": 6,
+    "target": 0.15767634060037766,
+    "vf": 0.147216796875,
+    "E": 0.020863534568068682,
+    "K": 0.055335481123372866,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003894.json"
+  },
+  {
+    "id": "ppl_003895",
+    "part": 6,
+    "target": 0.18309609500629936,
+    "vf": 0.18353271484375,
+    "E": 0.06709900881287374,
+    "K": 0.10154005896300423,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003895.json"
+  },
+  {
+    "id": "ppl_003896",
+    "part": 6,
+    "target": 0.21389324532005194,
+    "vf": 0.2138671875,
+    "E": 0.07978546741700394,
+    "K": 0.11800991074483895,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003896.json"
+  },
+  {
+    "id": "ppl_003901",
+    "part": 6,
+    "target": 0.07538330386663823,
+    "vf": 0.076812744140625,
+    "E": 0.04094372153657386,
+    "K": 0.03405664542899583,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003901.json"
+  },
+  {
+    "id": "ppl_003902",
+    "part": 6,
+    "target": 0.09436198998587586,
+    "vf": 0.09521484375,
+    "E": 0.07331922664706582,
+    "K": 0.05291966685719703,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003902.json"
+  },
+  {
+    "id": "ppl_003903",
+    "part": 6,
+    "target": 0.12778645659839738,
+    "vf": 0.128662109375,
+    "E": 0.03529257051141802,
+    "K": 0.04158252195049439,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003903.json"
+  },
+  {
+    "id": "ppl_003904",
+    "part": 6,
+    "target": 0.16255974303975188,
+    "vf": 0.163330078125,
+    "E": 0.049571832287633365,
+    "K": 0.06148829934267608,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003904.json"
+  },
+  {
+    "id": "ppl_003905",
+    "part": 6,
+    "target": 0.1902126119116998,
+    "vf": 0.19110107421875,
+    "E": 0.058712368881760214,
+    "K": 0.08818444097062932,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003905.json"
+  },
+  {
+    "id": "ppl_003906",
+    "part": 6,
+    "target": 0.20422503013048196,
+    "vf": 0.2049560546875,
+    "E": 0.06444904323991067,
+    "K": 0.102531493072149,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003906.json"
+  },
+  {
+    "id": "ppl_003907",
+    "part": 6,
+    "target": 0.24488419774487907,
+    "vf": 0.244873046875,
+    "E": 0.08803839106493004,
+    "K": 0.11887410107818226,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003907.json"
+  },
+  {
+    "id": "ppl_003908",
+    "part": 6,
+    "target": 0.28070352975097995,
+    "vf": 0.28076171875,
+    "E": 0.13388641655676456,
+    "K": 0.16217623989058058,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003908.json"
+  },
+  {
+    "id": "ppl_003909",
+    "part": 6,
+    "target": 0.3161105614113016,
+    "vf": 0.316162109375,
+    "E": 0.11641154465129534,
+    "K": 0.16572893504562763,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003909.json"
+  },
+  {
+    "id": "ppl_003910",
+    "part": 6,
+    "target": 0.3265509513934835,
+    "vf": 0.326416015625,
+    "E": 0.14722738073075406,
+    "K": 0.18434473831305467,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003910.json"
+  },
+  {
+    "id": "ppl_003911",
+    "part": 6,
+    "target": 0.07142170108509434,
+    "vf": 0.072021484375,
+    "E": 0.02035147206006575,
+    "K": 0.03587283032699973,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003911.json"
+  },
+  {
+    "id": "ppl_003912",
+    "part": 6,
+    "target": 0.08082947112977426,
+    "vf": 0.08428955078125,
+    "E": 0.01621685223245448,
+    "K": 0.019322954456269175,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003912.json"
+  },
+  {
+    "id": "ppl_003913",
+    "part": 6,
+    "target": 0.12311053588325471,
+    "vf": 0.1239013671875,
+    "E": 0.023139389951477712,
+    "K": 0.03383439830828395,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003913.json"
+  },
+  {
+    "id": "ppl_003914",
+    "part": 6,
+    "target": 0.1461526758102739,
+    "vf": 0.14971923828125,
+    "E": 0.022717488291214418,
+    "K": 0.04032052796310309,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003914.json"
+  },
+  {
+    "id": "ppl_003915",
+    "part": 6,
+    "target": 0.19360863171377182,
+    "vf": 0.194091796875,
+    "E": 0.05720161138367235,
+    "K": 0.08567474687974395,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003915.json"
+  },
+  {
+    "id": "ppl_003916",
+    "part": 6,
+    "target": 0.20419928688426497,
+    "vf": 0.2041015625,
+    "E": 0.05668161936254299,
+    "K": 0.0661851623009669,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003916.json"
+  },
+  {
+    "id": "ppl_003917",
+    "part": 6,
+    "target": 0.23600903307718032,
+    "vf": 0.236328125,
+    "E": 0.07642144619044364,
+    "K": 0.09983146662449233,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003917.json"
+  },
+  {
+    "id": "ppl_003918",
+    "part": 6,
+    "target": 0.276042552243856,
+    "vf": 0.276123046875,
+    "E": 0.10024936995186613,
+    "K": 0.125414761984967,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003918.json"
+  },
+  {
+    "id": "ppl_003919",
+    "part": 6,
+    "target": 0.2919042384674186,
+    "vf": 0.2919921875,
+    "E": 0.1216620289345558,
+    "K": 0.15072530579330498,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_06\\samples\\ppl_003919.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 7,
+    "target": 0.05263226068329445,
+    "vf": 0.0528564453125,
+    "E": 0.02625622119556928,
+    "K": 0.02106328116157075,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 7,
+    "target": 0.12876005480004202,
+    "vf": 0.129638671875,
+    "E": 0.03033087791305675,
+    "K": 0.045577578181826846,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 7,
+    "target": 0.14860042372875765,
+    "vf": 0.148193359375,
+    "E": 0.04383888737124739,
+    "K": 0.057737138410046074,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 7,
+    "target": 0.19845698176158202,
+    "vf": 0.1993408203125,
+    "E": 0.06211153017776092,
+    "K": 0.08044517665944523,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 7,
+    "target": 0.21522986310248882,
+    "vf": 0.21484375,
+    "E": 0.0063712862597909885,
+    "K": 0.03669170213198774,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 7,
+    "target": 0.2318628861432942,
+    "vf": 0.231689453125,
+    "E": 0.08906841215570664,
+    "K": 0.11652458990253174,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_003699",
+    "part": 7,
+    "target": 0.29870571194963447,
+    "vf": 0.298583984375,
+    "E": 0.13242262540085384,
+    "K": 0.16534338593545586,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003699.json"
+  },
+  {
+    "id": "ppl_003709",
+    "part": 7,
+    "target": 0.2993961889532246,
+    "vf": 0.29931640625,
+    "E": 0.12740637905163799,
+    "K": 0.1570465762208085,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003709.json"
+  },
+  {
+    "id": "ppl_003710",
+    "part": 7,
+    "target": 0.3298524114472089,
+    "vf": 0.329833984375,
+    "E": 0.13858238157861755,
+    "K": 0.17081241687900303,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003710.json"
+  },
+  {
+    "id": "ppl_003711",
+    "part": 7,
+    "target": 0.06193759875084746,
+    "vf": 0.063232421875,
+    "E": 0.03334103477430547,
+    "K": 0.025882224385461925,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003711.json"
+  },
+  {
+    "id": "ppl_003712",
+    "part": 7,
+    "target": 0.08937434758815481,
+    "vf": 0.08935546875,
+    "E": 0.031317931740352606,
+    "K": 0.037375826258654356,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003712.json"
+  },
+  {
+    "id": "ppl_003713",
+    "part": 7,
+    "target": 0.13543734617913553,
+    "vf": 0.1357421875,
+    "E": 0.00782239912451104,
+    "K": 0.04716581604239304,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003713.json"
+  },
+  {
+    "id": "ppl_003714",
+    "part": 7,
+    "target": 0.1494760728410365,
+    "vf": 0.1494140625,
+    "E": 0.03943064122069751,
+    "K": 0.06671482749091831,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003714.json"
+  },
+  {
+    "id": "ppl_003715",
+    "part": 7,
+    "target": 0.18638873478126436,
+    "vf": 0.18701171875,
+    "E": 0.05443334078994868,
+    "K": 0.06972218219688914,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003715.json"
+  },
+  {
+    "id": "ppl_003716",
+    "part": 7,
+    "target": 0.20974084295381884,
+    "vf": 0.21044921875,
+    "E": 0.07444462370998961,
+    "K": 0.103579909935907,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003716.json"
+  },
+  {
+    "id": "ppl_003727",
+    "part": 7,
+    "target": 0.23001827536115377,
+    "vf": 0.23046875,
+    "E": 0.08499205461984861,
+    "K": 0.10419773181739311,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003727.json"
+  },
+  {
+    "id": "ppl_003732",
+    "part": 7,
+    "target": 0.10869320968353015,
+    "vf": 0.109375,
+    "E": 0.08952008323322312,
+    "K": 0.06464431189352139,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003732.json"
+  },
+  {
+    "id": "ppl_003733",
+    "part": 7,
+    "target": 0.13784162128699107,
+    "vf": 0.138671875,
+    "E": 0.0279254666753404,
+    "K": 0.051496156677571625,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003733.json"
+  },
+  {
+    "id": "ppl_003734",
+    "part": 7,
+    "target": 0.154620095133005,
+    "vf": 0.1552734375,
+    "E": 0.05458131170900127,
+    "K": 0.06990266891884489,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003734.json"
+  },
+  {
+    "id": "ppl_003735",
+    "part": 7,
+    "target": 0.19438469927229518,
+    "vf": 0.196807861328125,
+    "E": 0.04721406670299707,
+    "K": 0.06971187413477963,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003735.json"
+  },
+  {
+    "id": "ppl_003736",
+    "part": 7,
+    "target": 0.2167828337709487,
+    "vf": 0.216827392578125,
+    "E": 0.055686234399802165,
+    "K": 0.08524150131615159,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003736.json"
+  },
+  {
+    "id": "ppl_003737",
+    "part": 7,
+    "target": 0.23495981142769823,
+    "vf": 0.23486328125,
+    "E": 0.08598881448420602,
+    "K": 0.10955030327074904,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003737.json"
+  },
+  {
+    "id": "ppl_003738",
+    "part": 7,
+    "target": 0.2701831304244074,
+    "vf": 0.2703857421875,
+    "E": 0.09235580525178717,
+    "K": 0.12961027995400126,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003738.json"
+  },
+  {
+    "id": "ppl_003739",
+    "part": 7,
+    "target": 0.3192064703990696,
+    "vf": 0.31951904296875,
+    "E": 0.16386019893517004,
+    "K": 0.1936955967826015,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003739.json"
+  },
+  {
+    "id": "ppl_003740",
+    "part": 7,
+    "target": 0.33014009980998815,
+    "vf": 0.330078125,
+    "E": 0.1519914158918028,
+    "K": 0.1797072213744777,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003740.json"
+  },
+  {
+    "id": "ppl_003741",
+    "part": 7,
+    "target": 0.0639969186063354,
+    "vf": 0.06689453125,
+    "E": 0.007835163192462066,
+    "K": 0.008036962019412834,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003741.json"
+  },
+  {
+    "id": "ppl_003742",
+    "part": 7,
+    "target": 0.09391810417568858,
+    "vf": 0.093994140625,
+    "E": 0.06531210169059448,
+    "K": 0.0514040194454418,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003742.json"
+  },
+  {
+    "id": "ppl_003743",
+    "part": 7,
+    "target": 0.13713108962644807,
+    "vf": 0.13720703125,
+    "E": 0.03792745510227799,
+    "K": 0.047151861072414654,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003743.json"
+  },
+  {
+    "id": "ppl_003744",
+    "part": 7,
+    "target": 0.14781470202834351,
+    "vf": 0.147705078125,
+    "E": 0.042323645230118286,
+    "K": 0.07342907957308493,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003744.json"
+  },
+  {
+    "id": "ppl_003745",
+    "part": 7,
+    "target": 0.1877480005892287,
+    "vf": 0.1881103515625,
+    "E": 0.08206011018357012,
+    "K": 0.09322595212141616,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003745.json"
+  },
+  {
+    "id": "ppl_003746",
+    "part": 7,
+    "target": 0.22392536764000442,
+    "vf": 0.224365234375,
+    "E": 0.07948486721494262,
+    "K": 0.11169791342951023,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003746.json"
+  },
+  {
+    "id": "ppl_003747",
+    "part": 7,
+    "target": 0.24880947366969267,
+    "vf": 0.2490234375,
+    "E": 0.0747990752261632,
+    "K": 0.11329913232348555,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003747.json"
+  },
+  {
+    "id": "ppl_003748",
+    "part": 7,
+    "target": 0.27643174793186376,
+    "vf": 0.2763671875,
+    "E": 0.12321348409827776,
+    "K": 0.14753897426383253,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003748.json"
+  },
+  {
+    "id": "ppl_003749",
+    "part": 7,
+    "target": 0.31662723814819166,
+    "vf": 0.316650390625,
+    "E": 0.1434785393407159,
+    "K": 0.1773781854935749,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_07\\samples\\ppl_003749.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 8,
+    "target": 0.09902102255586567,
+    "vf": 0.09979248046875,
+    "E": 0.029374148842851448,
+    "K": 0.0448320292719587,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 8,
+    "target": 0.12546445802551523,
+    "vf": 0.12835693359375,
+    "E": 0.019485723050349724,
+    "K": 0.032369943987626666,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 8,
+    "target": 0.15080600882395925,
+    "vf": 0.1539306640625,
+    "E": 0.06451809470841523,
+    "K": 0.05883973464948041,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 8,
+    "target": 0.1918944237433462,
+    "vf": 0.192626953125,
+    "E": 0.05866681126846391,
+    "K": 0.09481316492220232,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 8,
+    "target": 0.21611751569336354,
+    "vf": 0.21649169921875,
+    "E": 0.07652464563353627,
+    "K": 0.09718831262772921,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_003912",
+    "part": 8,
+    "target": 0.09502394127352784,
+    "vf": 0.095703125,
+    "E": 0.04910609020733824,
+    "K": 0.040718343949276745,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003912.json"
+  },
+  {
+    "id": "ppl_003922",
+    "part": 8,
+    "target": 0.09495773784759005,
+    "vf": 0.09735107421875,
+    "E": 0.020358142341924488,
+    "K": 0.032680279245172555,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003922.json"
+  },
+  {
+    "id": "ppl_003923",
+    "part": 8,
+    "target": 0.12488474937533546,
+    "vf": 0.12451171875,
+    "E": 0.01953336270536637,
+    "K": 0.023186058852477546,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003923.json"
+  },
+  {
+    "id": "ppl_003924",
+    "part": 8,
+    "target": 0.1407777549073694,
+    "vf": 0.14404296875,
+    "E": 0.041061950866736634,
+    "K": 0.04541197670085747,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003924.json"
+  },
+  {
+    "id": "ppl_003925",
+    "part": 8,
+    "target": 0.19530451137857596,
+    "vf": 0.1953125,
+    "E": 0.052744193992829036,
+    "K": 0.0861948149601357,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003925.json"
+  },
+  {
+    "id": "ppl_003926",
+    "part": 8,
+    "target": 0.2167624420426571,
+    "vf": 0.216796875,
+    "E": 0.07419269525507445,
+    "K": 0.10807293593621942,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003926.json"
+  },
+  {
+    "id": "ppl_003927",
+    "part": 8,
+    "target": 0.23228860731594594,
+    "vf": 0.232177734375,
+    "E": 0.09672579123992091,
+    "K": 0.1179482576855877,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003927.json"
+  },
+  {
+    "id": "ppl_003928",
+    "part": 8,
+    "target": 0.27122525256125574,
+    "vf": 0.271240234375,
+    "E": 0.10846072257005938,
+    "K": 0.14909057993147704,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003928.json"
+  },
+  {
+    "id": "ppl_003941",
+    "part": 8,
+    "target": 0.0551473289561331,
+    "vf": 0.05517578125,
+    "E": 0.03845269433778192,
+    "K": 0.02875044148501321,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003941.json"
+  },
+  {
+    "id": "ppl_003942",
+    "part": 8,
+    "target": 0.09923231350830368,
+    "vf": 0.10009765625,
+    "E": 0.07575223471089408,
+    "K": 0.055385758878578856,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003942.json"
+  },
+  {
+    "id": "ppl_003944",
+    "part": 8,
+    "target": 0.15632393694708113,
+    "vf": 0.1571044921875,
+    "E": 0.04030216825153732,
+    "K": 0.05703712400556924,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003944.json"
+  },
+  {
+    "id": "ppl_003945",
+    "part": 8,
+    "target": 0.1919920963208526,
+    "vf": 0.19189453125,
+    "E": 0.056037763499934994,
+    "K": 0.08022649623682378,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003945.json"
+  },
+  {
+    "id": "ppl_003946",
+    "part": 8,
+    "target": 0.2250891320776311,
+    "vf": 0.22509765625,
+    "E": 0.07489643515950563,
+    "K": 0.10571148174265015,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003946.json"
+  },
+  {
+    "id": "ppl_003954",
+    "part": 8,
+    "target": 0.14921546700195007,
+    "vf": 0.15130615234375,
+    "E": 0.03624623690122631,
+    "K": 0.0623590282862608,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003954.json"
+  },
+  {
+    "id": "ppl_003955",
+    "part": 8,
+    "target": 0.18081869007582244,
+    "vf": 0.18115234375,
+    "E": 0.0414804282925718,
+    "K": 0.06780160028726782,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003955.json"
+  },
+  {
+    "id": "ppl_003956",
+    "part": 8,
+    "target": 0.22958041830822037,
+    "vf": 0.22991943359375,
+    "E": 0.08447608640293207,
+    "K": 0.1002004480498254,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003956.json"
+  },
+  {
+    "id": "ppl_003957",
+    "part": 8,
+    "target": 0.23452467847589586,
+    "vf": 0.2349853515625,
+    "E": 0.09416807495360247,
+    "K": 0.11920742682866459,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003957.json"
+  },
+  {
+    "id": "ppl_003958",
+    "part": 8,
+    "target": 0.27456414001717594,
+    "vf": 0.274749755859375,
+    "E": 0.11348202768742788,
+    "K": 0.1387971656394507,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003958.json"
+  },
+  {
+    "id": "ppl_003959",
+    "part": 8,
+    "target": 0.29232403731596923,
+    "vf": 0.2930908203125,
+    "E": 0.12238089774893436,
+    "K": 0.14820602338737152,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003959.json"
+  },
+  {
+    "id": "ppl_003960",
+    "part": 8,
+    "target": 0.3246823456707145,
+    "vf": 0.32470703125,
+    "E": 0.1656236046666249,
+    "K": 0.1929628733903915,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003960.json"
+  },
+  {
+    "id": "ppl_003961",
+    "part": 8,
+    "target": 0.06777905137745081,
+    "vf": 0.067718505859375,
+    "E": 0.027667670478479494,
+    "K": 0.0212905969352901,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003961.json"
+  },
+  {
+    "id": "ppl_003963",
+    "part": 8,
+    "target": 0.13199413086553796,
+    "vf": 0.132568359375,
+    "E": 0.029925179012325304,
+    "K": 0.04312923501787527,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003963.json"
+  },
+  {
+    "id": "ppl_003964",
+    "part": 8,
+    "target": 0.14132940820155862,
+    "vf": 0.14208984375,
+    "E": 0.03724165074179027,
+    "K": 0.049893233363614196,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003964.json"
+  },
+  {
+    "id": "ppl_003965",
+    "part": 8,
+    "target": 0.19557316307074585,
+    "vf": 0.195556640625,
+    "E": 0.048394161482047955,
+    "K": 0.06915279251666671,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003965.json"
+  },
+  {
+    "id": "ppl_003966",
+    "part": 8,
+    "target": 0.22477577890173722,
+    "vf": 0.2247314453125,
+    "E": 0.0771364294496583,
+    "K": 0.10897646395690097,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003966.json"
+  },
+  {
+    "id": "ppl_003967",
+    "part": 8,
+    "target": 0.23706150134580653,
+    "vf": 0.2373046875,
+    "E": 0.07126706222970057,
+    "K": 0.09294759531684471,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003967.json"
+  },
+  {
+    "id": "ppl_003968",
+    "part": 8,
+    "target": 0.2717918192673289,
+    "vf": 0.27203369140625,
+    "E": 0.1043744210979779,
+    "K": 0.13382144858401113,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003968.json"
+  },
+  {
+    "id": "ppl_003969",
+    "part": 8,
+    "target": 0.29120819336626486,
+    "vf": 0.291259765625,
+    "E": 0.12986846017026166,
+    "K": 0.157851873494323,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_08\\samples\\ppl_003969.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 9,
+    "target": 0.06246073114511438,
+    "vf": 0.06298828125,
+    "E": 0.024030851158111193,
+    "K": 0.026111789564851922,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 9,
+    "target": 0.0848245741780437,
+    "vf": 0.0853271484375,
+    "E": 0.058808313961232095,
+    "K": 0.04156413401890511,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 9,
+    "target": 0.15977162162929445,
+    "vf": 0.1597900390625,
+    "E": 0.044165980238117485,
+    "K": 0.07373037142382442,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 9,
+    "target": 0.17403968200646094,
+    "vf": 0.17431640625,
+    "E": 0.04636876383817309,
+    "K": 0.06663865812483037,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 9,
+    "target": 0.20883914183304456,
+    "vf": 0.208740234375,
+    "E": 0.06692166780250959,
+    "K": 0.08815132063375349,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 9,
+    "target": 0.24018664941081147,
+    "vf": 0.24090576171875,
+    "E": 0.0869798287315839,
+    "K": 0.11185096718147207,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_000008",
+    "part": 9,
+    "target": 0.284775599396655,
+    "vf": 0.2841796875,
+    "E": 0.11756479658726933,
+    "K": 0.14167909871097317,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000008.json"
+  },
+  {
+    "id": "ppl_000010",
+    "part": 9,
+    "target": 0.3334212324286883,
+    "vf": 0.33349609375,
+    "E": 0.14861878878920629,
+    "K": 0.18883765292731688,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000010.json"
+  },
+  {
+    "id": "ppl_000014",
+    "part": 9,
+    "target": 0.1601012273283187,
+    "vf": 0.16015625,
+    "E": 0.04666896592073468,
+    "K": 0.07182539959406566,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_000014.json"
+  },
+  {
+    "id": "ppl_003911",
+    "part": 9,
+    "target": 0.06820869281161777,
+    "vf": 0.0682373046875,
+    "E": 0.02750556092827976,
+    "K": 0.023989749171978606,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003911.json"
+  },
+  {
+    "id": "ppl_003912",
+    "part": 9,
+    "target": 0.09574646882573329,
+    "vf": 0.09637451171875,
+    "E": 0.023497935925144126,
+    "K": 0.04188978839976682,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003912.json"
+  },
+  {
+    "id": "ppl_003913",
+    "part": 9,
+    "target": 0.1281386794216083,
+    "vf": 0.1285400390625,
+    "E": 0.027043480508433318,
+    "K": 0.04760470667023289,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003913.json"
+  },
+  {
+    "id": "ppl_003914",
+    "part": 9,
+    "target": 0.15865441866699928,
+    "vf": 0.16094970703125,
+    "E": 0.050591889105744886,
+    "K": 0.06793404487535626,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003914.json"
+  },
+  {
+    "id": "ppl_003915",
+    "part": 9,
+    "target": 0.18534657155084078,
+    "vf": 0.185546875,
+    "E": 0.06077343456373097,
+    "K": 0.07540136114438081,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003915.json"
+  },
+  {
+    "id": "ppl_003916",
+    "part": 9,
+    "target": 0.20807300400476708,
+    "vf": 0.2080078125,
+    "E": 0.07086442997502317,
+    "K": 0.10646595994266601,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003916.json"
+  },
+  {
+    "id": "ppl_003917",
+    "part": 9,
+    "target": 0.23314150415469065,
+    "vf": 0.233642578125,
+    "E": 0.07255616975791183,
+    "K": 0.0975748497853226,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003917.json"
+  },
+  {
+    "id": "ppl_003918",
+    "part": 9,
+    "target": 0.26805792554510205,
+    "vf": 0.26806640625,
+    "E": 0.12281372265195019,
+    "K": 0.13457774674932155,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003918.json"
+  },
+  {
+    "id": "ppl_003919",
+    "part": 9,
+    "target": 0.3055723634026484,
+    "vf": 0.3055419921875,
+    "E": 0.1256953954474522,
+    "K": 0.15644224553758,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003919.json"
+  },
+  {
+    "id": "ppl_003920",
+    "part": 9,
+    "target": 0.3274349524289887,
+    "vf": 0.32745361328125,
+    "E": 0.1445933981612302,
+    "K": 0.17635805669323182,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003920.json"
+  },
+  {
+    "id": "ppl_003921",
+    "part": 9,
+    "target": 0.05582123473841551,
+    "vf": 0.05633544921875,
+    "E": 0.029870748426100296,
+    "K": 0.021612417754104173,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003921.json"
+  },
+  {
+    "id": "ppl_003922",
+    "part": 9,
+    "target": 0.08664564585958862,
+    "vf": 0.086669921875,
+    "E": 0.053537399861571945,
+    "K": 0.04366210764993415,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003922.json"
+  },
+  {
+    "id": "ppl_003923",
+    "part": 9,
+    "target": 0.11342252324647098,
+    "vf": 0.11395263671875,
+    "E": 0.020921903186164954,
+    "K": 0.034460867451730465,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003923.json"
+  },
+  {
+    "id": "ppl_003924",
+    "part": 9,
+    "target": 0.16910755609077924,
+    "vf": 0.169677734375,
+    "E": 0.04687353092993712,
+    "K": 0.06850113221858138,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003924.json"
+  },
+  {
+    "id": "ppl_003925",
+    "part": 9,
+    "target": 0.1883141360423506,
+    "vf": 0.1907958984375,
+    "E": 0.05197116022613805,
+    "K": 0.07766537439155967,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003925.json"
+  },
+  {
+    "id": "ppl_003926",
+    "part": 9,
+    "target": 0.22319245591894027,
+    "vf": 0.22314453125,
+    "E": 0.06090302377948772,
+    "K": 0.09660043821628649,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003926.json"
+  },
+  {
+    "id": "ppl_003931",
+    "part": 9,
+    "target": 0.06217580350418319,
+    "vf": 0.062255859375,
+    "E": 0.03280759926865138,
+    "K": 0.025307509738037786,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003931.json"
+  },
+  {
+    "id": "ppl_003932",
+    "part": 9,
+    "target": 0.08967024571472917,
+    "vf": 0.089599609375,
+    "E": 0.0028932850738461343,
+    "K": 0.026106072241993333,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003932.json"
+  },
+  {
+    "id": "ppl_003933",
+    "part": 9,
+    "target": 0.13572287785090176,
+    "vf": 0.1357421875,
+    "E": 0.03375156368799267,
+    "K": 0.04019552749671828,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003933.json"
+  },
+  {
+    "id": "ppl_003934",
+    "part": 9,
+    "target": 0.1660397643111934,
+    "vf": 0.166015625,
+    "E": 0.04264847543008533,
+    "K": 0.05667683446284049,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003934.json"
+  },
+  {
+    "id": "ppl_003935",
+    "part": 9,
+    "target": 0.1949050988858015,
+    "vf": 0.19482421875,
+    "E": 0.08285343719911893,
+    "K": 0.10943750571843429,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003935.json"
+  },
+  {
+    "id": "ppl_003936",
+    "part": 9,
+    "target": 0.20495473453522753,
+    "vf": 0.204833984375,
+    "E": 0.0992194321904404,
+    "K": 0.11171215615933235,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003936.json"
+  },
+  {
+    "id": "ppl_003937",
+    "part": 9,
+    "target": 0.23218353190629717,
+    "vf": 0.2320556640625,
+    "E": 0.07212774555365253,
+    "K": 0.09678114755653378,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003937.json"
+  },
+  {
+    "id": "ppl_003938",
+    "part": 9,
+    "target": 0.28968799353739993,
+    "vf": 0.2896728515625,
+    "E": 0.13726127497804005,
+    "K": 0.16506766012385254,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003938.json"
+  },
+  {
+    "id": "ppl_003939",
+    "part": 9,
+    "target": 0.3186686693907878,
+    "vf": 0.318603515625,
+    "E": 0.13369561616286554,
+    "K": 0.1685068620693022,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003939.json"
+  },
+  {
+    "id": "ppl_003940",
+    "part": 9,
+    "target": 0.3253691384287284,
+    "vf": 0.325439453125,
+    "E": 0.1538601820499123,
+    "K": 0.19383318391768045,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003940.json"
+  },
+  {
+    "id": "ppl_003941",
+    "part": 9,
+    "target": 0.0695272537038835,
+    "vf": 0.07269287109375,
+    "E": 0.043616884172813786,
+    "K": 0.033668590134519595,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003941.json"
+  },
+  {
+    "id": "ppl_003942",
+    "part": 9,
+    "target": 0.08273541068847513,
+    "vf": 0.087890625,
+    "E": 0.018561113769809467,
+    "K": 0.02054149019826083,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003942.json"
+  },
+  {
+    "id": "ppl_003943",
+    "part": 9,
+    "target": 0.13804833257086518,
+    "vf": 0.137939453125,
+    "E": 0.05954587932131502,
+    "K": 0.06869297716270605,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003943.json"
+  },
+  {
+    "id": "ppl_003944",
+    "part": 9,
+    "target": 0.1580492490430655,
+    "vf": 0.158935546875,
+    "E": 0.04755197338815818,
+    "K": 0.07267800990320304,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003944.json"
+  },
+  {
+    "id": "ppl_003945",
+    "part": 9,
+    "target": 0.19972394863226942,
+    "vf": 0.19970703125,
+    "E": 0.06994973411460521,
+    "K": 0.09175416698968512,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003945.json"
+  },
+  {
+    "id": "ppl_003946",
+    "part": 9,
+    "target": 0.20057363401903103,
+    "vf": 0.201416015625,
+    "E": 0.015932446705081066,
+    "K": 0.05915535598044918,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003946.json"
+  },
+  {
+    "id": "ppl_003947",
+    "part": 9,
+    "target": 0.254226663049614,
+    "vf": 0.254150390625,
+    "E": 0.11404221402190824,
+    "K": 0.13441721382969532,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003947.json"
+  },
+  {
+    "id": "ppl_003948",
+    "part": 9,
+    "target": 0.2726567631789921,
+    "vf": 0.2747802734375,
+    "E": 0.09857104369869651,
+    "K": 0.137526706130048,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_09\\samples\\ppl_003948.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 10,
+    "target": 0.08460535661110688,
+    "vf": 0.0877685546875,
+    "E": 0.01526313200930129,
+    "K": 0.031359582444087264,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 10,
+    "target": 0.15077801177857744,
+    "vf": 0.15118408203125,
+    "E": 0.05330132503061333,
+    "K": 0.06870530723303668,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 10,
+    "target": 0.203955335354504,
+    "vf": 0.2064208984375,
+    "E": 0.05139140890978228,
+    "K": 0.08019400335266352,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 10,
+    "target": 0.252897753440486,
+    "vf": 0.2529296875,
+    "E": 0.07026041653808753,
+    "K": 0.1146419271937034,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_003746",
+    "part": 10,
+    "target": 0.2264649077913165,
+    "vf": 0.2265625,
+    "E": 0.07403419955449227,
+    "K": 0.10841975921968723,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003746.json"
+  },
+  {
+    "id": "ppl_003747",
+    "part": 10,
+    "target": 0.24894445820459327,
+    "vf": 0.2490234375,
+    "E": 0.10246132508879502,
+    "K": 0.12809960026294676,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003747.json"
+  },
+  {
+    "id": "ppl_003748",
+    "part": 10,
+    "target": 0.28328352719092087,
+    "vf": 0.2835693359375,
+    "E": 0.1035477038396936,
+    "K": 0.13754904464491682,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003748.json"
+  },
+  {
+    "id": "ppl_003769",
+    "part": 10,
+    "target": 0.3074653890084157,
+    "vf": 0.307373046875,
+    "E": 0.13291258372956208,
+    "K": 0.1643468534042367,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003769.json"
+  },
+  {
+    "id": "ppl_003770",
+    "part": 10,
+    "target": 0.3489955461023481,
+    "vf": 0.348876953125,
+    "E": 0.17269068055020273,
+    "K": 0.19684339519939067,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003770.json"
+  },
+  {
+    "id": "ppl_003771",
+    "part": 10,
+    "target": 0.05192149878895643,
+    "vf": 0.05517578125,
+    "E": 0.009114808922970431,
+    "K": 0.009513805817678862,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003771.json"
+  },
+  {
+    "id": "ppl_003772",
+    "part": 10,
+    "target": 0.09566768138089334,
+    "vf": 0.095703125,
+    "E": 0.07076119279228592,
+    "K": 0.04917847693090668,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003772.json"
+  },
+  {
+    "id": "ppl_003773",
+    "part": 10,
+    "target": 0.11791770981322441,
+    "vf": 0.1187744140625,
+    "E": 0.03420281728533715,
+    "K": 0.06187107681077673,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003773.json"
+  },
+  {
+    "id": "ppl_003774",
+    "part": 10,
+    "target": 0.16631533817888536,
+    "vf": 0.1690673828125,
+    "E": 0.04515556602180818,
+    "K": 0.08559898630854683,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003774.json"
+  },
+  {
+    "id": "ppl_003777",
+    "part": 10,
+    "target": 0.23916727269638008,
+    "vf": 0.2392578125,
+    "E": 0.08715132909683267,
+    "K": 0.12120014211253316,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003777.json"
+  },
+  {
+    "id": "ppl_003779",
+    "part": 10,
+    "target": 0.30127662974232006,
+    "vf": 0.30126953125,
+    "E": 0.16719984790953837,
+    "K": 0.18279139475232378,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003779.json"
+  },
+  {
+    "id": "ppl_003780",
+    "part": 10,
+    "target": 0.33795620543097554,
+    "vf": 0.337890625,
+    "E": 0.16113472178809685,
+    "K": 0.19641598073901548,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003780.json"
+  },
+  {
+    "id": "ppl_003781",
+    "part": 10,
+    "target": 0.06465114488517777,
+    "vf": 0.064697265625,
+    "E": 0.03152624452729836,
+    "K": 0.020513206499421677,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003781.json"
+  },
+  {
+    "id": "ppl_003782",
+    "part": 10,
+    "target": 0.10422920679685001,
+    "vf": 0.10498046875,
+    "E": 0.03321127455897999,
+    "K": 0.050994068514130984,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003782.json"
+  },
+  {
+    "id": "ppl_003783",
+    "part": 10,
+    "target": 0.1114721865379983,
+    "vf": 0.11224365234375,
+    "E": 0.026530776001631427,
+    "K": 0.04156333800839576,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003783.json"
+  },
+  {
+    "id": "ppl_003784",
+    "part": 10,
+    "target": 0.14554301726651972,
+    "vf": 0.14599609375,
+    "E": 0.05017568982207845,
+    "K": 0.06741135142703474,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003784.json"
+  },
+  {
+    "id": "ppl_003785",
+    "part": 10,
+    "target": 0.19264080453656107,
+    "vf": 0.193115234375,
+    "E": 0.06296973910512758,
+    "K": 0.08518180648997935,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003785.json"
+  },
+  {
+    "id": "ppl_003786",
+    "part": 10,
+    "target": 0.21961107808953603,
+    "vf": 0.219482421875,
+    "E": 0.09283957155815696,
+    "K": 0.12069485746563458,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003786.json"
+  },
+  {
+    "id": "ppl_003787",
+    "part": 10,
+    "target": 0.2533351680211181,
+    "vf": 0.253662109375,
+    "E": 0.09200775271772406,
+    "K": 0.12482323957272357,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003787.json"
+  },
+  {
+    "id": "ppl_003788",
+    "part": 10,
+    "target": 0.26830841260627925,
+    "vf": 0.268310546875,
+    "E": 0.12094510425730443,
+    "K": 0.14368848779662216,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_10\\samples\\ppl_003788.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 11,
+    "target": 0.09681734134085615,
+    "vf": 0.09710693359375,
+    "E": 0.02010833698673439,
+    "K": 0.0383092160728121,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 11,
+    "target": 0.11723664673770054,
+    "vf": 0.117919921875,
+    "E": 0.025358402853251163,
+    "K": 0.049854383841054624,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 11,
+    "target": 0.16729162437976602,
+    "vf": 0.16796875,
+    "E": 0.04563962393912424,
+    "K": 0.0679169292633776,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 11,
+    "target": 0.17179859128566763,
+    "vf": 0.1724853515625,
+    "E": 0.04458121924151388,
+    "K": 0.07837107027068133,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 11,
+    "target": 0.20805211676352825,
+    "vf": 0.20806884765625,
+    "E": 0.07108416368942443,
+    "K": 0.08704842907412828,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 11,
+    "target": 0.2333874490863212,
+    "vf": 0.23602294921875,
+    "E": 0.06919263188804524,
+    "K": 0.10709075907620141,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_000008",
+    "part": 11,
+    "target": 0.26865884025135806,
+    "vf": 0.268798828125,
+    "E": 0.10068915035589203,
+    "K": 0.1352105096789201,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000008.json"
+  },
+  {
+    "id": "ppl_000010",
+    "part": 11,
+    "target": 0.3279335433467321,
+    "vf": 0.327880859375,
+    "E": 0.17243839685913584,
+    "K": 0.18757862741023543,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000010.json"
+  },
+  {
+    "id": "ppl_000014",
+    "part": 11,
+    "target": 0.15781524598817318,
+    "vf": 0.15869140625,
+    "E": 0.04191279957140422,
+    "K": 0.05093024590724149,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000014.json"
+  },
+  {
+    "id": "ppl_000018",
+    "part": 11,
+    "target": 0.2821509859517339,
+    "vf": 0.2822265625,
+    "E": 0.1583292699729586,
+    "K": 0.17198346310029733,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000018.json"
+  },
+  {
+    "id": "ppl_000020",
+    "part": 11,
+    "target": 0.3276151092570095,
+    "vf": 0.32763671875,
+    "E": 0.15416217150421796,
+    "K": 0.1830134527170665,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_000020.json"
+  },
+  {
+    "id": "ppl_003734",
+    "part": 11,
+    "target": 0.14922270240580782,
+    "vf": 0.14996337890625,
+    "E": 0.01846872606065365,
+    "K": 0.04138082657897931,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003734.json"
+  },
+  {
+    "id": "ppl_003735",
+    "part": 11,
+    "target": 0.18906604286104028,
+    "vf": 0.18896484375,
+    "E": 0.05466457734871427,
+    "K": 0.08099725207793772,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003735.json"
+  },
+  {
+    "id": "ppl_003736",
+    "part": 11,
+    "target": 0.2048838189159059,
+    "vf": 0.204833984375,
+    "E": 0.08729390339419275,
+    "K": 0.11133567482279565,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003736.json"
+  },
+  {
+    "id": "ppl_003737",
+    "part": 11,
+    "target": 0.238219377384725,
+    "vf": 0.238525390625,
+    "E": 0.08160494608140742,
+    "K": 0.10988966292032219,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003737.json"
+  },
+  {
+    "id": "ppl_003738",
+    "part": 11,
+    "target": 0.27283753930329196,
+    "vf": 0.273193359375,
+    "E": 0.10520198506550948,
+    "K": 0.13382127902021074,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003738.json"
+  },
+  {
+    "id": "ppl_003739",
+    "part": 11,
+    "target": 0.29909534907110497,
+    "vf": 0.298828125,
+    "E": 0.1317854626090003,
+    "K": 0.1653526151342759,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003739.json"
+  },
+  {
+    "id": "ppl_003758",
+    "part": 11,
+    "target": 0.26010653390173827,
+    "vf": 0.260009765625,
+    "E": 0.10846592108839331,
+    "K": 0.12946556206075105,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003758.json"
+  },
+  {
+    "id": "ppl_003771",
+    "part": 11,
+    "target": 0.06450486027038865,
+    "vf": 0.052734375,
+    "E": 0.00033488990985831667,
+    "K": 0.003953714002483069,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003771.json"
+  },
+  {
+    "id": "ppl_003772",
+    "part": 11,
+    "target": 0.09457324164597794,
+    "vf": 0.09686279296875,
+    "E": 0.019916432177210428,
+    "K": 0.03224320260306301,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003772.json"
+  },
+  {
+    "id": "ppl_003773",
+    "part": 11,
+    "target": 0.137691989360116,
+    "vf": 0.139892578125,
+    "E": 0.0444848493618325,
+    "K": 0.04492082164751493,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003773.json"
+  },
+  {
+    "id": "ppl_003774",
+    "part": 11,
+    "target": 0.16801054819877284,
+    "vf": 0.1683349609375,
+    "E": 0.04002373663751273,
+    "K": 0.053169936432776344,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003774.json"
+  },
+  {
+    "id": "ppl_003775",
+    "part": 11,
+    "target": 0.18690846906550837,
+    "vf": 0.18756103515625,
+    "E": 0.05154860494184895,
+    "K": 0.0819299420953029,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003775.json"
+  },
+  {
+    "id": "ppl_003776",
+    "part": 11,
+    "target": 0.21000072857407973,
+    "vf": 0.21051025390625,
+    "E": 0.09070477754123839,
+    "K": 0.12088896747087667,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003776.json"
+  },
+  {
+    "id": "ppl_003777",
+    "part": 11,
+    "target": 0.23222920357508148,
+    "vf": 0.232177734375,
+    "E": 0.0993129757253104,
+    "K": 0.11974801388680656,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003777.json"
+  },
+  {
+    "id": "ppl_003778",
+    "part": 11,
+    "target": 0.28296564107769706,
+    "vf": 0.28271484375,
+    "E": 0.10619910353190705,
+    "K": 0.13768613583938905,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003778.json"
+  },
+  {
+    "id": "ppl_003779",
+    "part": 11,
+    "target": 0.2904602041911599,
+    "vf": 0.29052734375,
+    "E": 0.12812735692024255,
+    "K": 0.16020012823970575,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003779.json"
+  },
+  {
+    "id": "ppl_003780",
+    "part": 11,
+    "target": 0.3321234179590834,
+    "vf": 0.33203125,
+    "E": 0.16038829175417335,
+    "K": 0.1872069136601829,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003780.json"
+  },
+  {
+    "id": "ppl_003781",
+    "part": 11,
+    "target": 0.07877520455230974,
+    "vf": 0.078857421875,
+    "E": 0.030997642801247515,
+    "K": 0.022712035696843266,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003781.json"
+  },
+  {
+    "id": "ppl_003782",
+    "part": 11,
+    "target": 0.10373005448996167,
+    "vf": 0.104248046875,
+    "E": 0.0025930137779443508,
+    "K": 0.008711338655219171,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003782.json"
+  },
+  {
+    "id": "ppl_003783",
+    "part": 11,
+    "target": 0.11713968514965821,
+    "vf": 0.1180419921875,
+    "E": 0.02635107877244858,
+    "K": 0.04121669949768824,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003783.json"
+  },
+  {
+    "id": "ppl_003784",
+    "part": 11,
+    "target": 0.1433938102936998,
+    "vf": 0.14398193359375,
+    "E": 0.09462769749594337,
+    "K": 0.07023990124311275,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003784.json"
+  },
+  {
+    "id": "ppl_003785",
+    "part": 11,
+    "target": 0.1951463044331921,
+    "vf": 0.1959228515625,
+    "E": 0.05025348633071785,
+    "K": 0.08389623532393753,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003785.json"
+  },
+  {
+    "id": "ppl_003786",
+    "part": 11,
+    "target": 0.20468544766972652,
+    "vf": 0.2047119140625,
+    "E": 0.06871238988364486,
+    "K": 0.09061186617640583,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003786.json"
+  },
+  {
+    "id": "ppl_003787",
+    "part": 11,
+    "target": 0.2549203250888934,
+    "vf": 0.254638671875,
+    "E": 0.10631872920259644,
+    "K": 0.12010071781809366,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003787.json"
+  },
+  {
+    "id": "ppl_003788",
+    "part": 11,
+    "target": 0.2601928325308926,
+    "vf": 0.26025390625,
+    "E": 0.07682081908013383,
+    "K": 0.11836262583013692,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003788.json"
+  },
+  {
+    "id": "ppl_003789",
+    "part": 11,
+    "target": 0.31456920538904726,
+    "vf": 0.314453125,
+    "E": 0.13695706811167663,
+    "K": 0.1680400990939239,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003789.json"
+  },
+  {
+    "id": "ppl_003790",
+    "part": 11,
+    "target": 0.33244742401334054,
+    "vf": 0.33251953125,
+    "E": 0.143160561423571,
+    "K": 0.17016129753976525,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003790.json"
+  },
+  {
+    "id": "ppl_003791",
+    "part": 11,
+    "target": 0.05651702002039488,
+    "vf": 0.05645751953125,
+    "E": 0.034671228574390596,
+    "K": 0.026432315573099347,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003791.json"
+  },
+  {
+    "id": "ppl_003792",
+    "part": 11,
+    "target": 0.08419143479742497,
+    "vf": 0.08782958984375,
+    "E": 0.009798301837486452,
+    "K": 0.015509726926617307,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003792.json"
+  },
+  {
+    "id": "ppl_003793",
+    "part": 11,
+    "target": 0.12081034135956317,
+    "vf": 0.12164306640625,
+    "E": 0.032043419473742805,
+    "K": 0.04727716137310042,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003793.json"
+  },
+  {
+    "id": "ppl_003794",
+    "part": 11,
+    "target": 0.16825814980230924,
+    "vf": 0.1683349609375,
+    "E": 0.049679513437639156,
+    "K": 0.08419309110507621,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003794.json"
+  },
+  {
+    "id": "ppl_003795",
+    "part": 11,
+    "target": 0.17086399466683244,
+    "vf": 0.1708984375,
+    "E": 0.03982080256836246,
+    "K": 0.07230690754365855,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_11\\samples\\ppl_003795.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 12,
+    "target": 0.11886595214341772,
+    "vf": 0.121826171875,
+    "E": 0.025941579841517834,
+    "K": 0.049452430633898585,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 12,
+    "target": 0.1426307324167966,
+    "vf": 0.142578125,
+    "E": 0.04205824579790992,
+    "K": 0.053543550109216194,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 12,
+    "target": 0.20704363068794682,
+    "vf": 0.2071533203125,
+    "E": 0.0968741288221646,
+    "K": 0.11716472413313112,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 12,
+    "target": 0.24784959320053113,
+    "vf": 0.247802734375,
+    "E": 0.11124511148716364,
+    "K": 0.12782434977705606,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_000008",
+    "part": 12,
+    "target": 0.2758771444243586,
+    "vf": 0.27587890625,
+    "E": 0.11678806619273681,
+    "K": 0.15811967635265523,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000008.json"
+  },
+  {
+    "id": "ppl_000010",
+    "part": 12,
+    "target": 0.3379459813553994,
+    "vf": 0.337890625,
+    "E": 0.19331392270809813,
+    "K": 0.2069576622490343,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000010.json"
+  },
+  {
+    "id": "ppl_000016",
+    "part": 12,
+    "target": 0.20015113764112508,
+    "vf": 0.2008056640625,
+    "E": 0.05780925488206303,
+    "K": 0.07903320386728849,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000016.json"
+  },
+  {
+    "id": "ppl_000018",
+    "part": 12,
+    "target": 0.28313932224184823,
+    "vf": 0.283203125,
+    "E": 0.0985419364962941,
+    "K": 0.13572944726567363,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000018.json"
+  },
+  {
+    "id": "ppl_000020",
+    "part": 12,
+    "target": 0.337626086253358,
+    "vf": 0.337646484375,
+    "E": 0.15716659647045564,
+    "K": 0.19719586343573067,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_000020.json"
+  },
+  {
+    "id": "ppl_003828",
+    "part": 12,
+    "target": 0.2829404710346496,
+    "vf": 0.28271484375,
+    "E": 0.10012436441745703,
+    "K": 0.13711751158477473,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003828.json"
+  },
+  {
+    "id": "ppl_003838",
+    "part": 12,
+    "target": 0.2701837700315254,
+    "vf": 0.2698974609375,
+    "E": 0.09641479034064264,
+    "K": 0.12748978153322724,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003838.json"
+  },
+  {
+    "id": "ppl_003839",
+    "part": 12,
+    "target": 0.3125679673042203,
+    "vf": 0.3125,
+    "E": 0.14157605635299886,
+    "K": 0.17069642602910395,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003839.json"
+  },
+  {
+    "id": "ppl_003840",
+    "part": 12,
+    "target": 0.3230767235067447,
+    "vf": 0.322998046875,
+    "E": 0.15377190640284308,
+    "K": 0.18598338285080626,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003840.json"
+  },
+  {
+    "id": "ppl_003841",
+    "part": 12,
+    "target": 0.054119045716845,
+    "vf": 0.0537109375,
+    "E": 0.042556310573558416,
+    "K": 0.030799507872287895,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003841.json"
+  },
+  {
+    "id": "ppl_003842",
+    "part": 12,
+    "target": 0.09246375798202228,
+    "vf": 0.0947265625,
+    "E": 0.007074181923153706,
+    "K": 0.01402990649895206,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003842.json"
+  },
+  {
+    "id": "ppl_003843",
+    "part": 12,
+    "target": 0.12327683235814073,
+    "vf": 0.12353515625,
+    "E": 0.029223106056501847,
+    "K": 0.04001323310171679,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003843.json"
+  },
+  {
+    "id": "ppl_003854",
+    "part": 12,
+    "target": 0.14600633300614702,
+    "vf": 0.1466064453125,
+    "E": 0.04982616646991422,
+    "K": 0.0640471951065084,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003854.json"
+  },
+  {
+    "id": "ppl_003855",
+    "part": 12,
+    "target": 0.1898927283829638,
+    "vf": 0.1900634765625,
+    "E": 0.05139879858003334,
+    "K": 0.06999892565136172,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003855.json"
+  },
+  {
+    "id": "ppl_003856",
+    "part": 12,
+    "target": 0.21942989680972774,
+    "vf": 0.2196044921875,
+    "E": 0.0821153225930832,
+    "K": 0.11767844295328493,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003856.json"
+  },
+  {
+    "id": "ppl_003861",
+    "part": 12,
+    "target": 0.06973801399130111,
+    "vf": 0.0706787109375,
+    "E": 0.01799011264754205,
+    "K": 0.03184187800667428,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003861.json"
+  },
+  {
+    "id": "ppl_003862",
+    "part": 12,
+    "target": 0.10832712774464233,
+    "vf": 0.1087646484375,
+    "E": 0.02525759928331465,
+    "K": 0.03801509939605751,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003862.json"
+  },
+  {
+    "id": "ppl_003863",
+    "part": 12,
+    "target": 0.1397489202698383,
+    "vf": 0.13958740234375,
+    "E": 0.03988091424659004,
+    "K": 0.055881747560021226,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003863.json"
+  },
+  {
+    "id": "ppl_003864",
+    "part": 12,
+    "target": 0.1535429305697673,
+    "vf": 0.15423583984375,
+    "E": 0.04222948581092145,
+    "K": 0.06691249147475568,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003864.json"
+  },
+  {
+    "id": "ppl_003865",
+    "part": 12,
+    "target": 0.1749598120862695,
+    "vf": 0.175048828125,
+    "E": 0.05128937829139523,
+    "K": 0.07636877232092072,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003865.json"
+  },
+  {
+    "id": "ppl_003866",
+    "part": 12,
+    "target": 0.21564257382091123,
+    "vf": 0.216552734375,
+    "E": 0.07589517470252292,
+    "K": 0.09559961872201846,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003866.json"
+  },
+  {
+    "id": "ppl_003867",
+    "part": 12,
+    "target": 0.24454108063269464,
+    "vf": 0.24462890625,
+    "E": 0.07749550763558036,
+    "K": 0.11214656496630582,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003867.json"
+  },
+  {
+    "id": "ppl_003868",
+    "part": 12,
+    "target": 0.27747696368668495,
+    "vf": 0.27734375,
+    "E": 0.10342753583658332,
+    "K": 0.12763225488670896,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003868.json"
+  },
+  {
+    "id": "ppl_003869",
+    "part": 12,
+    "target": 0.30241587594165065,
+    "vf": 0.302490234375,
+    "E": 0.163583471266484,
+    "K": 0.18685117306938556,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003869.json"
+  },
+  {
+    "id": "ppl_003870",
+    "part": 12,
+    "target": 0.3326108222782145,
+    "vf": 0.332763671875,
+    "E": 0.13876318709095128,
+    "K": 0.17848606744802098,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003870.json"
+  },
+  {
+    "id": "ppl_003871",
+    "part": 12,
+    "target": 0.06005671402714981,
+    "vf": 0.06005859375,
+    "E": 0.015946678893767233,
+    "K": 0.020586367204901264,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003871.json"
+  },
+  {
+    "id": "ppl_003872",
+    "part": 12,
+    "target": 0.09660729523702202,
+    "vf": 0.0966796875,
+    "E": 0.07682910635163605,
+    "K": 0.055491865299213704,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003872.json"
+  },
+  {
+    "id": "ppl_003873",
+    "part": 12,
+    "target": 0.11793966065519638,
+    "vf": 0.1180419921875,
+    "E": 0.0777568293900601,
+    "K": 0.05939071167651825,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003873.json"
+  },
+  {
+    "id": "ppl_003874",
+    "part": 12,
+    "target": 0.14690685302390952,
+    "vf": 0.14715576171875,
+    "E": 0.04716885345796323,
+    "K": 0.08161838982445495,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003874.json"
+  },
+  {
+    "id": "ppl_003875",
+    "part": 12,
+    "target": 0.19538536718362984,
+    "vf": 0.1956787109375,
+    "E": 0.07307885465769703,
+    "K": 0.0905330693220713,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003875.json"
+  },
+  {
+    "id": "ppl_003876",
+    "part": 12,
+    "target": 0.22130443817990417,
+    "vf": 0.22149658203125,
+    "E": 0.0802349349732037,
+    "K": 0.11582072223865203,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003876.json"
+  },
+  {
+    "id": "ppl_003877",
+    "part": 12,
+    "target": 0.23607239012437772,
+    "vf": 0.236083984375,
+    "E": 0.08427939482025805,
+    "K": 0.10832668345436312,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003877.json"
+  },
+  {
+    "id": "ppl_003878",
+    "part": 12,
+    "target": 0.2643051608375426,
+    "vf": 0.264404296875,
+    "E": 0.11537430500390478,
+    "K": 0.1371088421545241,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003878.json"
+  },
+  {
+    "id": "ppl_003879",
+    "part": 12,
+    "target": 0.310983963463583,
+    "vf": 0.310791015625,
+    "E": 0.13126969956438023,
+    "K": 0.16334843989721817,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003879.json"
+  },
+  {
+    "id": "ppl_003880",
+    "part": 12,
+    "target": 0.32270290337724084,
+    "vf": 0.322998046875,
+    "E": 0.1385705314294163,
+    "K": 0.1533898722930143,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003880.json"
+  },
+  {
+    "id": "ppl_003881",
+    "part": 12,
+    "target": 0.07395835832331973,
+    "vf": 0.076904296875,
+    "E": 0.030159956668792242,
+    "K": 0.02145086248366553,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003881.json"
+  },
+  {
+    "id": "ppl_003882",
+    "part": 12,
+    "target": 0.09277992178228897,
+    "vf": 0.0927734375,
+    "E": 0.026468339488367826,
+    "K": 0.03465003331724416,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003882.json"
+  },
+  {
+    "id": "ppl_003883",
+    "part": 12,
+    "target": 0.11755554926502652,
+    "vf": 0.1182861328125,
+    "E": 0.08048535820523611,
+    "K": 0.05967388122554895,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003883.json"
+  },
+  {
+    "id": "ppl_003884",
+    "part": 12,
+    "target": 0.16412978612287507,
+    "vf": 0.16485595703125,
+    "E": 0.03602498221854864,
+    "K": 0.06209080359022412,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_12\\samples\\ppl_003884.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 13,
+    "target": 0.05797763538967826,
+    "vf": 0.057861328125,
+    "E": 0.007310274938300133,
+    "K": 0.021507918366655176,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 13,
+    "target": 0.12691402272109262,
+    "vf": 0.126220703125,
+    "E": 0.004727033782547563,
+    "K": 0.03536439644651588,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 13,
+    "target": 0.16017190381366475,
+    "vf": 0.16180419921875,
+    "E": 0.052741809398039574,
+    "K": 0.07450204084120655,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 13,
+    "target": 0.1705139425491518,
+    "vf": 0.1719970703125,
+    "E": 0.05987370584250946,
+    "K": 0.07502079185617089,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 13,
+    "target": 0.20724792587945567,
+    "vf": 0.2080078125,
+    "E": 0.07247241905232686,
+    "K": 0.08732049190588419,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 13,
+    "target": 0.23328195191569776,
+    "vf": 0.2333984375,
+    "E": 0.09216565019874512,
+    "K": 0.12464152502151717,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_003842",
+    "part": 13,
+    "target": 0.08544169750792556,
+    "vf": 0.085205078125,
+    "E": 0.05284986797100785,
+    "K": 0.0407623989955469,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003842.json"
+  },
+  {
+    "id": "ppl_003843",
+    "part": 13,
+    "target": 0.12533953329421943,
+    "vf": 0.12554931640625,
+    "E": 0.032474616061722604,
+    "K": 0.04520423279862177,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003843.json"
+  },
+  {
+    "id": "ppl_003844",
+    "part": 13,
+    "target": 0.14734171021571746,
+    "vf": 0.14801025390625,
+    "E": 0.042641236901335394,
+    "K": 0.057733200717690634,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003844.json"
+  },
+  {
+    "id": "ppl_003845",
+    "part": 13,
+    "target": 0.18428973441099314,
+    "vf": 0.184326171875,
+    "E": 0.06253158973286373,
+    "K": 0.09334900408187792,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003845.json"
+  },
+  {
+    "id": "ppl_003846",
+    "part": 13,
+    "target": 0.2047356483273928,
+    "vf": 0.204833984375,
+    "E": 0.07495484427301739,
+    "K": 0.09573606444505091,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003846.json"
+  },
+  {
+    "id": "ppl_003847",
+    "part": 13,
+    "target": 0.24577387661565173,
+    "vf": 0.246337890625,
+    "E": 0.022336702539944978,
+    "K": 0.04319977742935288,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003847.json"
+  },
+  {
+    "id": "ppl_003848",
+    "part": 13,
+    "target": 0.283017540468989,
+    "vf": 0.28271484375,
+    "E": 0.11357490947559899,
+    "K": 0.15065174127452796,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003848.json"
+  },
+  {
+    "id": "ppl_003849",
+    "part": 13,
+    "target": 0.3030141796522861,
+    "vf": 0.302978515625,
+    "E": 0.13399815159005884,
+    "K": 0.1635030626588166,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003849.json"
+  },
+  {
+    "id": "ppl_003864",
+    "part": 13,
+    "target": 0.14414982308982743,
+    "vf": 0.1446533203125,
+    "E": 0.06226999817583984,
+    "K": 0.07541982201742672,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003864.json"
+  },
+  {
+    "id": "ppl_003865",
+    "part": 13,
+    "target": 0.189097254784489,
+    "vf": 0.189697265625,
+    "E": 0.053932280064637246,
+    "K": 0.07661723197627322,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003865.json"
+  },
+  {
+    "id": "ppl_003866",
+    "part": 13,
+    "target": 0.20762205418691584,
+    "vf": 0.20849609375,
+    "E": 0.06962534470575509,
+    "K": 0.0974571237339625,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003866.json"
+  },
+  {
+    "id": "ppl_003870",
+    "part": 13,
+    "target": 0.32031711306272453,
+    "vf": 0.3203125,
+    "E": 0.14856361536205923,
+    "K": 0.1865118035039924,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003870.json"
+  },
+  {
+    "id": "ppl_003871",
+    "part": 13,
+    "target": 0.053892181015207735,
+    "vf": 0.053955078125,
+    "E": 0.031151124596562333,
+    "K": 0.02534416746466087,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003871.json"
+  },
+  {
+    "id": "ppl_003872",
+    "part": 13,
+    "target": 0.08819311465981611,
+    "vf": 0.08917236328125,
+    "E": 0.054630401893414275,
+    "K": 0.043454710642175466,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003872.json"
+  },
+  {
+    "id": "ppl_003873",
+    "part": 13,
+    "target": 0.13411363698730938,
+    "vf": 0.13482666015625,
+    "E": 0.030798385716812718,
+    "K": 0.03763092712681924,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003873.json"
+  },
+  {
+    "id": "ppl_003874",
+    "part": 13,
+    "target": 0.16836879966368898,
+    "vf": 0.1688232421875,
+    "E": 0.047712350237436425,
+    "K": 0.05983178648960417,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003874.json"
+  },
+  {
+    "id": "ppl_003875",
+    "part": 13,
+    "target": 0.17572294439601296,
+    "vf": 0.17578125,
+    "E": 0.0545132020479655,
+    "K": 0.08486473152419514,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003875.json"
+  },
+  {
+    "id": "ppl_003876",
+    "part": 13,
+    "target": 0.2112763084259137,
+    "vf": 0.2105712890625,
+    "E": 0.05524678836555023,
+    "K": 0.07922209003613272,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003876.json"
+  },
+  {
+    "id": "ppl_003877",
+    "part": 13,
+    "target": 0.24631698596354534,
+    "vf": 0.246337890625,
+    "E": 0.09423272021872386,
+    "K": 0.12166424848147193,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003877.json"
+  },
+  {
+    "id": "ppl_003878",
+    "part": 13,
+    "target": 0.2813646643486739,
+    "vf": 0.281005859375,
+    "E": 0.12038799770199127,
+    "K": 0.15041301721091402,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003878.json"
+  },
+  {
+    "id": "ppl_003879",
+    "part": 13,
+    "target": 0.3014873639420135,
+    "vf": 0.301513671875,
+    "E": 0.1291761755931037,
+    "K": 0.17385218507253328,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003879.json"
+  },
+  {
+    "id": "ppl_003880",
+    "part": 13,
+    "target": 0.32552565447995774,
+    "vf": 0.32568359375,
+    "E": 0.1593067813120572,
+    "K": 0.19060884442092893,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003880.json"
+  },
+  {
+    "id": "ppl_003881",
+    "part": 13,
+    "target": 0.07216481860520269,
+    "vf": 0.0731201171875,
+    "E": 0.04593638545316345,
+    "K": 0.035897066337760956,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003881.json"
+  },
+  {
+    "id": "ppl_003882",
+    "part": 13,
+    "target": 0.10914926153343533,
+    "vf": 0.1099853515625,
+    "E": 0.03843646582028356,
+    "K": 0.052505810610243286,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003882.json"
+  },
+  {
+    "id": "ppl_003883",
+    "part": 13,
+    "target": 0.12567354459392044,
+    "vf": 0.1275634765625,
+    "E": 0.028010033707346702,
+    "K": 0.03963248442059541,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003883.json"
+  },
+  {
+    "id": "ppl_003884",
+    "part": 13,
+    "target": 0.15582124643018233,
+    "vf": 0.15576171875,
+    "E": 0.05185415589803138,
+    "K": 0.0685806719942244,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003884.json"
+  },
+  {
+    "id": "ppl_003885",
+    "part": 13,
+    "target": 0.17888273702189306,
+    "vf": 0.17919921875,
+    "E": 0.049738772586992795,
+    "K": 0.07217269492380662,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003885.json"
+  },
+  {
+    "id": "ppl_003886",
+    "part": 13,
+    "target": 0.2140787036015893,
+    "vf": 0.2142333984375,
+    "E": 0.06564797932115624,
+    "K": 0.09458701639429928,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003886.json"
+  },
+  {
+    "id": "ppl_003887",
+    "part": 13,
+    "target": 0.24360064720877506,
+    "vf": 0.24365234375,
+    "E": 0.09773130781884083,
+    "K": 0.11606785339155527,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003887.json"
+  },
+  {
+    "id": "ppl_003888",
+    "part": 13,
+    "target": 0.2681473466194568,
+    "vf": 0.26849365234375,
+    "E": 0.11468209630461508,
+    "K": 0.1446604263301655,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003888.json"
+  },
+  {
+    "id": "ppl_003889",
+    "part": 13,
+    "target": 0.3037815914937817,
+    "vf": 0.3037109375,
+    "E": 0.12761941830272658,
+    "K": 0.15142455251240608,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003889.json"
+  },
+  {
+    "id": "ppl_003891",
+    "part": 13,
+    "target": 0.06991228256072353,
+    "vf": 0.07244873046875,
+    "E": 0.05547823260856971,
+    "K": 0.038673871237059246,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003891.json"
+  },
+  {
+    "id": "ppl_003892",
+    "part": 13,
+    "target": 0.10676057441434712,
+    "vf": 0.10723876953125,
+    "E": 29280152963373036.0,
+    "K": 0.026500783576779322,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003892.json"
+  },
+  {
+    "id": "ppl_003893",
+    "part": 13,
+    "target": 0.12062595811539946,
+    "vf": 0.12158203125,
+    "E": 0.04074112574160947,
+    "K": 0.052747525785273225,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003893.json"
+  },
+  {
+    "id": "ppl_003894",
+    "part": 13,
+    "target": 0.14027865729157313,
+    "vf": 0.1422119140625,
+    "E": 0.035746083970533714,
+    "K": 0.04307439552725423,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003894.json"
+  },
+  {
+    "id": "ppl_003895",
+    "part": 13,
+    "target": 0.1870997644542656,
+    "vf": 0.18798828125,
+    "E": 0.05463209060401212,
+    "K": 0.07474460977667727,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003895.json"
+  },
+  {
+    "id": "ppl_003896",
+    "part": 13,
+    "target": 0.2243117882209431,
+    "vf": 0.224365234375,
+    "E": 0.07047151124404476,
+    "K": 0.09262216318361548,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_13\\samples\\ppl_003896.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 14,
+    "target": 0.06177678144539675,
+    "vf": 0.0623779296875,
+    "E": 0.043847228205245996,
+    "K": 0.03335573711514253,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 14,
+    "target": 0.10282598507015162,
+    "vf": 0.1033935546875,
+    "E": 0.02036315509188796,
+    "K": 0.035173591027030514,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 14,
+    "target": 0.12666355820147587,
+    "vf": 0.126708984375,
+    "E": 0.03769030514772592,
+    "K": 0.06574477406995634,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 14,
+    "target": 0.1869556612943421,
+    "vf": 0.187744140625,
+    "E": 0.04288564843988646,
+    "K": 0.07504975446743538,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 14,
+    "target": 0.20939061329030426,
+    "vf": 0.20947265625,
+    "E": 0.0663756175936554,
+    "K": 0.07990831425802063,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000008",
+    "part": 14,
+    "target": 0.27243723276443443,
+    "vf": 0.27490234375,
+    "E": 0.022729248629699984,
+    "K": 0.0900937344560883,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000008.json"
+  },
+  {
+    "id": "ppl_000010",
+    "part": 14,
+    "target": 0.3284903727789289,
+    "vf": 0.328369140625,
+    "E": 0.14117324355634156,
+    "K": 0.17659544172417277,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000010.json"
+  },
+  {
+    "id": "ppl_000014",
+    "part": 14,
+    "target": 0.16855594760773712,
+    "vf": 0.1693115234375,
+    "E": 0.05195189808187747,
+    "K": 0.07197672931303994,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000014.json"
+  },
+  {
+    "id": "ppl_000016",
+    "part": 14,
+    "target": 0.21036142770476524,
+    "vf": 0.210205078125,
+    "E": 0.08404260066781832,
+    "K": 0.11000180464116936,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_000016.json"
+  },
+  {
+    "id": "ppl_003921",
+    "part": 14,
+    "target": 0.0585153774453515,
+    "vf": 0.06280517578125,
+    "E": 0.015641126428615783,
+    "K": 0.01801031726678384,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003921.json"
+  },
+  {
+    "id": "ppl_003922",
+    "part": 14,
+    "target": 0.10816159351777856,
+    "vf": 0.109130859375,
+    "E": 0.04106120010249059,
+    "K": 0.03487397393834642,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003922.json"
+  },
+  {
+    "id": "ppl_003923",
+    "part": 14,
+    "target": 0.12567914054346563,
+    "vf": 0.125732421875,
+    "E": 0.13151952198867845,
+    "K": 0.08589138077957675,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003923.json"
+  },
+  {
+    "id": "ppl_003924",
+    "part": 14,
+    "target": 0.1573064154004097,
+    "vf": 0.1572265625,
+    "E": 0.04096532702413102,
+    "K": 0.0726300198139855,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003924.json"
+  },
+  {
+    "id": "ppl_003925",
+    "part": 14,
+    "target": 0.1800340348317075,
+    "vf": 0.179931640625,
+    "E": 0.07463230163255839,
+    "K": 0.0856914113779339,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003925.json"
+  },
+  {
+    "id": "ppl_003926",
+    "part": 14,
+    "target": 0.21476743006040566,
+    "vf": 0.21490478515625,
+    "E": 0.06779643067949565,
+    "K": 0.09086798866062935,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003926.json"
+  },
+  {
+    "id": "ppl_003927",
+    "part": 14,
+    "target": 0.2592369882120664,
+    "vf": 0.25927734375,
+    "E": 0.09792333555130199,
+    "K": 0.1340628086940431,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003927.json"
+  },
+  {
+    "id": "ppl_003928",
+    "part": 14,
+    "target": 0.28993282792961433,
+    "vf": 0.2890625,
+    "E": 0.1646869689948267,
+    "K": 0.17476691295807645,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003928.json"
+  },
+  {
+    "id": "ppl_003944",
+    "part": 14,
+    "target": 0.16966892147394966,
+    "vf": 0.1697998046875,
+    "E": 0.053761862000464955,
+    "K": 0.07271480468740907,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003944.json"
+  },
+  {
+    "id": "ppl_003945",
+    "part": 14,
+    "target": 0.1846131905943712,
+    "vf": 0.1845703125,
+    "E": 0.06154046632220747,
+    "K": 0.08053243706966097,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003945.json"
+  },
+  {
+    "id": "ppl_003946",
+    "part": 14,
+    "target": 0.21963953612189968,
+    "vf": 0.22003173828125,
+    "E": 0.07708316051383426,
+    "K": 0.0930150061985196,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003946.json"
+  },
+  {
+    "id": "ppl_003954",
+    "part": 14,
+    "target": 0.14341250491181537,
+    "vf": 0.14398193359375,
+    "E": 0.02789313292772012,
+    "K": 0.04709619122031735,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003954.json"
+  },
+  {
+    "id": "ppl_003955",
+    "part": 14,
+    "target": 0.18109754612692833,
+    "vf": 0.18115234375,
+    "E": 0.07167504257154203,
+    "K": 0.08791935950985023,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003955.json"
+  },
+  {
+    "id": "ppl_003956",
+    "part": 14,
+    "target": 0.216535763940738,
+    "vf": 0.21734619140625,
+    "E": 0.07684428397963876,
+    "K": 0.10757695624449147,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003956.json"
+  },
+  {
+    "id": "ppl_003957",
+    "part": 14,
+    "target": 0.24575386767885035,
+    "vf": 0.245849609375,
+    "E": 0.07184446194084715,
+    "K": 0.10200238379919445,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003957.json"
+  },
+  {
+    "id": "ppl_003958",
+    "part": 14,
+    "target": 0.27236570863093557,
+    "vf": 0.27301025390625,
+    "E": 0.09843723899347519,
+    "K": 0.1392538638788617,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003958.json"
+  },
+  {
+    "id": "ppl_003959",
+    "part": 14,
+    "target": 0.3008054407165597,
+    "vf": 0.30078125,
+    "E": 0.12936708561625668,
+    "K": 0.1698624093482343,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003959.json"
+  },
+  {
+    "id": "ppl_003960",
+    "part": 14,
+    "target": 0.3466111928512735,
+    "vf": 0.3466796875,
+    "E": 0.16298243013819214,
+    "K": 0.19390609937753514,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003960.json"
+  },
+  {
+    "id": "ppl_003961",
+    "part": 14,
+    "target": 0.07589904570400431,
+    "vf": 0.07659912109375,
+    "E": 0.018526608179962777,
+    "K": 0.02825194554378786,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003961.json"
+  },
+  {
+    "id": "ppl_003962",
+    "part": 14,
+    "target": 0.08370688043922614,
+    "vf": 0.086151123046875,
+    "E": 0.01564315791432359,
+    "K": 0.018234016779966198,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003962.json"
+  },
+  {
+    "id": "ppl_003963",
+    "part": 14,
+    "target": 0.12598557759899487,
+    "vf": 0.12615966796875,
+    "E": 0.027792714174241395,
+    "K": 0.039648741283014294,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003963.json"
+  },
+  {
+    "id": "ppl_003964",
+    "part": 14,
+    "target": 0.15439235410635757,
+    "vf": 0.154296875,
+    "E": 0.06975294101404407,
+    "K": 0.07918473212344543,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003964.json"
+  },
+  {
+    "id": "ppl_003965",
+    "part": 14,
+    "target": 0.17235472261778512,
+    "vf": 0.17254638671875,
+    "E": 0.048742117664700824,
+    "K": 0.06302725174630797,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003965.json"
+  },
+  {
+    "id": "ppl_003966",
+    "part": 14,
+    "target": 0.21101339812650452,
+    "vf": 0.211181640625,
+    "E": 0.0816081113065457,
+    "K": 0.10617814849683967,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003966.json"
+  },
+  {
+    "id": "ppl_003967",
+    "part": 14,
+    "target": 0.24176128577218045,
+    "vf": 0.241943359375,
+    "E": 0.10903768158334337,
+    "K": 0.14127897472279924,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003967.json"
+  },
+  {
+    "id": "ppl_003968",
+    "part": 14,
+    "target": 0.27902147642410086,
+    "vf": 0.279052734375,
+    "E": 0.10560436474657642,
+    "K": 0.14490184360897487,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003968.json"
+  },
+  {
+    "id": "ppl_003969",
+    "part": 14,
+    "target": 0.29876879924242217,
+    "vf": 0.298828125,
+    "E": 0.12375514523150664,
+    "K": 0.15201613303130448,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_14\\samples\\ppl_003969.json"
+  },
+  {
+    "id": "ppl_000001",
+    "part": 15,
+    "target": 0.06015209781648141,
+    "vf": 0.0633544921875,
+    "E": 0.01643127074247039,
+    "K": 0.02351824647687586,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000001.json"
+  },
+  {
+    "id": "ppl_000002",
+    "part": 15,
+    "target": 0.10726925086390815,
+    "vf": 0.10791015625,
+    "E": 0.07768829974348508,
+    "K": 0.05704809159471067,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000002.json"
+  },
+  {
+    "id": "ppl_000003",
+    "part": 15,
+    "target": 0.1250318905435636,
+    "vf": 0.125,
+    "E": 0.05801917867182663,
+    "K": 0.06600826814266413,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000003.json"
+  },
+  {
+    "id": "ppl_000004",
+    "part": 15,
+    "target": 0.1471004793555344,
+    "vf": 0.147705078125,
+    "E": 0.04810859023360801,
+    "K": 0.07527413715994846,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000004.json"
+  },
+  {
+    "id": "ppl_000005",
+    "part": 15,
+    "target": 0.19217592088168325,
+    "vf": 0.192138671875,
+    "E": 0.0731441219367102,
+    "K": 0.09615560280796968,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000005.json"
+  },
+  {
+    "id": "ppl_000006",
+    "part": 15,
+    "target": 0.2074155092540834,
+    "vf": 0.2080078125,
+    "E": 0.047571331017180564,
+    "K": 0.08204793246410151,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000006.json"
+  },
+  {
+    "id": "ppl_000007",
+    "part": 15,
+    "target": 0.25516203218341743,
+    "vf": 0.255126953125,
+    "E": 0.10762593800204547,
+    "K": 0.12743462880519044,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000007.json"
+  },
+  {
+    "id": "ppl_000008",
+    "part": 15,
+    "target": 0.2608961307521032,
+    "vf": 0.26123046875,
+    "E": 0.10361759884209172,
+    "K": 0.13644598068835087,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000008.json"
+  },
+  {
+    "id": "ppl_000009",
+    "part": 15,
+    "target": 0.30710437702232585,
+    "vf": 0.30712890625,
+    "E": 0.13068671930312858,
+    "K": 0.1631287419147163,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000009.json"
+  },
+  {
+    "id": "ppl_000010",
+    "part": 15,
+    "target": 0.3421390196569193,
+    "vf": 0.342041015625,
+    "E": 0.1563658192814505,
+    "K": 0.18839260879027556,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000010.json"
+  },
+  {
+    "id": "ppl_000012",
+    "part": 15,
+    "target": 0.09538742480684413,
+    "vf": 0.097412109375,
+    "E": 0.020103311883612703,
+    "K": 0.028249401672842137,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000012.json"
+  },
+  {
+    "id": "ppl_000013",
+    "part": 15,
+    "target": 0.12481436106237163,
+    "vf": 0.1256103515625,
+    "E": 0.030823591566092684,
+    "K": 0.05669425484170848,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000013.json"
+  },
+  {
+    "id": "ppl_000014",
+    "part": 15,
+    "target": 0.16355916529067988,
+    "vf": 0.16357421875,
+    "E": 0.04683856040381041,
+    "K": 0.06932351460952269,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000014.json"
+  },
+  {
+    "id": "ppl_000015",
+    "part": 15,
+    "target": 0.17663302720292678,
+    "vf": 0.1787109375,
+    "E": 0.06810247901370862,
+    "K": 0.08244828275113351,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000015.json"
+  },
+  {
+    "id": "ppl_000018",
+    "part": 15,
+    "target": 0.27972762463658585,
+    "vf": 0.27978515625,
+    "E": 0.12254942640989686,
+    "K": 0.15937091983078974,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000018.json"
+  },
+  {
+    "id": "ppl_000020",
+    "part": 15,
+    "target": 0.32902843729575887,
+    "vf": 0.3291015625,
+    "E": 0.15213788767633304,
+    "K": 0.1823981613757255,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_000020.json"
+  },
+  {
+    "id": "ppl_003858",
+    "part": 15,
+    "target": 0.26817306392034346,
+    "vf": 0.270751953125,
+    "E": 0.1356524529871207,
+    "K": 0.14893760244009435,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003858.json"
+  },
+  {
+    "id": "ppl_003859",
+    "part": 15,
+    "target": 0.2924102812943286,
+    "vf": 0.29248046875,
+    "E": 0.11121865774763752,
+    "K": 0.1587382402028422,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003859.json"
+  },
+  {
+    "id": "ppl_003860",
+    "part": 15,
+    "target": 0.32232425101756607,
+    "vf": 0.322509765625,
+    "E": 0.13655462344324004,
+    "K": 0.17206229307141893,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003860.json"
+  },
+  {
+    "id": "ppl_003861",
+    "part": 15,
+    "target": 0.058171280610669764,
+    "vf": 0.06097412109375,
+    "E": 0.03029857165539994,
+    "K": 0.02264439180841336,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003861.json"
+  },
+  {
+    "id": "ppl_003862",
+    "part": 15,
+    "target": 0.10154281575995351,
+    "vf": 0.104248046875,
+    "E": 0.02601403258700316,
+    "K": 0.03737612520655742,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003862.json"
+  },
+  {
+    "id": "ppl_003877",
+    "part": 15,
+    "target": 0.2475964517027572,
+    "vf": 0.2484130859375,
+    "E": 0.08710161602356392,
+    "K": 0.11748965331699328,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003877.json"
+  },
+  {
+    "id": "ppl_003884",
+    "part": 15,
+    "target": 0.16656293970308425,
+    "vf": 0.167327880859375,
+    "E": 0.04296361621320185,
+    "K": 0.0598197629502433,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003884.json"
+  },
+  {
+    "id": "ppl_003885",
+    "part": 15,
+    "target": 0.19396362713398774,
+    "vf": 0.19476318359375,
+    "E": 0.05767802601165062,
+    "K": 0.09616006891783824,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003885.json"
+  },
+  {
+    "id": "ppl_003886",
+    "part": 15,
+    "target": 0.22289370167486366,
+    "vf": 0.2232666015625,
+    "E": 0.0716467460586252,
+    "K": 0.09956919001932794,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003886.json"
+  },
+  {
+    "id": "ppl_003887",
+    "part": 15,
+    "target": 0.24511631614678195,
+    "vf": 0.245849609375,
+    "E": 0.08864856447586511,
+    "K": 0.11445449495737252,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003887.json"
+  },
+  {
+    "id": "ppl_003888",
+    "part": 15,
+    "target": 0.28458124306678095,
+    "vf": 0.284423828125,
+    "E": 0.09644085753593352,
+    "K": 0.13580960192793295,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003888.json"
+  },
+  {
+    "id": "ppl_003889",
+    "part": 15,
+    "target": 0.3110890331465207,
+    "vf": 0.31103515625,
+    "E": 0.15003920791458278,
+    "K": 0.1751667144788477,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003889.json"
+  },
+  {
+    "id": "ppl_003890",
+    "part": 15,
+    "target": 0.3472624161752355,
+    "vf": 0.34716796875,
+    "E": 0.15777180718151707,
+    "K": 0.19919903689152454,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003890.json"
+  },
+  {
+    "id": "ppl_003891",
+    "part": 15,
+    "target": 0.07281046380010538,
+    "vf": 0.0765380859375,
+    "E": 0.04862555376609066,
+    "K": 0.03774162773110781,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003891.json"
+  },
+  {
+    "id": "ppl_003892",
+    "part": 15,
+    "target": 0.10580253857067963,
+    "vf": 0.10595703125,
+    "E": 0.09718217302737103,
+    "K": 0.06624292014383822,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003892.json"
+  },
+  {
+    "id": "ppl_003893",
+    "part": 15,
+    "target": 0.1343323968004507,
+    "vf": 0.13427734375,
+    "E": 0.03705488794280156,
+    "K": 0.060671472828817484,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003893.json"
+  },
+  {
+    "id": "ppl_003894",
+    "part": 15,
+    "target": 0.15751231555583123,
+    "vf": 0.1580810546875,
+    "E": 0.0397088238905799,
+    "K": 0.04798753974069695,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003894.json"
+  },
+  {
+    "id": "ppl_003895",
+    "part": 15,
+    "target": 0.18962234606365094,
+    "vf": 0.1904296875,
+    "E": 0.05545154701856297,
+    "K": 0.07067332578691639,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003895.json"
+  },
+  {
+    "id": "ppl_003896",
+    "part": 15,
+    "target": 0.21629710792143927,
+    "vf": 0.21630859375,
+    "E": 0.06495629279765526,
+    "K": 0.08466872235493948,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003896.json"
+  },
+  {
+    "id": "ppl_003897",
+    "part": 15,
+    "target": 0.25036315861357755,
+    "vf": 0.250244140625,
+    "E": 0.09071393470773571,
+    "K": 0.11301490924483688,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003897.json"
+  },
+  {
+    "id": "ppl_003898",
+    "part": 15,
+    "target": 0.2768075190921861,
+    "vf": 0.27685546875,
+    "E": 0.1397464026137651,
+    "K": 0.15478475684248472,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003898.json"
+  },
+  {
+    "id": "ppl_003899",
+    "part": 15,
+    "target": 0.29364061601175356,
+    "vf": 0.293701171875,
+    "E": 0.13554008596029923,
+    "K": 0.16664250868372957,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003899.json"
+  },
+  {
+    "id": "ppl_003900",
+    "part": 15,
+    "target": 0.34207718387995195,
+    "vf": 0.342041015625,
+    "E": 0.14791940021636948,
+    "K": 0.1687346049179351,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003900.json"
+  },
+  {
+    "id": "ppl_003901",
+    "part": 15,
+    "target": 0.07486651056726286,
+    "vf": 0.074951171875,
+    "E": 0.03957466979746027,
+    "K": 0.031710181442785215,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003901.json"
+  },
+  {
+    "id": "ppl_003902",
+    "part": 15,
+    "target": 0.10411360597190704,
+    "vf": 0.10894775390625,
+    "E": 0.01800380988746295,
+    "K": 0.020672632367630037,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003902.json"
+  },
+  {
+    "id": "ppl_003903",
+    "part": 15,
+    "target": 0.1374207893580492,
+    "vf": 0.1383056640625,
+    "E": 0.04022058373703919,
+    "K": 0.07632672944952644,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003903.json"
+  },
+  {
+    "id": "ppl_003904",
+    "part": 15,
+    "target": 0.1447931150630691,
+    "vf": 0.147705078125,
+    "E": 0.04465680427384717,
+    "K": 0.0508392056666073,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003904.json"
+  },
+  {
+    "id": "ppl_003905",
+    "part": 15,
+    "target": 0.1938049220932144,
+    "vf": 0.196533203125,
+    "E": 0.07256270555111027,
+    "K": 0.09530887274862121,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003905.json"
+  },
+  {
+    "id": "ppl_003906",
+    "part": 15,
+    "target": 0.2259237093082867,
+    "vf": 0.225830078125,
+    "E": 0.07512611847356034,
+    "K": 0.10628432384271974,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003906.json"
+  },
+  {
+    "id": "ppl_003907",
+    "part": 15,
+    "target": 0.2568584629048596,
+    "vf": 0.2568359375,
+    "E": 0.0747678208463406,
+    "K": 0.11142730063096483,
+    "path": "D:\\yueze\\LatticeDataset\\Plate\\generated\\full100k_parts_20261020\\part_15\\samples\\ppl_003907.json"
+  }
+]

@@ -2,8 +2,11 @@
 #tpms-progress { display:block; width:100%;height:12px;accent-color:#37bdf1;margin:16px 0 10px; }
 #tpms-vf-bins { font:11px/1.8 var(--font-mono);color:var(--muted);margin-bottom:24px; }
 #tpms-grid .topology-card-image { width:100%;height:235px;display:block; }
-#tpms-dialog .topology-canvas-stack { height:480px;position:relative;background:radial-gradient(circle at 50% 40%,#173541,#07111c);border-radius:12px; }
+#tpms-dialog .topology-canvas-stack { height:470px;background:radial-gradient(circle at 50% 40%,#173541,#07111c); }
+#tpms-dialog #tpms-frame-canvas { pointer-events:none; }
+#tpms-dialog .topology-canvas-stack canvas[hidden],#tpms-dialog .topology-detail-legend [hidden] { display:none !important; }
 #tpms-mesh-canvas { display:block;width:100%;height:100%;cursor:grab;touch-action:none; }
+#tpms-mesh-canvas:active { cursor:grabbing; }
 #tpms-detail-status { color:var(--muted);font:11px/1.7 var(--font-mono);padding:12px 4px; }
 #tpms-dialog .topology-variant-list { max-height:210px;overflow:auto; }
 #tpms-quality { line-height:1.8; }

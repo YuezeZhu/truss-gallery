@@ -1,0 +1,121 @@
+{
+  "schema": "ppl100k-completion-v1",
+  "phase": "generating",
+  "target": 100000,
+  "unique_count": 31629,
+  "candidate_count": 1091103,
+  "rejected_count": 991103,
+  "topology_count": 9795,
+  "vf_bin_counts": [
+    2933,
+    2964,
+    3085,
+    3174,
+    3221,
+    3244,
+    3254,
+    3250,
+    3251,
+    3253
+  ],
+  "empty_fine_bins": [],
+  "parts": [
+    {
+      "part": "part_00",
+      "generated": 4132,
+      "verified": 3249,
+      "properties": 3249
+    },
+    {
+      "part": "part_01",
+      "generated": 3980,
+      "verified": 3242,
+      "properties": 3242
+    },
+    {
+      "part": "part_02",
+      "generated": 4035,
+      "verified": 3167,
+      "properties": 3167
+    },
+    {
+      "part": "part_03",
+      "generated": 4015,
+      "verified": 3186,
+      "properties": 3186
+    },
+    {
+      "part": "part_04",
+      "generated": 4011,
+      "verified": 3214,
+      "properties": 3214
+    },
+    {
+      "part": "part_05",
+      "generated": 4095,
+      "verified": 3155,
+      "properties": 3155
+    },
+    {
+      "part": "part_06",
+      "generated": 4063,
+      "verified": 3175,
+      "properties": 3175
+    },
+    {
+      "part": "part_07",
+      "generated": 3869,
+      "verified": 3128,
+      "properties": 3128
+    },
+    {
+      "part": "part_08",
+      "generated": 4089,
+      "verified": 3146,
+      "properties": 3146
+    },
+    {
+      "part": "part_09",
+      "generated": 4070,
+      "verified": 3192,
+      "properties": 3192
+    },
+    {
+      "part": "part_10",
+      "generated": 3898,
+      "verified": 3176,
+      "properties": 3176
+    },
+    {
+      "part": "part_11",
+      "generated": 3892,
+      "verified": 3170,
+      "properties": 3170
+    },
+    {
+      "part": "part_12",
+      "generated": 3997,
+      "verified": 3252,
+      "properties": 3252
+    },
+    {
+      "part": "part_13",
+      "generated": 4019,
+      "verified": 3155,
+      "properties": 3155
+    },
+    {
+      "part": "part_14",
+      "generated": 4072,
+      "verified": 3216,
+      "properties": 3216
+    },
+    {
+      "part": "part_15",
+      "generated": 4030,
+      "verified": 3240,
+      "properties": 3240
+    }
+  ],
+  "generated_at": "2026-10-22T15:38:36.983Z"
+}
